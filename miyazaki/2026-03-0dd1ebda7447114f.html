@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>宮崎住宅 様 2026年3月 サイト改善レポート</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+<style>
+  :root {
+    --primary: #4f6fa5;
+    --primary-deep: #2d4978;
+    --primary-light: #eaf0f8;
+    --accent: #e08e4e;
+    --accent-light: #fdf3e9;
+    --dark: #1c2536;
+    --text-main: #3a4456;
+    --text-muted: #7c8595;
+    --bg: #fafbfd;
+    --border: #e3e8f0;
+    --good: #16a34a;
+    --bad: #dc2626;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Noto Sans JP', sans-serif; background: var(--bg); color: var(--text-main); line-height: 1.7; font-weight: 400; }
+
+  /* === シンプルな表紙 === */
+  .cover {
+    background: white;
+    padding: 50px 30px 30px;
+    border-bottom: 1px solid var(--border);
+  }
+  .cover-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: baseline; gap: 24px; flex-wrap: wrap; }
+  .cover h1 {
+    font-size: 1.6rem; font-weight: 500; letter-spacing: 0.08em;
+    color: var(--dark); border-left: 4px solid var(--primary); padding-left: 14px;
+  }
+  .cover .client { font-size: 1rem; color: var(--text-muted); }
+  .cover .ym { font-size: 1rem; color: var(--primary-deep); font-weight: 500; }
+  .cover .month-select {
+    margin-left: auto;
+    padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px;
+    background: white; font-size: 0.9rem; cursor: pointer;
+  }
+
+  nav.toc { background: white; border-bottom: 1px solid var(--border); padding: 10px 20px; position: sticky; top: 0; z-index: 10; overflow-x: auto; }
+  nav.toc ul { display: flex; gap: 18px; max-width: 1200px; margin: 0 auto; list-style: none; white-space: nowrap; }
+  nav.toc a { color: var(--text-muted); text-decoration: none; font-weight: 500; font-size: 0.88rem; }
+  nav.toc a:hover { color: var(--primary); }
+
+  .container { max-width: 1200px; margin: 0 auto; padding: 24px 20px 60px; }
+  section { background: white; border-radius: 6px; padding: 26px 28px; margin-bottom: 20px; border: 1px solid var(--border); }
+  section > h2 { font-size: 1.25rem; font-weight: 500; color: var(--dark); margin-bottom: 4px; border-left: 3px solid var(--primary); padding-left: 12px; }
+  section > h2 + .section-sub { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 18px; padding-left: 16px; }
+  section h3 { font-size: 1rem; font-weight: 500; color: var(--dark); margin: 22px 0 10px; }
+  section h3 .badge-source { font-size: 0.7rem; background: var(--primary-light); color: var(--primary-deep); padding: 2px 8px; border-radius: 4px; margin-left: 8px; font-weight: 400; }
+
+  .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 720px) { .summary-grid { grid-template-columns: 1fr; } }
+  .orange-box, .blue-box { border-radius: 8px; padding: 18px 20px; }
+  .orange-box { background: var(--accent); color: white; }
+  .blue-box { background: var(--primary); color: white; }
+  .orange-box h4, .blue-box h4 { font-size: 0.95rem; margin-bottom: 8px; font-weight: 500; }
+  .orange-box ul, .blue-box ul { padding-left: 1.2em; line-height: 1.8; font-size: 0.9rem; }
+
+  .metric-table { width: 100%; border-collapse: collapse; }
+  .metric-table th, .metric-table td { border-bottom: 1px solid var(--border); padding: 11px 14px; text-align: right; font-size: 0.92rem; }
+  .metric-table thead th { background: var(--primary-light); color: var(--primary-deep); text-align: center; font-weight: 500; }
+  .metric-table tbody th { text-align: left; font-weight: 500; }
+  .metric-sub { font-size: 0.72rem; color: var(--text-muted); font-weight: 400; margin-top: 2px; }
+
+  .ranking-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  .ranking-table th, .ranking-table td { border-bottom: 1px solid var(--border); padding: 9px 11px; text-align: right; }
+  .ranking-table thead th { background: var(--primary-light); color: var(--primary-deep); text-align: center; font-weight: 500; }
+  .ranking-table td:first-child, .ranking-table th:first-child { text-align: left; }
+  .ranking-table td.path { font-family: ui-monospace, monospace; font-size: 0.78rem; color: var(--text-muted); }
+  .ranking-table .empty { text-align: center; color: var(--text-muted); padding: 22px; }
+  .ranking-table a { color: var(--primary); text-decoration: none; }
+  .ranking-table a:hover { text-decoration: underline; }
+
+  /* スクロール可能テーブル（CV詳細） */
+  .scroll-x { overflow-x: auto; }
+
+  .chart-box { position: relative; height: 320px; margin: 12px 0; }
+  .chart-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 800px) { .chart-row { grid-template-columns: 1fr; } }
+
+  .comment { background: var(--accent); color: white; padding: 12px 16px; border-radius: 6px; margin-top: 12px; font-size: 0.88rem; line-height: 1.7; }
+
+  .proposal-card { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 20px 22px; margin-bottom: 14px; display: grid; grid-template-columns: 48px 1fr; gap: 16px; }
+  .proposal-num { background: var(--primary); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; font-weight: 500; }
+  .proposal-body h3 { color: var(--dark); margin-bottom: 10px; font-size: 1.05rem; font-weight: 500; }
+  .proposal-evidence, .proposal-action { font-weight: 500; margin: 10px 0 4px; color: var(--primary-deep); font-size: 0.85rem; }
+  .proposal-action { color: var(--accent); }
+  .proposal-card p { font-size: 0.9rem; }
+
+  footer { text-align: center; padding: 30px 20px; color: var(--text-muted); font-size: 0.82rem; }
+  .demo-banner { background: #fef3c7; color: #92400e; text-align: center; padding: 8px; font-size: 0.85rem; border-bottom: 1px solid #fde68a; }
+</style>
+</head>
+<body>
+
+<div class="demo-banner">📊 これはサンプルデータで生成したデモレポートです（GA4/Search Console接続後は実データに切替）</div>
+
+<div class="cover">
+  <div class="cover-inner">
+    <h1>サイト改善レポート</h1>
+    <span class="client">宮崎住宅 様</span>
+    <span class="ym">2026.03</span>
+    <select class="month-select" onchange="if(this.value && this.value!=='#') window.location.href=this.value;">
+      <option value="https://suzuki-omsolar.github.io/ga4-reports/miyazaki/2026-04-abcefa87e2f3d902.html">2026年4月</option><option value="https://suzuki-omsolar.github.io/ga4-reports/miyazaki/2026-03-0dd1ebda7447114f.html" selected>2026年3月</option><option value="https://suzuki-omsolar.github.io/ga4-reports/miyazaki/2026-02-1fe02f3975690331.html">2026年2月</option><option value="https://suzuki-omsolar.github.io/ga4-reports/miyazaki/2026-01-c429fabb34a6e1a1.html">2026年1月</option><option value="https://suzuki-omsolar.github.io/ga4-reports/miyazaki/2025-12-3e9bc95aede9ddcb.html">2025年12月</option><option value="https://suzuki-omsolar.github.io/ga4-reports/miyazaki/2025-11-aa19cc04add78d32.html">2025年11月</option><option value="https://suzuki-omsolar.github.io/ga4-reports/miyazaki/2025-10-a8965bd531577235.html">2025年10月</option><option value="https://suzuki-omsolar.github.io/ga4-reports/miyazaki/2025-09-50b198866d18ec3b.html">2025年9月</option><option value="https://suzuki-omsolar.github.io/ga4-reports/miyazaki/2025-08-a10451b03f7276ec.html">2025年8月</option><option value="https://suzuki-omsolar.github.io/ga4-reports/miyazaki/2025-07-03a81c36ac4396f2.html">2025年7月</option><option value="https://suzuki-omsolar.github.io/ga4-reports/miyazaki/2025-06-373b33a90d2f258f.html">2025年6月</option><option value="https://suzuki-omsolar.github.io/ga4-reports/miyazaki/2025-05-7776f4590cdc34bc.html">2025年5月</option><option value="https://suzuki-omsolar.github.io/ga4-reports/miyazaki/2025-04-c06790d3ebb080e4.html">2025年4月</option><option value="https://suzuki-omsolar.github.io/ga4-reports/miyazaki/2025-03-fa52f22c3f6c27f4.html">2025年3月</option><option value="https://suzuki-omsolar.github.io/ga4-reports/miyazaki/2025-02-e5fa29159b6e05f7.html">2025年2月</option><option value="https://suzuki-omsolar.github.io/ga4-reports/miyazaki/2025-01-cc5a98a8648be987.html">2025年1月</option><option value="https://suzuki-omsolar.github.io/ga4-reports/miyazaki/2024-12-9662e5cf40329ba2.html">2024年12月</option><option value="https://suzuki-omsolar.github.io/ga4-reports/miyazaki/2024-11-b7fc696114a79193.html">2024年11月</option><option value="https://suzuki-omsolar.github.io/ga4-reports/miyazaki/2024-10-03220d90c36eca2b.html">2024年10月</option><option value="https://suzuki-omsolar.github.io/ga4-reports/miyazaki/2024-09-d803c6f9f451807f.html">2024年9月</option><option value="https://suzuki-omsolar.github.io/ga4-reports/miyazaki/2024-08-98f2eebffc4dc304.html">2024年8月</option><option value="https://suzuki-omsolar.github.io/ga4-reports/miyazaki/2024-07-dad1b7bbc1e74732.html">2024年7月</option><option value="https://suzuki-omsolar.github.io/ga4-reports/miyazaki/2024-06-06f34e3be602a747.html">2024年6月</option><option value="https://suzuki-omsolar.github.io/ga4-reports/miyazaki/2024-05-92f5db5483e492d3.html">2024年5月</option><option value="https://suzuki-omsolar.github.io/ga4-reports/miyazaki/2024-04-f453aacc25591dc8.html">2024年4月</option><option value="https://suzuki-omsolar.github.io/ga4-reports/miyazaki/2024-03-96d3a8f9e5476831.html">2024年3月</option><option value="https://suzuki-omsolar.github.io/ga4-reports/miyazaki/2024-02-48513cfe25ba084d.html">2024年2月</option><option value="https://suzuki-omsolar.github.io/ga4-reports/miyazaki/2024-01-d03c0a1db0b7a33a.html">2024年1月</option><option value="https://suzuki-omsolar.github.io/ga4-reports/miyazaki/2023-12-acbad9d1d2915588.html">2023年12月</option><option value="https://suzuki-omsolar.github.io/ga4-reports/miyazaki/2023-11-ed8127d84ddb19a7.html">2023年11月</option><option value="https://suzuki-omsolar.github.io/ga4-reports/miyazaki/2023-10-9b6b0ca195e194ca.html">2023年10月</option>
+    </select>
+  </div>
+</div>
+
+<nav class="toc">
+  <ul>
+    <li><a href="#summary">総括</a></li>
+    <li><a href="#basic">基本指標</a></li>
+    <li><a href="#monthly">月別推移</a></li>
+    <li><a href="#users">ユーザー属性</a></li>
+    <li><a href="#acquisition">流入経路</a></li>
+    <li><a href="#keywords">流入キーワード</a></li>
+    <li><a href="#pages">ページランキング</a></li>
+    <li><a href="#cv">CV分析</a></li>
+    <li><a href="#proposals">改善提案</a></li>
+  </ul>
+</nav>
+
+<div class="container">
+
+<section id="summary">
+  <h2>アクセス解析の総括</h2>
+  <p class="section-sub">当月の主要指標と次月のアクションプラン</p>
+  <div class="summary-grid">
+    <div class="orange-box"><h4>全体を通して良い点・悪い点</h4><ul><li>当月のユーザー数は 3,701 人、ページビューは 11,843 PV。</li><li>先月比でユーザー数は -399 人減少。</li><li>昨年同月比では +315 人で、成長軌道にあります。</li><li>Search Console: 検索からのクリック 2,937 回 / 表示 9,868 回。</li></ul></div>
+    <div class="blue-box"><h4>次月のタスク</h4><ul><li>対策キーワードを軸としたコラム制作（1ページ1キーワード）</li><li>ランディングが集中しているページの内部リンク強化と回遊導線整備</li><li>CV計測イベントの設定見直しとCVR計測の精度向上</li><li>title/description/H1の対策キーワード整合性チェック</li></ul></div>
+  </div>
+</section>
+
+<section id="basic">
+  <h2>基本指標（直近3ヶ月の比較）</h2>
+  <p class="section-sub"><span class="badge-source">アナリティクスのデータを参照</span></p>
+  <table class='metric-table'><thead><tr><th>指標</th><th>2026/01</th><th>2026/02</th><th>2026/03</th></tr></thead><tbody><tr><th class='metric-label'><div>ユーザー数</div><div class='metric-sub'>サイトを訪れた人数</div></th><td>4,051</td><td>4,100</td><td>3,701</td></tr><tr><th class='metric-label'><div>ページビュー数</div><div class='metric-sub'>ページが閲覧された回数</div></th><td>12,963</td><td>13,120</td><td>11,843</td></tr><tr><th class='metric-label'><div>自然検索流入数</div><div class='metric-sub'>GoogleやYahoo!の検索から訪れたユーザー数</div></th><td>2,228</td><td>2,255</td><td>2,035</td></tr><tr><th class='metric-label'><div>平均滞在時間</div><div class='metric-sub'>1セッションあたりの平均滞在秒数</div></th><td>118秒</td><td>112秒</td><td>71秒</td></tr><tr><th class='metric-label'><div>直帰率</div><div class='metric-sub'>1ページのみ閲覧して離脱した割合</div></th><td>42.1%</td><td>44.1%</td><td>50.6%</td></tr></tbody></table>
+</section>
+
+<section id="monthly">
+  <h2>月別推移（過去13ヶ月）</h2>
+  <p class="section-sub">直近月と昨年同月をオレンジで強調</p>
+
+  <h3>月別ユーザー数</h3>
+  <div class="chart-box"><canvas id="chartUsersM"></canvas></div>
+
+  <h3>月別ページビュー数</h3>
+  <div class="chart-box"><canvas id="chartPvsM"></canvas></div>
+
+  <div class="chart-row">
+    <div>
+      <h3>月別平均滞在時間（秒）</h3>
+      <div class="chart-box"><canvas id="chartDur"></canvas></div>
+    </div>
+    <div>
+      <h3>月別直帰率（%）</h3>
+      <div class="chart-box"><canvas id="chartBounce"></canvas></div>
+    </div>
+  </div>
+
+  <h3>月別自然検索流入ユーザー数</h3>
+  <div class="chart-box"><canvas id="chartOrganic"></canvas></div>
+</section>
+
+<section id="users">
+  <h2>ユーザー属性</h2>
+  <p class="section-sub">全体ユーザー（青）と CV発生ユーザー（オレンジ）を比較</p>
+
+  <div class="chart-row">
+    <div>
+      <h3>年齢層</h3>
+      <div class="chart-box"><canvas id="chartAge"></canvas></div>
+    </div>
+    <div>
+      <h3>デバイス</h3>
+      <div class="chart-box"><canvas id="chartDevice"></canvas></div>
+    </div>
+  </div>
+
+  <h3>市区町村 TOP10（全体 vs CVユーザー）</h3>
+  <table class="ranking-table"><thead><tr><th>市区町村</th><th>全体ユーザー</th><th>CVユーザー</th></tr></thead>
+  <tbody><tr><td>都城市</td><td>828</td><td>37</td></tr><tr><td>宮崎市</td><td>755</td><td>16</td></tr><tr><td>延岡市</td><td>390</td><td>12</td></tr><tr><td>(not set)</td><td>126</td><td>0</td></tr><tr><td>東京</td><td>100</td><td>0</td></tr><tr><td>福岡市</td><td>93</td><td>4</td></tr><tr><td>鹿児島市</td><td>71</td><td>7</td></tr><tr><td>西都市</td><td>71</td><td>0</td></tr><tr><td>日南市</td><td>52</td><td>9</td></tr><tr><td>小林市</td><td>51</td><td>0</td></tr></tbody></table>
+</section>
+
+<section id="acquisition">
+  <h2>流入経路</h2>
+  <p class="section-sub">当月 vs 先月の比較と、参照元別の3ヶ月推移</p>
+  <div class="chart-box"><canvas id="chartChannel"></canvas></div>
+  <div class="comment">外部サイト, SNSが増加、不明が減少しています。</div>
+
+  <h3>参照元別ユーザー数（3ヶ月推移）</h3>
+  <div class="scroll-x"><table class='ranking-table'><thead><tr><th>参照元</th><th>2026/01</th><th>2026/02</th><th>2026/03</th></tr></thead><tbody><tr><td>(direct)</td><td>373</td><td>538</td><td>657</td></tr><tr><td>google</td><td>397</td><td>499</td><td>432</td></tr><tr><td>bing</td><td>211</td><td>208</td><td>154</td></tr><tr><td>lin.ee</td><td>161</td><td>201</td><td>177</td></tr><tr><td>suumo.jp</td><td>127</td><td>148</td><td>169</td></tr><tr><td>t.co</td><td>143</td><td>136</td><td>132</td></tr><tr><td>instagram.com</td><td>131</td><td>94</td><td>84</td></tr><tr><td>houzz.jp</td><td>61</td><td>60</td><td>63</td></tr><tr><td>facebook.com</td><td>49</td><td>39</td><td>46</td></tr><tr><td>homes.co.jp</td><td>57</td><td>31</td><td>34</td></tr><tr><td>yahoo</td><td>16</td><td>14</td><td>23</td></tr></tbody></table></div>
+</section>
+
+<section id="keywords">
+  <h2>流入キーワード（Search Console）</h2>
+  <p class="section-sub"><span class="badge-source">サーチコンソールのデータを参照</span></p>
+
+  <h3>カテゴリ「指名」 TOP10（クリック数順）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>クリック</th><th>表示</th><th>CTR</th><th>順位</th></tr></thead><tbody><tr><td>宮崎住宅</td><td>370</td><td>383</td><td>14.0%</td><td>9.9</td></tr><tr><td>宮崎住宅 平屋</td><td>297</td><td>90</td><td>26.5%</td><td>20.1</td></tr><tr><td>宮崎住宅 評判</td><td>292</td><td>961</td><td>26.5%</td><td>12.6</td></tr><tr><td>宮崎住宅 ブログ</td><td>47</td><td>590</td><td>14.6%</td><td>14.3</td></tr></tbody></table><h3>カテゴリ「地域×注文住宅」 TOP10（クリック数順）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>クリック</th><th>表示</th><th>CTR</th><th>順位</th></tr></thead><tbody><tr><td>宮崎 住宅 おしゃれ</td><td>255</td><td>1,232</td><td>15.6%</td><td>11.5</td></tr><tr><td>注文住宅 坪単価 宮崎</td><td>249</td><td>1,229</td><td>24.6%</td><td>21.8</td></tr><tr><td>宮崎 工務店 おすすめ</td><td>219</td><td>948</td><td>3.4%</td><td>6.1</td></tr><tr><td>宮崎 注文住宅</td><td>141</td><td>1,289</td><td>3.8%</td><td>18.7</td></tr><tr><td>宮崎 注文住宅 価格</td><td>44</td><td>206</td><td>5.5%</td><td>18.7</td></tr></tbody></table><h3>カテゴリ「性能」 TOP10（クリック数順）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>クリック</th><th>表示</th><th>CTR</th><th>順位</th></tr></thead><tbody><tr><td>ZEH 宮崎</td><td>214</td><td>163</td><td>12.2%</td><td>23.1</td></tr><tr><td>高気密高断熱 宮崎</td><td>126</td><td>453</td><td>16.5%</td><td>4.1</td></tr><tr><td>断熱等級 宮崎</td><td>39</td><td>422</td><td>17.9%</td><td>19.0</td></tr></tbody></table><h3>カテゴリ「価格」 TOP10（クリック数順）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>クリック</th><th>表示</th><th>CTR</th><th>順位</th></tr></thead><tbody><tr><td colspan='5' class='empty'>該当キーワードなし</td></tr></tbody></table><h3>カテゴリ「デザイン」 TOP10（クリック数順）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>クリック</th><th>表示</th><th>CTR</th><th>順位</th></tr></thead><tbody><tr><td>宮崎 玄関 間取り</td><td>288</td><td>815</td><td>8.7%</td><td>4.4</td></tr><tr><td>平屋 宮崎 30坪</td><td>56</td><td>652</td><td>24.7%</td><td>18.5</td></tr></tbody></table><h3>カテゴリ「その他」 TOP10（クリック数順）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>クリック</th><th>表示</th><th>CTR</th><th>順位</th></tr></thead><tbody><tr><td>HEAT20 G2 宮崎</td><td>300</td><td>435</td><td>24.3%</td><td>6.0</td></tr></tbody></table>
+
+  <h3>順位は低いが検索数が多い TOP10（改善余地大）</h3>
+  <p class="section-sub" style="padding-left:0;">検索順位11位以下で、月間表示回数30回以上のクエリ。コラム強化候補。</p>
+  <table class="ranking-table"><thead><tr><th>クエリ</th><th>クリック</th><th>表示</th><th>CTR</th><th>順位</th></tr></thead>
+  <tbody><tr><td>宮崎 注文住宅</td><td>141</td><td>1,289</td><td>3.8%</td><td>18.7</td></tr><tr><td>宮崎 住宅 おしゃれ</td><td>255</td><td>1,232</td><td>15.6%</td><td>11.5</td></tr><tr><td>注文住宅 坪単価 宮崎</td><td>249</td><td>1,229</td><td>24.6%</td><td>21.8</td></tr><tr><td>宮崎住宅 評判</td><td>292</td><td>961</td><td>26.5%</td><td>12.6</td></tr><tr><td>平屋 宮崎 30坪</td><td>56</td><td>652</td><td>24.7%</td><td>18.5</td></tr><tr><td>宮崎住宅 ブログ</td><td>47</td><td>590</td><td>14.6%</td><td>14.3</td></tr><tr><td>断熱等級 宮崎</td><td>39</td><td>422</td><td>17.9%</td><td>19.0</td></tr><tr><td>宮崎 注文住宅 価格</td><td>44</td><td>206</td><td>5.5%</td><td>18.7</td></tr><tr><td>ZEH 宮崎</td><td>214</td><td>163</td><td>12.2%</td><td>23.1</td></tr><tr><td>宮崎住宅 平屋</td><td>297</td><td>90</td><td>26.5%</td><td>20.1</td></tr></tbody></table>
+</section>
+
+<section id="pages">
+  <h2>ページ別アクセス分析</h2>
+  <h3>表示回数の多いページ TOP20</h3>
+  <table class="ranking-table"><thead><tr><th>ページタイトル</th><th>パス</th><th>PV</th></tr></thead>
+  <tbody><tr><td>トップページ</td><td class='path'>/</td><td>130</td></tr><tr><td>施工事例一覧</td><td class='path'>/works/</td><td>50</td></tr><tr><td>性能・仕様</td><td class='path'>/quality/</td><td>1,259</td></tr><tr><td>コラム｜高気密高断熱とは</td><td class='path'>/blog/high-insulation/</td><td>4,150</td></tr><tr><td>コラム｜平屋のメリット</td><td class='path'>/blog/single-story/</td><td>161</td></tr><tr><td>コラム｜HEAT20 G2</td><td class='path'>/blog/heat20-g2/</td><td>161</td></tr><tr><td>コラム｜建築費用の計算</td><td class='path'>/blog/cost-calculation/</td><td>882</td></tr><tr><td>展示場のご案内</td><td class='path'>/showroom/</td><td>50</td></tr><tr><td>来場予約フォーム</td><td class='path'>/contact/visit/</td><td>1,812</td></tr><tr><td>資料請求フォーム</td><td class='path'>/contact/document/</td><td>3,482</td></tr></tbody></table>
+
+  <h3>ランディングページ TOP20</h3>
+  <table class="ranking-table"><thead><tr><th>パス</th><th>セッション</th></tr></thead>
+  <tbody><tr><td class='path'>/</td><td>790</td></tr><tr><td class='path'>/works/</td><td>2,327</td></tr><tr><td class='path'>/quality/</td><td>655</td></tr><tr><td class='path'>/blog/high-insulation/</td><td>822</td></tr><tr><td class='path'>/blog/single-story/</td><td>2,163</td></tr><tr><td class='path'>/blog/heat20-g2/</td><td>829</td></tr><tr><td class='path'>/blog/cost-calculation/</td><td>2,252</td></tr><tr><td class='path'>/showroom/</td><td>2,149</td></tr><tr><td class='path'>/contact/visit/</td><td>744</td></tr><tr><td class='path'>/contact/document/</td><td>1,219</td></tr></tbody></table>
+
+  <h3>コラム記事別ランディング TOP15</h3>
+  <table class="ranking-table"><thead><tr><th>パス</th><th>セッション</th></tr></thead>
+  <tbody><tr><td class='path'>/blog/high-insulation/</td><td>822</td></tr><tr><td class='path'>/blog/single-story/</td><td>2,163</td></tr><tr><td class='path'>/blog/heat20-g2/</td><td>829</td></tr><tr><td class='path'>/blog/cost-calculation/</td><td>2,252</td></tr></tbody></table>
+</section>
+
+<section id="cv">
+  <h2>CV分析</h2>
+  <p class="section-sub">お問い合わせ／来場予約／資料請求の3イベントを対象</p>
+
+  <h3>月別CV数（直近6ヶ月）</h3>
+  <table class='ranking-table'><thead><tr><th>イベント</th><th>10月</th><th>11月</th><th>12月</th><th>1月</th><th>2月</th><th>3月</th></tr></thead><tbody><tr><td>お問い合わせ</td><td>3</td><td>6</td><td>11</td><td>9</td><td>4</td><td>11</td></tr><tr><td>来場予約</td><td>3</td><td>13</td><td>13</td><td>5</td><td>4</td><td>8</td></tr><tr><td>資料請求</td><td>12</td><td>7</td><td>7</td><td>14</td><td>3</td><td>8</td></tr></tbody></table>
+
+  <h3>CV詳細リスト（2026年3月の発生分）</h3>
+  <p class="section-sub" style="padding-left:0;">クリックでGA4/Search Consoleの該当画面が開きます</p>
+  <div class="scroll-x">
+    <table class="ranking-table"><thead><tr>
+      <th>イベント</th><th>年</th><th>月日</th><th>初回アクセス</th>
+      <th>チャネル</th><th>参照元</th><th>LP</th><th>流入クエリ</th><th>地域</th>
+      <th>GA4</th><th>GSC</th>
+    </tr></thead><tbody><tr><td>お問い合わせ</td><td>2026</td><td>03/02</td><td>2026-02-01</td><td>自然検索</td><td>google</td><td class='path'>/showroom/</td><td>宮崎 注文住宅</td><td>東京</td><td><a href='https://analytics.google.com/analytics/web/#/p411943560/reports/explorer?params=_u..eventName%3D%E3%81%8A%E5%95%8F%E3%81%84%E5%90%88%E3%82%8F%E3%81%9B~_u..date00%3D2026-03-01~_u..date01%3D2026-03-31' target='_blank' rel='noopener'>GA4</a></td><td><a href='https://search.google.com/u/0/search-console/performance/search-analytics?resource_id=https%3A//www.miyajyu.co.jp/&page=*https%3A//www.miyajyu.co.jp/showroom/&start_date=2026-03-01&end_date=2026-03-31' target='_blank' rel='noopener'>GSC</a></td></tr><tr><td>資料請求</td><td>2026</td><td>03/05</td><td>2026-02-01</td><td>自然検索</td><td>google</td><td class='path'>/contact/document/</td><td>宮崎住宅</td><td>西都市</td><td><a href='https://analytics.google.com/analytics/web/#/p411943560/reports/explorer?params=_u..eventName%3D%E8%B3%87%E6%96%99%E8%AB%8B%E6%B1%82~_u..date00%3D2026-03-01~_u..date01%3D2026-03-31' target='_blank' rel='noopener'>GA4</a></td><td><a href='https://search.google.com/u/0/search-console/performance/search-analytics?resource_id=https%3A//www.miyajyu.co.jp/&page=*https%3A//www.miyajyu.co.jp/contact/document/&start_date=2026-03-01&end_date=2026-03-31' target='_blank' rel='noopener'>GSC</a></td></tr><tr><td>お問い合わせ</td><td>2026</td><td>03/07</td><td>2026-01-02</td><td>自然検索</td><td>google</td><td class='path'>/contact/visit/</td><td>宮崎住宅</td><td>福岡市</td><td><a href='https://analytics.google.com/analytics/web/#/p411943560/reports/explorer?params=_u..eventName%3D%E3%81%8A%E5%95%8F%E3%81%84%E5%90%88%E3%82%8F%E3%81%9B~_u..date00%3D2026-03-01~_u..date01%3D2026-03-31' target='_blank' rel='noopener'>GA4</a></td><td><a href='https://search.google.com/u/0/search-console/performance/search-analytics?resource_id=https%3A//www.miyajyu.co.jp/&page=*https%3A//www.miyajyu.co.jp/contact/visit/&start_date=2026-03-01&end_date=2026-03-31' target='_blank' rel='noopener'>GSC</a></td></tr><tr><td>お問い合わせ</td><td>2026</td><td>03/07</td><td>2026-01-03</td><td>SNS</td><td>google</td><td class='path'>/quality/</td><td></td><td>小林市</td><td><a href='https://analytics.google.com/analytics/web/#/p411943560/reports/explorer?params=_u..eventName%3D%E3%81%8A%E5%95%8F%E3%81%84%E5%90%88%E3%82%8F%E3%81%9B~_u..date00%3D2026-03-01~_u..date01%3D2026-03-31' target='_blank' rel='noopener'>GA4</a></td><td><a href='https://search.google.com/u/0/search-console/performance/search-analytics?resource_id=https%3A//www.miyajyu.co.jp/&page=*https%3A//www.miyajyu.co.jp/quality/&start_date=2026-03-01&end_date=2026-03-31' target='_blank' rel='noopener'>GSC</a></td></tr><tr><td>来場予約</td><td>2026</td><td>03/08</td><td>2026-03-06</td><td>自然検索</td><td>google</td><td class='path'>/contact/visit/</td><td>注文住宅 坪単価 宮崎</td><td>日南市</td><td><a href='https://analytics.google.com/analytics/web/#/p411943560/reports/explorer?params=_u..eventName%3D%E6%9D%A5%E5%A0%B4%E4%BA%88%E7%B4%84~_u..date00%3D2026-03-01~_u..date01%3D2026-03-31' target='_blank' rel='noopener'>GA4</a></td><td><a href='https://search.google.com/u/0/search-console/performance/search-analytics?resource_id=https%3A//www.miyajyu.co.jp/&page=*https%3A//www.miyajyu.co.jp/contact/visit/&start_date=2026-03-01&end_date=2026-03-31' target='_blank' rel='noopener'>GSC</a></td></tr><tr><td>来場予約</td><td>2026</td><td>03/09</td><td>2026-03-09</td><td>自然検索</td><td>google</td><td class='path'>/blog/cost-calculation/</td><td>HEAT20 G2 宮崎</td><td>宮崎市</td><td><a href='https://analytics.google.com/analytics/web/#/p411943560/reports/explorer?params=_u..eventName%3D%E6%9D%A5%E5%A0%B4%E4%BA%88%E7%B4%84~_u..date00%3D2026-03-01~_u..date01%3D2026-03-31' target='_blank' rel='noopener'>GA4</a></td><td><a href='https://search.google.com/u/0/search-console/performance/search-analytics?resource_id=https%3A//www.miyajyu.co.jp/&page=*https%3A//www.miyajyu.co.jp/blog/cost-calculation/&start_date=2026-03-01&end_date=2026-03-31' target='_blank' rel='noopener'>GSC</a></td></tr><tr><td>来場予約</td><td>2026</td><td>03/09</td><td>2026-01-05</td><td>不明</td><td>bing</td><td class='path'>/blog/cost-calculation/</td><td></td><td>(not set)</td><td><a href='https://analytics.google.com/analytics/web/#/p411943560/reports/explorer?params=_u..eventName%3D%E6%9D%A5%E5%A0%B4%E4%BA%88%E7%B4%84~_u..date00%3D2026-03-01~_u..date01%3D2026-03-31' target='_blank' rel='noopener'>GA4</a></td><td><a href='https://search.google.com/u/0/search-console/performance/search-analytics?resource_id=https%3A//www.miyajyu.co.jp/&page=*https%3A//www.miyajyu.co.jp/blog/cost-calculation/&start_date=2026-03-01&end_date=2026-03-31' target='_blank' rel='noopener'>GSC</a></td></tr><tr><td>来場予約</td><td>2026</td><td>03/13</td><td>2026-02-06</td><td>自然検索</td><td>google</td><td class='path'>/</td><td>宮崎住宅</td><td>都城市</td><td><a href='https://analytics.google.com/analytics/web/#/p411943560/reports/explorer?params=_u..eventName%3D%E6%9D%A5%E5%A0%B4%E4%BA%88%E7%B4%84~_u..date00%3D2026-03-01~_u..date01%3D2026-03-31' target='_blank' rel='noopener'>GA4</a></td><td><a href='https://search.google.com/u/0/search-console/performance/search-analytics?resource_id=https%3A//www.miyajyu.co.jp/&page=*https%3A//www.miyajyu.co.jp/&start_date=2026-03-01&end_date=2026-03-31' target='_blank' rel='noopener'>GSC</a></td></tr><tr><td>来場予約</td><td>2026</td><td>03/15</td><td>2026-03-03</td><td>SNS</td><td>(direct)</td><td class='path'>/contact/visit/</td><td></td><td>宮崎市</td><td><a href='https://analytics.google.com/analytics/web/#/p411943560/reports/explorer?params=_u..eventName%3D%E6%9D%A5%E5%A0%B4%E4%BA%88%E7%B4%84~_u..date00%3D2026-03-01~_u..date01%3D2026-03-31' target='_blank' rel='noopener'>GA4</a></td><td><a href='https://search.google.com/u/0/search-console/performance/search-analytics?resource_id=https%3A//www.miyajyu.co.jp/&page=*https%3A//www.miyajyu.co.jp/contact/visit/&start_date=2026-03-01&end_date=2026-03-31' target='_blank' rel='noopener'>GSC</a></td></tr><tr><td>来場予約</td><td>2026</td><td>03/16</td><td>2026-03-01</td><td>自然検索</td><td>google</td><td class='path'>/blog/cost-calculation/</td><td>宮崎 工務店 おすすめ</td><td>延岡市</td><td><a href='https://analytics.google.com/analytics/web/#/p411943560/reports/explorer?params=_u..eventName%3D%E6%9D%A5%E5%A0%B4%E4%BA%88%E7%B4%84~_u..date00%3D2026-03-01~_u..date01%3D2026-03-31' target='_blank' rel='noopener'>GA4</a></td><td><a href='https://search.google.com/u/0/search-console/performance/search-analytics?resource_id=https%3A//www.miyajyu.co.jp/&page=*https%3A//www.miyajyu.co.jp/blog/cost-calculation/&start_date=2026-03-01&end_date=2026-03-31' target='_blank' rel='noopener'>GSC</a></td></tr><tr><td>お問い合わせ</td><td>2026</td><td>03/16</td><td>2026-03-14</td><td>直接流入</td><td>(direct)</td><td class='path'>/blog/high-insulation/</td><td></td><td>(not set)</td><td><a href='https://analytics.google.com/analytics/web/#/p411943560/reports/explorer?params=_u..eventName%3D%E3%81%8A%E5%95%8F%E3%81%84%E5%90%88%E3%82%8F%E3%81%9B~_u..date00%3D2026-03-01~_u..date01%3D2026-03-31' target='_blank' rel='noopener'>GA4</a></td><td><a href='https://search.google.com/u/0/search-console/performance/search-analytics?resource_id=https%3A//www.miyajyu.co.jp/&page=*https%3A//www.miyajyu.co.jp/blog/high-insulation/&start_date=2026-03-01&end_date=2026-03-31' target='_blank' rel='noopener'>GSC</a></td></tr><tr><td>来場予約</td><td>2026</td><td>03/16</td><td>2026-03-05</td><td>自然検索</td><td>google</td><td class='path'>/blog/high-insulation/</td><td>注文住宅 坪単価 宮崎</td><td>福岡市</td><td><a href='https://analytics.google.com/analytics/web/#/p411943560/reports/explorer?params=_u..eventName%3D%E6%9D%A5%E5%A0%B4%E4%BA%88%E7%B4%84~_u..date00%3D2026-03-01~_u..date01%3D2026-03-31' target='_blank' rel='noopener'>GA4</a></td><td><a href='https://search.google.com/u/0/search-console/performance/search-analytics?resource_id=https%3A//www.miyajyu.co.jp/&page=*https%3A//www.miyajyu.co.jp/blog/high-insulation/&start_date=2026-03-01&end_date=2026-03-31' target='_blank' rel='noopener'>GSC</a></td></tr><tr><td>資料請求</td><td>2026</td><td>03/17</td><td>2026-03-04</td><td>不明</td><td>yahoo</td><td class='path'>/</td><td></td><td>(not set)</td><td><a href='https://analytics.google.com/analytics/web/#/p411943560/reports/explorer?params=_u..eventName%3D%E8%B3%87%E6%96%99%E8%AB%8B%E6%B1%82~_u..date00%3D2026-03-01~_u..date01%3D2026-03-31' target='_blank' rel='noopener'>GA4</a></td><td><a href='https://search.google.com/u/0/search-console/performance/search-analytics?resource_id=https%3A//www.miyajyu.co.jp/&page=*https%3A//www.miyajyu.co.jp/&start_date=2026-03-01&end_date=2026-03-31' target='_blank' rel='noopener'>GSC</a></td></tr><tr><td>お問い合わせ</td><td>2026</td><td>03/18</td><td>2026-03-12</td><td>自然検索</td><td>google</td><td class='path'>/blog/single-story/</td><td>宮崎住宅 評判</td><td>宮崎市</td><td><a href='https://analytics.google.com/analytics/web/#/p411943560/reports/explorer?params=_u..eventName%3D%E3%81%8A%E5%95%8F%E3%81%84%E5%90%88%E3%82%8F%E3%81%9B~_u..date00%3D2026-03-01~_u..date01%3D2026-03-31' target='_blank' rel='noopener'>GA4</a></td><td><a href='https://search.google.com/u/0/search-console/performance/search-analytics?resource_id=https%3A//www.miyajyu.co.jp/&page=*https%3A//www.miyajyu.co.jp/blog/single-story/&start_date=2026-03-01&end_date=2026-03-31' target='_blank' rel='noopener'>GSC</a></td></tr><tr><td>来場予約</td><td>2026</td><td>03/20</td><td>2026-01-09</td><td>SNS</td><td>houzz.jp</td><td class='path'>/blog/cost-calculation/</td><td></td><td>都城市</td><td><a href='https://analytics.google.com/analytics/web/#/p411943560/reports/explorer?params=_u..eventName%3D%E6%9D%A5%E5%A0%B4%E4%BA%88%E7%B4%84~_u..date00%3D2026-03-01~_u..date01%3D2026-03-31' target='_blank' rel='noopener'>GA4</a></td><td><a href='https://search.google.com/u/0/search-console/performance/search-analytics?resource_id=https%3A//www.miyajyu.co.jp/&page=*https%3A//www.miyajyu.co.jp/blog/cost-calculation/&start_date=2026-03-01&end_date=2026-03-31' target='_blank' rel='noopener'>GSC</a></td></tr><tr><td>来場予約</td><td>2026</td><td>03/21</td><td>2026-02-09</td><td>外部サイト</td><td>lin.ee</td><td class='path'>/blog/cost-calculation/</td><td></td><td>日南市</td><td><a href='https://analytics.google.com/analytics/web/#/p411943560/reports/explorer?params=_u..eventName%3D%E6%9D%A5%E5%A0%B4%E4%BA%88%E7%B4%84~_u..date00%3D2026-03-01~_u..date01%3D2026-03-31' target='_blank' rel='noopener'>GA4</a></td><td><a href='https://search.google.com/u/0/search-console/performance/search-analytics?resource_id=https%3A//www.miyajyu.co.jp/&page=*https%3A//www.miyajyu.co.jp/blog/cost-calculation/&start_date=2026-03-01&end_date=2026-03-31' target='_blank' rel='noopener'>GSC</a></td></tr><tr><td>来場予約</td><td>2026</td><td>03/21</td><td>2026-01-05</td><td>外部サイト</td><td>homes.co.jp</td><td class='path'>/blog/single-story/</td><td></td><td>西都市</td><td><a href='https://analytics.google.com/analytics/web/#/p411943560/reports/explorer?params=_u..eventName%3D%E6%9D%A5%E5%A0%B4%E4%BA%88%E7%B4%84~_u..date00%3D2026-03-01~_u..date01%3D2026-03-31' target='_blank' rel='noopener'>GA4</a></td><td><a href='https://search.google.com/u/0/search-console/performance/search-analytics?resource_id=https%3A//www.miyajyu.co.jp/&page=*https%3A//www.miyajyu.co.jp/blog/single-story/&start_date=2026-03-01&end_date=2026-03-31' target='_blank' rel='noopener'>GSC</a></td></tr><tr><td>お問い合わせ</td><td>2026</td><td>03/21</td><td>2026-03-01</td><td>自然検索</td><td>google</td><td class='path'>/showroom/</td><td>宮崎 工務店 おすすめ</td><td>日南市</td><td><a href='https://analytics.google.com/analytics/web/#/p411943560/reports/explorer?params=_u..eventName%3D%E3%81%8A%E5%95%8F%E3%81%84%E5%90%88%E3%82%8F%E3%81%9B~_u..date00%3D2026-03-01~_u..date01%3D2026-03-31' target='_blank' rel='noopener'>GA4</a></td><td><a href='https://search.google.com/u/0/search-console/performance/search-analytics?resource_id=https%3A//www.miyajyu.co.jp/&page=*https%3A//www.miyajyu.co.jp/showroom/&start_date=2026-03-01&end_date=2026-03-31' target='_blank' rel='noopener'>GSC</a></td></tr><tr><td>資料請求</td><td>2026</td><td>03/21</td><td>2026-02-05</td><td>自然検索</td><td>google</td><td class='path'>/contact/visit/</td><td>宮崎住宅 平屋</td><td>日南市</td><td><a href='https://analytics.google.com/analytics/web/#/p411943560/reports/explorer?params=_u..eventName%3D%E8%B3%87%E6%96%99%E8%AB%8B%E6%B1%82~_u..date00%3D2026-03-01~_u..date01%3D2026-03-31' target='_blank' rel='noopener'>GA4</a></td><td><a href='https://search.google.com/u/0/search-console/performance/search-analytics?resource_id=https%3A//www.miyajyu.co.jp/&page=*https%3A//www.miyajyu.co.jp/contact/visit/&start_date=2026-03-01&end_date=2026-03-31' target='_blank' rel='noopener'>GSC</a></td></tr><tr><td>お問い合わせ</td><td>2026</td><td>03/23</td><td>2026-02-18</td><td>自然検索</td><td>google</td><td class='path'>/contact/document/</td><td>HEAT20 G2 宮崎</td><td>西都市</td><td><a href='https://analytics.google.com/analytics/web/#/p411943560/reports/explorer?params=_u..eventName%3D%E3%81%8A%E5%95%8F%E3%81%84%E5%90%88%E3%82%8F%E3%81%9B~_u..date00%3D2026-03-01~_u..date01%3D2026-03-31' target='_blank' rel='noopener'>GA4</a></td><td><a href='https://search.google.com/u/0/search-console/performance/search-analytics?resource_id=https%3A//www.miyajyu.co.jp/&page=*https%3A//www.miyajyu.co.jp/contact/document/&start_date=2026-03-01&end_date=2026-03-31' target='_blank' rel='noopener'>GSC</a></td></tr><tr><td>資料請求</td><td>2026</td><td>03/25</td><td>2026-01-22</td><td>SNS</td><td>google</td><td class='path'>/blog/heat20-g2/</td><td></td><td>宮崎市</td><td><a href='https://analytics.google.com/analytics/web/#/p411943560/reports/explorer?params=_u..eventName%3D%E8%B3%87%E6%96%99%E8%AB%8B%E6%B1%82~_u..date00%3D2026-03-01~_u..date01%3D2026-03-31' target='_blank' rel='noopener'>GA4</a></td><td><a href='https://search.google.com/u/0/search-console/performance/search-analytics?resource_id=https%3A//www.miyajyu.co.jp/&page=*https%3A//www.miyajyu.co.jp/blog/heat20-g2/&start_date=2026-03-01&end_date=2026-03-31' target='_blank' rel='noopener'>GSC</a></td></tr><tr><td>来場予約</td><td>2026</td><td>03/26</td><td>2026-03-19</td><td>自然検索</td><td>google</td><td class='path'>/contact/document/</td><td>宮崎 住宅 おしゃれ</td><td>(not set)</td><td><a href='https://analytics.google.com/analytics/web/#/p411943560/reports/explorer?params=_u..eventName%3D%E6%9D%A5%E5%A0%B4%E4%BA%88%E7%B4%84~_u..date00%3D2026-03-01~_u..date01%3D2026-03-31' target='_blank' rel='noopener'>GA4</a></td><td><a href='https://search.google.com/u/0/search-console/performance/search-analytics?resource_id=https%3A//www.miyajyu.co.jp/&page=*https%3A//www.miyajyu.co.jp/contact/document/&start_date=2026-03-01&end_date=2026-03-31' target='_blank' rel='noopener'>GSC</a></td></tr><tr><td>来場予約</td><td>2026</td><td>03/28</td><td>2026-03-22</td><td>直接流入</td><td>(direct)</td><td class='path'>/showroom/</td><td></td><td>東京</td><td><a href='https://analytics.google.com/analytics/web/#/p411943560/reports/explorer?params=_u..eventName%3D%E6%9D%A5%E5%A0%B4%E4%BA%88%E7%B4%84~_u..date00%3D2026-03-01~_u..date01%3D2026-03-31' target='_blank' rel='noopener'>GA4</a></td><td><a href='https://search.google.com/u/0/search-console/performance/search-analytics?resource_id=https%3A//www.miyajyu.co.jp/&page=*https%3A//www.miyajyu.co.jp/showroom/&start_date=2026-03-01&end_date=2026-03-31' target='_blank' rel='noopener'>GSC</a></td></tr><tr><td>来場予約</td><td>2026</td><td>03/30</td><td>2026-03-20</td><td>外部サイト</td><td>instagram.com</td><td class='path'>/works/</td><td></td><td>(not set)</td><td><a href='https://analytics.google.com/analytics/web/#/p411943560/reports/explorer?params=_u..eventName%3D%E6%9D%A5%E5%A0%B4%E4%BA%88%E7%B4%84~_u..date00%3D2026-03-01~_u..date01%3D2026-03-31' target='_blank' rel='noopener'>GA4</a></td><td><a href='https://search.google.com/u/0/search-console/performance/search-analytics?resource_id=https%3A//www.miyajyu.co.jp/&page=*https%3A//www.miyajyu.co.jp/works/&start_date=2026-03-01&end_date=2026-03-31' target='_blank' rel='noopener'>GSC</a></td></tr><tr><td>お問い合わせ</td><td>2026</td><td>03/30</td><td>2026-03-14</td><td>直接流入</td><td>(direct)</td><td class='path'>/</td><td></td><td>延岡市</td><td><a href='https://analytics.google.com/analytics/web/#/p411943560/reports/explorer?params=_u..eventName%3D%E3%81%8A%E5%95%8F%E3%81%84%E5%90%88%E3%82%8F%E3%81%9B~_u..date00%3D2026-03-01~_u..date01%3D2026-03-31' target='_blank' rel='noopener'>GA4</a></td><td><a href='https://search.google.com/u/0/search-console/performance/search-analytics?resource_id=https%3A//www.miyajyu.co.jp/&page=*https%3A//www.miyajyu.co.jp/&start_date=2026-03-01&end_date=2026-03-31' target='_blank' rel='noopener'>GSC</a></td></tr></tbody></table>
+  </div>
+</section>
+
+<section id="proposals">
+  <h2>サイト改善提案</h2>
+  <p class="section-sub">当月の数値から導いた優先施策</p>
+  
+        <div class="proposal-card">
+          <div class="proposal-num">1</div>
+          <div class="proposal-body">
+            <h3>あと一歩で上位表示できるキーワードの強化</h3>
+            <p class="proposal-evidence">現状・データ根拠</p>
+            <p>検索順位11〜30位で月間表示回数50回以上のクエリが 10 件あります（例: 宮崎住宅 平屋, 宮崎住宅 評判, 宮崎 注文住宅）。</p>
+            <p class="proposal-action">改善案</p>
+            <p>これらのキーワードを対策ページの本文内見出しに自然に組み込み、関連コラムを1〜2本追加で執筆しましょう。</p>
+          </div>
+        </div>
+        
+</section>
+
+</div>
+
+<footer>
+  © 2026 GA4 月次レポート ／ 宮崎住宅 様<br>
+  <span style="font-size:0.75rem;opacity:0.7;">Generated: 2026-05-25T11:33:45</span>
+</footer>
+
+<script>
+const D = {"labels_13": ["2025/03", "2025/04", "2025/05", "2025/06", "2025/07", "2025/08", "2025/09", "2025/10", "2025/11", "2025/12", "2026/01", "2026/02", "2026/03"], "users_13": [3386, 3922, 3794, 3745, 3465, 3733, 4004, 3968, 3778, 3744, 4051, 4100, 3701], "pvs_13": [10835, 12550, 12140, 11984, 11088, 11945, 12812, 12697, 12089, 11980, 12963, 13120, 11843], "bounce_13": [47.4, 52.8, 41.0, 51.7, 50.0, 48.9, 49.0, 53.0, 49.4, 42.6, 42.1, 44.1, 50.6], "duration_13": [74.0, 109.0, 101.0, 106.0, 129.0, 110.0, 71.0, 91.0, 78.0, 130.0, 118.0, 112.0, 71.0], "organic_13": [1862, 2157, 2086, 2059, 1905, 2053, 2202, 2182, 2077, 2059, 2228, 2255, 2035], "highlight": ["#fb923c", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#fb923c"], "channel_labels": ["自然検索", "直接流入", "外部サイト", "SNS", "不明"], "channel_curr": [2027, 876, 387, 223, 50], "channel_prev": [1980, 920, 280, 150, 65], "attr_payload": {"all": {"age": [{"userAgeBracket": "18-24", "activeUsers": "180"}, {"userAgeBracket": "25-34", "activeUsers": "990"}, {"userAgeBracket": "35-44", "activeUsers": "1423"}, {"userAgeBracket": "45-54", "activeUsers": "780"}, {"userAgeBracket": "55-64", "activeUsers": "320"}, {"userAgeBracket": "65+", "activeUsers": "140"}], "device": [{"deviceCategory": "mobile", "activeUsers": "2480"}, {"deviceCategory": "desktop", "activeUsers": "880"}, {"deviceCategory": "tablet", "activeUsers": "140"}], "gender": [{"userGender": "male", "activeUsers": "1980"}, {"userGender": "female", "activeUsers": "1520"}]}, "cv": {"age": [{"userAgeBracket": "25-34", "activeUsers": "17"}, {"userAgeBracket": "35-44", "activeUsers": "12"}, {"userAgeBracket": "45-54", "activeUsers": "6"}, {"userAgeBracket": "55-64", "activeUsers": "3"}], "device": [{"deviceCategory": "mobile", "activeUsers": "22"}, {"deviceCategory": "desktop", "activeUsers": "16"}, {"deviceCategory": "tablet", "activeUsers": "0"}], "gender": [{"userGender": "male", "activeUsers": "19"}, {"userGender": "female", "activeUsers": "17"}]}}};
+if (window.Chart && window.ChartDataLabels) Chart.register(window.ChartDataLabels);
+
+const DL_OPTS = {
+  anchor: 'end', align: 'top', offset: 2,
+  font: { size: 10, weight: '500' }, color: '#3a4456',
+  formatter: function(v) { if (v === 0 || v === null || v === undefined) return ''; return Number(v).toLocaleString(); }
+};
+
+function bar(id, labels, data, label, bg) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  new Chart(el.getContext('2d'), {
+    type: 'bar',
+    data: { labels: labels, datasets: [{ label: label, data: data, backgroundColor: bg }] },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, datalabels: DL_OPTS },
+      scales: { y: { beginAtZero: true, grace: '10%' } }
+    }
+  });
+}
+
+function barCompare(id, labels, curr, prev, lbl_curr, lbl_prev) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  new Chart(el.getContext('2d'), {
+    type: 'bar',
+    data: { labels: labels, datasets: [
+      { label: lbl_curr, data: curr, backgroundColor: '#e08e4e' },
+      { label: lbl_prev, data: prev, backgroundColor: '#93c5fd' }
+    ]},
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { datalabels: DL_OPTS },
+      scales: { y: { beginAtZero: true, grace: '10%' } }
+    }
+  });
+}
+
+bar('chartUsersM', D.labels_13, D.users_13, 'ユーザー数', D.highlight);
+bar('chartPvsM', D.labels_13, D.pvs_13, 'ページビュー', D.highlight);
+bar('chartDur', D.labels_13, D.duration_13, '滞在秒数', D.highlight);
+bar('chartBounce', D.labels_13, D.bounce_13, '直帰率(%)', D.highlight);
+bar('chartOrganic', D.labels_13, D.organic_13, '自然検索ユーザー', D.highlight);
+
+barCompare('chartChannel', D.channel_labels, D.channel_curr, D.channel_prev, '当月', '先月');
+
+// 年齢・デバイス（全体 vs CV比較）
+function attrCompare(canvasId, dim, allRows, cvRows) {
+  const el = document.getElementById(canvasId);
+  if (!el) return;
+  const allMap = {}, cvMap = {};
+  allRows.forEach(r => allMap[r[dim] || '不明'] = parseInt(r.activeUsers || 0));
+  cvRows.forEach(r => cvMap[r[dim] || '不明'] = parseInt(r.activeUsers || 0));
+  const labels = Array.from(new Set([...Object.keys(allMap), ...Object.keys(cvMap)]));
+  const allVals = labels.map(l => allMap[l] || 0);
+  const cvVals = labels.map(l => cvMap[l] || 0);
+  new Chart(el.getContext('2d'), {
+    type: 'bar',
+    data: { labels: labels, datasets: [
+      { label: '全体', data: allVals, backgroundColor: '#93c5fd' },
+      { label: 'CVユーザー', data: cvVals, backgroundColor: '#e08e4e' }
+    ]},
+    options: { responsive: true, maintainAspectRatio: false,
+      plugins: { datalabels: DL_OPTS },
+      scales: { y: { beginAtZero: true, grace: '15%' } } }
+  });
+}
+attrCompare('chartAge', 'userAgeBracket', D.attr_payload.all.age, D.attr_payload.cv.age);
+attrCompare('chartDevice', 'deviceCategory', D.attr_payload.all.device, D.attr_payload.cv.device);
+</script>
+</body>
+</html>
