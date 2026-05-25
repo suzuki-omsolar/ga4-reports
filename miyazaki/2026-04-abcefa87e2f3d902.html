@@ -56,6 +56,10 @@
   .src-link:hover { background: var(--primary); color: white; }
   .src-link.gsc { color: #2d4978; }
   .src-note { font-size: 0.7rem; color: var(--text-muted); margin-top: 8px; padding-left: 16px; font-style: italic; }
+  .read-guide { background: #f4f7fb; border-left: 3px solid #b8c8e0; padding: 10px 14px; border-radius: 4px; font-size: 0.82rem; line-height: 1.7; margin: 10px 0 18px; color: #4a5568; }
+  .read-guide b { color: var(--primary-deep); font-weight: 500; }
+  .read-guide .legend-row { display: inline-block; margin-right: 14px; }
+  .read-guide .legend-row code { background: white; padding: 1px 6px; border-radius: 3px; font-size: 0.78rem; color: #1c2536; border: 1px solid #d8e0ec; }
   section > h2 + .section-sub { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 18px; padding-left: 16px; }
   section h3 { font-size: 1rem; font-weight: 500; color: var(--dark); margin: 22px 0 10px; }
   section h3 .badge-source { font-size: 0.7rem; background: var(--primary-light); color: var(--primary-deep); padding: 2px 8px; border-radius: 4px; margin-left: 8px; font-weight: 400; }
@@ -146,6 +150,15 @@
 <section id="basic">
   <h2>基本指標（直近3ヶ月の比較） </h2>
   <p class="section-sub">出典: Google Analytics 4 / 平均エンゲージメント時間は userEngagementDuration ÷ activeUsers で算出</p>
+  <div class="read-guide">
+    <b>📖 読み方:</b>
+    <b>ユーザー数</b>=サイトを訪れた人数。
+    <b>セッション数</b>=訪問回数（30分の無操作で再カウント）。
+    <b>ページビュー数</b>=ページが表示された延べ回数。
+    <b>自然検索流入数</b>=Google / Yahoo! の検索から訪れたユーザー数。
+    <b>平均エンゲージメント時間</b>=ユーザー1人がブラウザを実際に開いていた平均時間（GA4 UIと同じ計算）。
+    <b>直帰率</b>=1ページだけ見て離脱した割合（低いほど良い）。
+  </div>
   <table class='metric-table'><thead><tr><th>指標</th><th>2026/02</th><th>2026/03</th><th>2026/04</th></tr></thead><tbody><tr><th class='metric-label'><div>ユーザー数</div><div class='metric-sub'>サイトを訪れた人数</div></th><td>4,352</td><td>2,793</td><td>6,467</td></tr><tr><th class='metric-label'><div>ページビュー数</div><div class='metric-sub'>ページが閲覧された回数</div></th><td>6,989</td><td>4,827</td><td>10,453</td></tr><tr><th class='metric-label'><div>自然検索流入数</div><div class='metric-sub'>GoogleやYahoo!の検索から訪れたユーザー数</div></th><td>1,898</td><td>1,826</td><td>1,422</td></tr><tr><th class='metric-label'><div>平均エンゲージメント時間</div><div class='metric-sub'>1セッションあたりの平均滞在秒数</div></th><td>37秒</td><td>47秒</td><td>22秒</td></tr><tr><th class='metric-label'><div>直帰率</div><div class='metric-sub'>1ページのみ閲覧して離脱した割合</div></th><td>58.0%</td><td>49.8%</td><td>72.7%</td></tr></tbody></table>
 </section>
 
@@ -177,6 +190,12 @@
 <section id="users">
   <h2>ユーザー属性 </h2>
   <p class="section-sub">出典: GA4「ユーザー属性 概要」／ 全体ユーザー（青）と CV発生ユーザー（オレンジ）の構成比（%）で比較</p>
+  <div class="read-guide">
+    <b>📖 読み方:</b> 「全体」(青) と「CVに至ったユーザー」(オレンジ) の<b>属性構成比</b>を %で比較。<br>
+    左右の差が大きい属性ほど、<b>その属性のユーザーがCVしやすい</b>（あるいはしにくい）ことを示します。
+    たとえば「CV側だけ45-54歳が多い」なら、その層に響くコンテンツや訴求を強化すべきヒントになります。
+    地域TOP10も同じく構成比で比較。
+  </div>
 
   <div class="chart-row">
     <div>
@@ -197,6 +216,17 @@
 <section id="acquisition">
   <h2>流入経路 </h2>
   <p class="section-sub">出典: GA4「トラフィック獲得」レポート ／ 主経路（チャネル別3ヶ月推移）と、参照元/メディアの詳細上位9</p>
+  <div class="read-guide">
+    <b>📖 読み方:</b> ユーザーがどこから来たかをGA4が自動分類した「チャネル」と、具体的な参照元の組み合わせ。<br>
+    <span class="legend-row"><code>Organic Search</code> Google/Yahoo!の自然検索</span>
+    <span class="legend-row"><code>Direct</code> URL直打ち・ブックマーク・アプリ等</span>
+    <span class="legend-row"><code>Referral</code> 他サイトのリンクから</span><br>
+    <span class="legend-row"><code>Paid Social</code> SNSの広告</span>
+    <span class="legend-row"><code>Organic Social</code> SNSの通常投稿</span>
+    <span class="legend-row"><code>Paid Search</code> 検索広告</span>
+    <span class="legend-row"><code>Unassigned</code> 判別不能</span><br>
+    詳細経路の <code>google / organic</code> は「Googleの自然検索」、<code>(direct) / (none)</code> は「直接アクセス」を意味します。
+  </div>
 
   <h3>主経路（チャネル別 3ヶ月推移）</h3>
   <div class="chart-box"><canvas id="chartChannelTrend"></canvas></div>
@@ -210,6 +240,17 @@
 <section id="keywords">
   <h2>流入キーワード </h2>
   <p class="section-sub">出典: Google Search Console 「検索パフォーマンス」</p>
+  <div class="read-guide">
+    <b>📖 読み方:</b><br>
+    <b>クリック</b>=検索結果からサイトへ実際にクリックされた回数。
+    <b>表示</b>=検索結果に自社が出た回数。
+    <b>CTR</b>=表示のうちクリックされた割合(クリック÷表示)。
+    <b>順位</b>=検索結果の平均掲載順位(数字が小さいほど上位)。<br>
+    <b>カテゴリ別TOP10</b>: 当月のクリック数上位10件。<b>当月 / 先月 / 前々月の3ヶ月推移</b>を横に並べて、伸びているクエリ・落ちているクエリが一目で分かる。<br>
+    <b>順位改善TOP5 / 悪化ワースト5</b>: 先月と当月で順位が動いたクエリ。<span style="color:var(--good);">↑</span>が改善、<span style="color:var(--bad);">↓</span>が悪化。<br>
+    <b>順位は低いが検索数が多いTOP10</b>: 表示は多いのに順位が11位以下で機会損失しているクエリ。<b>コラム強化やtitle改善の候補</b>になります。<br>
+    <span class="legend-row" style="color: var(--text-muted);">※ 表示回数5回以下のクエリは全表で除外しています</span>
+  </div>
 
   <h3>カテゴリ「指名」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/04</th><th>2026/03</th><th>2026/02</th></tr></thead><tbody><tr><td>宮崎住宅建設工業</td><td>80</td><td>71</td><td>75</td></tr><tr><td>宮崎住宅建設工業株式会社</td><td>9</td><td>11</td><td>8</td></tr><tr><td>宮崎住宅</td><td>3</td><td>3</td><td>2</td></tr></tbody></table><h3>カテゴリ「移住」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/04</th><th>2026/03</th><th>2026/02</th></tr></thead><tbody><tr><td>宮崎移住 やめとけ</td><td>53</td><td>1</td><td>0</td></tr><tr><td>宮崎 移住</td><td>13</td><td>29</td><td>27</td></tr><tr><td>宮崎県 移住 失敗</td><td>7</td><td>8</td><td>7</td></tr><tr><td>宮崎移住 後悔</td><td>7</td><td>6</td><td>7</td></tr><tr><td>移住支援金 確定申告</td><td>7</td><td>33</td><td>38</td></tr><tr><td>宮崎移住</td><td>6</td><td>11</td><td>8</td></tr><tr><td>宮崎移住 やめ とけ</td><td>6</td><td>74</td><td>63</td></tr><tr><td>宮崎 移住支援金 500万</td><td>5</td><td>9</td><td>3</td></tr><tr><td>宮崎県 移住</td><td>5</td><td>4</td><td>3</td></tr><tr><td>都城 移住支援金</td><td>5</td><td>9</td><td>15</td></tr></tbody></table><h3>カテゴリ「地域×注文住宅」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/04</th><th>2026/03</th><th>2026/02</th></tr></thead><tbody><tr><td>宮崎市 住宅補助金</td><td>6</td><td>2</td><td>2</td></tr><tr><td>宮崎 住宅</td><td>4</td><td>1</td><td>1</td></tr><tr><td>宮崎 工務店</td><td>3</td><td>1</td><td>1</td></tr><tr><td>宮崎市 注文住宅</td><td>2</td><td>1</td><td>2</td></tr><tr><td>宮崎市 高級住宅街</td><td>2</td><td>1</td><td>1</td></tr><tr><td>住宅 補助金</td><td>1</td><td>1</td><td>0</td></tr><tr><td>住宅トレンド 2026</td><td>1</td><td>1</td><td>0</td></tr><tr><td>住宅補助金</td><td>1</td><td>1</td><td>0</td></tr><tr><td>宮崎 ハウスメーカー</td><td>1</td><td>0</td><td>0</td></tr><tr><td>宮崎 住宅メーカー</td><td>1</td><td>0</td><td>1</td></tr></tbody></table><h3>カテゴリ「性能」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/04</th><th>2026/03</th><th>2026/02</th></tr></thead><tbody><tr><td colspan='4' class='empty'>該当キーワードなし（表示回数5回超のもの）</td></tr></tbody></table><h3>カテゴリ「価格」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/04</th><th>2026/03</th><th>2026/02</th></tr></thead><tbody><tr><td>固定資産税 宮崎市 相場</td><td>7</td><td>8</td><td>4</td></tr><tr><td>宮崎市土地価格</td><td>2</td><td>1</td><td>1</td></tr><tr><td>土地価格</td><td>1</td><td>0</td><td>0</td></tr><tr><td>宮崎市 土地価格</td><td>1</td><td>1</td><td>0</td></tr><tr><td>土地 宮崎 価格</td><td>0</td><td>0</td><td>0</td></tr><tr><td>土地 宮崎 相場</td><td>0</td><td>0</td><td>0</td></tr><tr><td>坪単価</td><td>0</td><td>0</td><td>0</td></tr><tr><td>坪単価 住所</td><td>0</td><td>0</td><td>0</td></tr><tr><td>坪単価 分譲</td><td>0</td><td>0</td><td>0</td></tr><tr><td>坪単価 土地</td><td>0</td><td>0</td><td>0</td></tr></tbody></table><h3>カテゴリ「デザイン」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/04</th><th>2026/03</th><th>2026/02</th></tr></thead><tbody><tr><td>宮崎 平屋</td><td>3</td><td>2</td><td>1</td></tr><tr><td>宮崎 平屋 新築</td><td>1</td><td>1</td><td>0</td></tr><tr><td>カリフォルニア スタイル 家 平屋</td><td>0</td><td>0</td><td>0</td></tr><tr><td>カリフォルニアスタイル 平屋</td><td>0</td><td>0</td><td>0</td></tr></tbody></table><h3>カテゴリ「その他」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/04</th><th>2026/03</th><th>2026/02</th></tr></thead><tbody><tr><td>みやじゅう</td><td>15</td><td>9</td><td>12</td></tr><tr><td>宮崎市 子育て支援</td><td>12</td><td>8</td><td>14</td></tr><tr><td>宮住</td><td>10</td><td>3</td><td>1</td></tr><tr><td>宮崎市 新築 補助金</td><td>10</td><td>7</td><td>7</td></tr><tr><td>みやじゅう 宮崎</td><td>9</td><td>16</td><td>7</td></tr><tr><td>宮崎市 モデルハウス 販売</td><td>5</td><td>6</td><td>4</td></tr><tr><td>宮崎市 建売 モデルハウス</td><td>4</td><td>3</td><td>3</td></tr><tr><td>ハザードマップ 宮崎市</td><td>3</td><td>1</td><td>0</td></tr><tr><td>モデルハウス お譲りします 宮崎</td><td>3</td><td>1</td><td>3</td></tr><tr><td>宮崎 モデルハウス 販売</td><td>3</td><td>4</td><td>3</td></tr></tbody></table>
 
@@ -232,6 +273,12 @@
 <section id="pages">
   <h2>ページ別アクセス分析 </h2>
   <p class="section-sub">出典: GA4「ページとスクリーン」レポート</p>
+  <div class="read-guide">
+    <b>📖 読み方:</b><br>
+    <b>表示回数の多いページ</b>=サイト内で<b>よく見られているページ</b>。施策の手応えや人気コンテンツが分かる。<br>
+    <b>ランディングページ</b>=各ユーザーが<b>最初に着地したページ</b>。SEO・広告・SNSの集客効果が出やすい。トップが多い場合は下層ページのSEO強化が必要。<br>
+    <b>コラム記事別ランディング</b>=ランディングのうち、ブログ・コラム系URL（/blog/、/column/、/news/）のみ抽出。<b>コンテンツマーケの効果測定</b>に。
+  </div>
   <h3>表示回数の多いページ TOP20</h3>
   <table class="ranking-table"><thead><tr><th>ページ</th><th>PV</th></tr></thead>
   <tbody><tr><td><div style='font-weight:500;'>【完成見学会】in 潮見町 4/18(土)-19(日)</div><div class='path' style='margin-top:2px;'>/news/4086</div></td><td>1,722</td></tr><tr><td><div style='font-weight:500;'>【完成見学会】in 中村東 4/25(土)-26(日)</div><div class='path' style='margin-top:2px;'>/news/4085</div></td><td>1,525</td></tr><tr><td><div style='font-weight:500;'>見学会・お知らせ | 宮崎県の注文住宅なら宮崎住宅建設工業株式会社</div><div class='path' style='margin-top:2px;'>/news</div></td><td>1,219</td></tr><tr><td><div style='font-weight:500;'>【完成見学会】in 天満町 4/11(土)-12(日)</div><div class='path' style='margin-top:2px;'>/news/4060</div></td><td>1,171</td></tr><tr><td><div style='font-weight:500;'>宮崎県の注文住宅・工務店なら【宮崎住宅建設工業株式会社】</div><div class='path' style='margin-top:2px;'>/</div></td><td>763</td></tr><tr><td><div style='font-weight:500;'>４/４(土)・５(日)FP・設計士による家づくりマネー相談会</div><div class='path' style='margin-top:2px;'>/news/4123</div></td><td>410</td></tr><tr><td><div style='font-weight:500;'>施工事例 | 宮崎県宮崎市のおしゃれな注文住宅なら宮崎住宅建設工業</div><div class='path' style='margin-top:2px;'>/galleries</div></td><td>270</td></tr><tr><td><div style='font-weight:500;'>移住はやめた方がいい？宮崎移住で失敗を避けるための対策 | 宮崎県の注文住宅なら本社</div><div class='path' style='margin-top:2px;'>/columns/ijyuu-miss</div></td><td>147</td></tr><tr><td><div style='font-weight:500;'>宮崎住宅建設工業株式会社の会社概要 | 宮崎県の注文住宅なら宮崎住宅建設工業株式会社</div><div class='path' style='margin-top:2px;'>/company</div></td><td>135</td></tr><tr><td><div style='font-weight:500;'>都城市なら最大500万円！【移住補助金】完全ガイド | 宮崎県の注文住宅なら本社</div><div class='path' style='margin-top:2px;'>/columns/miyakonojyo-hojyokin</div></td><td>133</td></tr><tr><td><div style='font-weight:500;'>【モデルハウス】見学予約受付中！　</div><div class='path' style='margin-top:2px;'>/news/2084</div></td><td>117</td></tr><tr><td><div style='font-weight:500;'>miyajyuモデルハウス(建売) | 宮崎県の新築・注文住宅なら宮崎住宅建設工業株式会社</div><div class='path' style='margin-top:2px;'>/products/miyajyuモデルハウス</div></td><td>113</td></tr><tr><td><div style='font-weight:500;'>宮崎県の移住先人気ランキング！おすすめはどこ？ | 宮崎県の注文住宅・新築なら本社</div><div class='path' style='margin-top:2px;'>/columns/emigration</div></td><td>102</td></tr><tr><td><div style='font-weight:500;'>お問い合わせフォーム</div><div class='path' style='margin-top:2px;'>/inquiries/new</div></td><td>96</td></tr><tr><td><div style='font-weight:500;'>宮崎住宅建設工業株式会社の家づくり | 宮崎県の注文住宅なら宮崎住宅建設工業株式会社</div><div class='path' style='margin-top:2px;'>/about</div></td><td>96</td></tr><tr><td><div style='font-weight:500;'>宮崎市に住むなら知っておきたい「子育て支援制度」とは？助成の内容や手続き方法を紹介 | 宮崎県の注文住宅・新築なら本社</div><div class='path' style='margin-top:2px;'>/miyazakishi/columns/5946</div></td><td>73</td></tr><tr><td><div style='font-weight:500;'>土地情報 | 宮崎県の注文住宅・新築・分譲住宅・建売・土地なら宮崎住宅建設工業株式会社</div><div class='path' style='margin-top:2px;'>/advantages/土地情報</div></td><td>70</td></tr><tr><td><div style='font-weight:500;'>「平屋」の施工事例 | 宮崎県宮崎市のおしゃれな注文住宅なら宮崎住宅建設工業</div><div class='path' style='margin-top:2px;'>/galleries</div></td><td>68</td></tr><tr><td><div style='font-weight:500;'>ロの字型の平屋（宮崎県日南市の事例） | おしゃれな注文住宅なら宮崎住宅建設工業</div><div class='path' style='margin-top:2px;'>/galleries/4767</div></td><td>63</td></tr><tr><td><div style='font-weight:500;'>宮崎市で一戸建てを建てたあとにかかる維持費はどのくらい？ | 宮崎県の注文住宅・新築なら本社</div><div class='path' style='margin-top:2px;'>/columns/maintenance-cost</div></td><td>59</td></tr></tbody></table>
@@ -248,6 +295,16 @@
 <section id="cv">
   <h2>CV分析 </h2>
   <p class="section-sub">出典: GA4「コンバージョン」レポート ／ キーイベントとして設定されているイベントを自動で対象化</p>
+  <div class="read-guide">
+    <b>📖 読み方:</b><br>
+    <b>CV(コンバージョン)</b>=GA4で「キーイベント」として登録した重要アクション(問い合わせ送信・資料請求・来場予約等)。<br>
+    <b>月別CV数</b>: 各CV種別の月別件数推移。施策のインパクトが見えます。<br>
+    <b>CV詳細リスト</b>: 当月に発生したCVを<b>1件ずつ時系列で展開</b>。
+    <b>初回アクセス</b>=そのユーザーが初めて来た日(リード長期化を示す)。
+    <b>チャネル/参照元/LP/流入クエリ</b>=どこから来てどのページからCVしたか。
+    各行の <b>GA4↗ / GSC↗</b> をクリックすると、該当条件でフィルタした管理画面が開きます。<br>
+    <span class="legend-row" style="color: var(--text-muted);">※ Search Console との完全な突合はAPIの制約上できないため、流入クエリは推定値</span>
+  </div>
 
   <h3>月別CV数（直近6ヶ月）</h3>
   <table class='ranking-table'><thead><tr><th>イベント</th><th>11月</th><th>12月</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th></tr></thead><tbody><tr><td>お問い合わせ</td><td>10</td><td>14</td><td>5</td><td>7</td><td>5</td><td>9</td></tr><tr><td>イベント申込</td><td>2</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td></tr><tr><td>資料請求</td><td>0</td><td>2</td><td>0</td><td>1</td><td>2</td><td>0</td></tr></tbody></table>
@@ -317,7 +374,7 @@
 
 <footer>
   © 2026 GA4 月次レポート ／ 宮崎住宅 様<br>
-  <span style="font-size:0.75rem;opacity:0.7;">Generated: 2026-05-25T15:03:17</span>
+  <span style="font-size:0.75rem;opacity:0.7;">Generated: 2026-05-25T15:09:01</span>
 </footer>
 
 <script>
