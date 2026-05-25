@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>宮崎住宅 様 2026年4月 サイト改善レポート</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  :root {
+    --primary: #5B7FBA;
+    --primary-deep: #3a5a93;
+    --primary-light: #e8eef7;
+    --accent: #fb923c;
+    --accent-light: #fff4eb;
+    --dark: #1e293b;
+    --text-main: #334155;
+    --text-muted: #64748b;
+    --bg: #f6f8fb;
+    --border: #d8e0ec;
+    --good: #16a34a;
+    --bad: #dc2626;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Noto Sans JP', sans-serif; background: var(--bg); color: var(--text-main); line-height: 1.65; }
+  .cover { background: linear-gradient(180deg, var(--primary) 0%, var(--primary) 110px, #fff 110px 100%);
+            min-height: 380px; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            border-bottom: 4px solid var(--primary); padding: 60px 20px; }
+  .cover h1 { font-family: 'Noto Serif JP', serif; font-size: 3rem; color: var(--dark); letter-spacing: 0.1em; margin-bottom: 10px; }
+  .cover .client { font-family: 'Noto Serif JP', serif; font-size: 1.4rem; color: var(--primary-deep); margin-bottom: 30px; }
+  .cover .ym { font-size: 1.5rem; color: var(--dark); border-top: 1px solid var(--border); padding-top: 20px; min-width: 200px; text-align: center; }
+
+  nav.toc { background: white; border-bottom: 1px solid var(--border); padding: 12px 20px;
+            position: sticky; top: 0; z-index: 10; overflow-x: auto; }
+  nav.toc ul { display: flex; gap: 18px; max-width: 1200px; margin: 0 auto; list-style: none; white-space: nowrap; }
+  nav.toc a { color: var(--text-muted); text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+  nav.toc a:hover { color: var(--primary); }
+
+  .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px 60px; }
+  section { background: white; border-radius: 8px; padding: 28px 30px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+  section > h2 { font-family: 'Noto Serif JP', serif; font-size: 1.5rem; color: var(--dark); margin-bottom: 6px;
+                 border-left: 5px solid var(--primary); padding-left: 14px; }
+  section > h2 + .section-sub { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 22px; padding-left: 19px; }
+  section h3 { font-size: 1.1rem; color: var(--dark); margin: 24px 0 12px; }
+  section h3 .badge-source { font-size: 0.7rem; background: var(--primary-light); color: var(--primary-deep); padding: 2px 8px; border-radius: 4px; margin-left: 8px; font-weight: 500; }
+
+  /* ---- 総括ボックス ---- */
+  .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 720px) { .summary-grid { grid-template-columns: 1fr; } }
+  .orange-box, .blue-box { border-radius: 10px; padding: 20px 22px; }
+  .orange-box { background: var(--accent); color: white; }
+  .orange-box h4 { font-size: 1rem; margin-bottom: 10px; }
+  .orange-box ul, .blue-box ul { padding-left: 1.2em; line-height: 1.8; }
+  .blue-box { background: var(--primary); color: white; }
+  .blue-box h4 { font-size: 1rem; margin-bottom: 10px; }
+
+  /* ---- KPI カード ---- */
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin: 12px 0 20px; }
+  .kpi-card { background: var(--primary-light); border-radius: 8px; padding: 16px; border-left: 4px solid var(--primary); }
+  .kpi-card .label { color: var(--text-muted); font-size: 0.85rem; }
+  .kpi-card .value { font-size: 1.7rem; font-weight: 700; color: var(--dark); margin-top: 4px; }
+  .kpi-card .diff { font-size: 0.85rem; margin-top: 6px; }
+  .kpi-card .diff.good { color: var(--good); }
+  .kpi-card .diff.bad { color: var(--bad); }
+
+  /* ---- 基本指標表 ---- */
+  .metric-table { width: 100%; border-collapse: collapse; }
+  .metric-table th, .metric-table td { border-bottom: 1px solid var(--border); padding: 12px 14px; text-align: right; font-size: 0.95rem; }
+  .metric-table thead th { background: var(--primary-light); color: var(--primary-deep); text-align: center; font-weight: 700; }
+  .metric-table tbody th { text-align: left; font-weight: 600; }
+  .metric-label { background: white; }
+  .metric-sub { font-size: 0.75rem; color: var(--text-muted); font-weight: 400; margin-top: 2px; }
+
+  /* ---- ランキング表 ---- */
+  .ranking-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  .ranking-table th, .ranking-table td { border-bottom: 1px solid var(--border); padding: 10px 12px; text-align: right; }
+  .ranking-table thead th { background: var(--primary-light); color: var(--primary-deep); text-align: center; }
+  .ranking-table td:first-child, .ranking-table th:first-child { text-align: left; max-width: 360px; }
+  .ranking-table td.path { font-family: ui-monospace, monospace; font-size: 0.8rem; color: var(--text-muted); }
+  .ranking-table .empty { text-align: center; color: var(--text-muted); padding: 24px; }
+
+  /* ---- グラフ ---- */
+  .chart-box { position: relative; height: 320px; margin: 12px 0; }
+  .chart-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 800px) { .chart-row { grid-template-columns: 1fr; } }
+
+  /* ---- コメント（オレンジボックス） ---- */
+  .comment { background: var(--accent); color: white; padding: 14px 18px; border-radius: 8px; margin-top: 14px; font-size: 0.92rem; line-height: 1.7; }
+
+  /* ---- 改善提案 ---- */
+  .proposal-card { background: white; border: 1px solid var(--border); border-radius: 10px; padding: 22px 24px; margin-bottom: 16px;
+                    display: grid; grid-template-columns: 56px 1fr; gap: 18px; }
+  .proposal-num { background: var(--primary); color: white; width: 48px; height: 48px; border-radius: 50%;
+                    display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700; }
+  .proposal-body h3 { color: var(--dark); margin-bottom: 12px; font-size: 1.15rem; }
+  .proposal-evidence, .proposal-action { font-weight: 700; margin: 12px 0 4px; color: var(--primary-deep); }
+  .proposal-action { color: var(--accent); }
+  .proposal-card p { font-size: 0.95rem; }
+
+  footer { text-align: center; padding: 30px 20px; color: var(--text-muted); font-size: 0.85rem; }
+  footer .gen { font-size: 0.75rem; opacity: 0.7; margin-top: 6px; }
+</style>
+</head>
+<body>
+
+<!-- 表紙 -->
+<div class="cover">
+  <h1>サイト改善レポート</h1>
+  <div class="client">宮崎住宅 様</div>
+  <div class="ym">2026.04</div>
+</div>
+
+<nav class="toc">
+  <ul>
+    <li><a href="#summary">総括</a></li>
+    <li><a href="#basic">基本指標</a></li>
+    <li><a href="#monthly">月別推移</a></li>
+    <li><a href="#daily">日別推移</a></li>
+    <li><a href="#users">ユーザー属性</a></li>
+    <li><a href="#acquisition">流入経路</a></li>
+    <li><a href="#keywords">流入キーワード</a></li>
+    <li><a href="#pages">ページランキング</a></li>
+    <li><a href="#cv">CV分析</a></li>
+    <li><a href="#proposals">改善提案</a></li>
+  </ul>
+</nav>
+
+<div class="container">
+
+<!-- 1. 総括 -->
+<section id="summary">
+  <h2>アクセス解析の総括</h2>
+  <p class="section-sub">当月の主要指標と次月のアクションプラン</p>
+  <div class="summary-grid">
+    <div class="orange-box">
+      <h4><i class="fas fa-chart-pie"></i> 全体を通して良い点・悪い点</h4>
+      <ul><li>当月のユーザー数は 4,053 人、セッション数は 5,674 回、ページビューは 12,969 PV。</li><li>先月比でユーザー数は -89 人減少。</li><li>昨年同月比では +592 人で、成長軌道にあります。</li><li>Search Console: 検索からのクリック 728 回 / 表示 5,845 回。</li></ul>
+    </div>
+    <div class="blue-box">
+      <h4><i class="fas fa-tasks"></i> 次月のタスク</h4>
+      <ul><li>対策キーワードを軸としたコラム制作（1ページ1キーワード）</li><li>ランディングが集中しているページの内部リンク強化と回遊導線整備</li><li>CV計測イベントの設定見直しとCVR計測の精度向上</li><li>title/description/H1の対策キーワード整合性チェック</li></ul>
+    </div>
+  </div>
+</section>
+
+<!-- 2. 基本指標 -->
+<section id="basic">
+  <h2>基本指標（直近3ヶ月の比較）</h2>
+  <p class="section-sub"><span class="badge-source">アナリティクスのデータを参照</span></p>
+  <table class='metric-table'><thead><tr><th>指標</th><th>2026/02</th><th>2026/03</th><th>2026/04</th></tr></thead><tbody><tr><th class='metric-label'><div>ユーザー数</div><div class='metric-sub'>サイトを訪れた人数</div></th><td>3,654</td><td>4,142</td><td>4,053</td></tr><tr><th class='metric-label'><div>セッション数</div><div class='metric-sub'>サイトを訪れた回数（30分の無操作で再カウント）</div></th><td>5,115</td><td>5,798</td><td>5,674</td></tr><tr><th class='metric-label'><div>ページビュー数</div><div class='metric-sub'>ページが閲覧された回数</div></th><td>11,692</td><td>13,254</td><td>12,969</td></tr><tr><th class='metric-label'><div>自然検索流入数</div><div class='metric-sub'>GoogleやYahoo!の検索から訪れたユーザー数</div></th><td>2,009</td><td>2,278</td><td>2,229</td></tr><tr><th class='metric-label'><div>平均滞在時間</div><div class='metric-sub'>1セッションあたりの平均滞在秒数</div></th><td>83秒</td><td>73秒</td><td>113秒</td></tr><tr><th class='metric-label'><div>直帰率</div><div class='metric-sub'>1ページのみ閲覧して離脱した割合</div></th><td>40.7%</td><td>45.7%</td><td>43.4%</td></tr></tbody></table>
+</section>
+
+<!-- 3. 月別推移 -->
+<section id="monthly">
+  <h2>月別推移（過去13ヶ月）</h2>
+  <p class="section-sub">昨年同月から当月までの推移。当月と昨年同月は<span style="color: var(--accent); font-weight:700;">オレンジ</span>でハイライト。</p>
+
+  <h3>月別ユーザー数</h3>
+  <div class="chart-box"><canvas id="chartUsersM"></canvas></div>
+
+  <h3>月別セッション数</h3>
+  <div class="chart-box"><canvas id="chartSessM"></canvas></div>
+
+  <h3>月別ページビュー数</h3>
+  <div class="chart-box"><canvas id="chartPvsM"></canvas></div>
+
+  <div class="chart-row">
+    <div>
+      <h3>月別平均滞在時間（秒）</h3>
+      <div class="chart-box"><canvas id="chartDur"></canvas></div>
+    </div>
+    <div>
+      <h3>月別直帰率（%）</h3>
+      <div class="chart-box"><canvas id="chartBounce"></canvas></div>
+    </div>
+  </div>
+
+  <h3>月別自然検索流入ユーザー数</h3>
+  <div class="chart-box"><canvas id="chartOrganic"></canvas></div>
+</section>
+
+<!-- 4. 日別推移 -->
+<section id="daily">
+  <h2>日別推移（当月）</h2>
+  <p class="section-sub">当月の日別ユーザー数・セッション数・PV。スパイク日は流入経路を確認しましょう。</p>
+  <h3>日別ユーザー数</h3>
+  <div class="chart-box"><canvas id="chartUsersD"></canvas></div>
+  <h3>日別セッション数</h3>
+  <div class="chart-box"><canvas id="chartSessD"></canvas></div>
+  <h3>日別ページビュー数</h3>
+  <div class="chart-box"><canvas id="chartPvsD"></canvas></div>
+</section>
+
+<!-- 5. ユーザー属性 -->
+<section id="users">
+  <h2>ユーザー属性</h2>
+  <p class="section-sub">どんな人がサイトを訪れているか（当月）</p>
+  <div class="chart-row">
+    <div>
+      <h3>年齢層</h3>
+      <div class="chart-box"><canvas id="chartAge"></canvas></div>
+    </div>
+    <div>
+      <h3>デバイス</h3>
+      <div class="chart-box"><canvas id="chartDevice"></canvas></div>
+    </div>
+  </div>
+  <h3>市区町村別ユーザー数 TOP10</h3>
+  <table class="ranking-table"><thead><tr><th>市区町村</th><th>ユーザー数</th></tr></thead><tbody><tr><td>宮崎市</td><td>1,240</td></tr><tr><td>都城市</td><td>420</td></tr><tr><td>延岡市</td><td>310</td></tr><tr><td>日南市</td><td>180</td></tr><tr><td>福岡市</td><td>150</td></tr><tr><td>鹿児島市</td><td>120</td></tr><tr><td>(not set)</td><td>98</td></tr><tr><td>東京</td><td>82</td></tr></tbody></table>
+</section>
+
+<!-- 6. 流入経路 -->
+<section id="acquisition">
+  <h2>流入経路別ユーザー数</h2>
+  <p class="section-sub">当月 vs 先月。自然検索・直接・SNS等の内訳。</p>
+  <div class="chart-box"><canvas id="chartChannel"></canvas></div>
+  <div class="comment"><i class="fas fa-comment"></i> 外部サイト, SNSが増加、不明が減少しています。</div>
+</section>
+
+<!-- 7. 流入キーワード -->
+<section id="keywords">
+  <h2>流入キーワード（Search Console）</h2>
+  <p class="section-sub"><span class="badge-source">サーチコンソールのデータを参照</span> 検索クエリ別の流入分析</p>
+
+  <h3>カテゴリ別クリック数</h3>
+  <div class="chart-box"><canvas id="chartBucket"></canvas></div>
+
+  <h3>指名検索キーワード TOP10</h3>
+  <table class="ranking-table"><thead><tr><th>クエリ</th><th>クリック</th><th>表示</th><th>CTR</th><th>順位</th></tr></thead><tbody><tr><td>宮崎住宅</td><td>380</td><td>1,240</td><td>30.6%</td><td>1.4</td></tr><tr><td>宮崎住宅 平屋</td><td>82</td><td>410</td><td>20.0%</td><td>2.1</td></tr><tr><td>宮崎住宅 評判</td><td>56</td><td>320</td><td>17.5%</td><td>1.8</td></tr><tr><td>宮崎住宅 ブログ</td><td>10</td><td>95</td><td>10.5%</td><td>2.8</td></tr></tbody></table>
+
+  <h3>対策キーワード TOP10</h3>
+  <table class="ranking-table"><thead><tr><th>クエリ</th><th>クリック</th><th>表示</th><th>CTR</th><th>順位</th></tr></thead><tbody><tr><td>宮崎 注文住宅</td><td>48</td><td>980</td><td>4.9%</td><td>8.2</td></tr><tr><td>宮崎 工務店 おすすめ</td><td>32</td><td>720</td><td>4.4%</td><td>12.5</td></tr><tr><td>高気密高断熱 宮崎</td><td>28</td><td>240</td><td>11.7%</td><td>4.1</td></tr><tr><td>平屋 宮崎 30坪</td><td>18</td><td>320</td><td>5.6%</td><td>9.8</td></tr><tr><td>注文住宅 坪単価 宮崎</td><td>16</td><td>580</td><td>2.8%</td><td>14.2</td></tr><tr><td>ZEH 宮崎</td><td>14</td><td>140</td><td>10.0%</td><td>5.4</td></tr><tr><td>宮崎 住宅 おしゃれ</td><td>12</td><td>380</td><td>3.2%</td><td>18.1</td></tr><tr><td>宮崎 玄関 間取り</td><td>8</td><td>240</td><td>3.3%</td><td>22.5</td></tr></tbody></table>
+
+  <h3>「その他」キーワード TOP10</h3>
+  <table class="ranking-table"><thead><tr><th>クエリ</th><th>クリック</th><th>表示</th><th>CTR</th><th>順位</th></tr></thead><tbody><tr><td>HEAT20 G2 宮崎</td><td>24</td><td>180</td><td>13.3%</td><td>3.2</td></tr></tbody></table>
+</section>
+
+<!-- 8. ページランキング -->
+<section id="pages">
+  <h2>ページ別アクセス分析</h2>
+  <p class="section-sub">どのページがよく見られているか・最初の入口になっているか</p>
+
+  <h3>表示回数の多いページ TOP20</h3>
+  <table class="ranking-table"><thead><tr><th>ページタイトル</th><th>パス</th><th>PV</th></tr></thead><tbody><tr><td>トップページ</td><td class='path'>/</td><td>4,280</td></tr><tr><td>施工事例一覧</td><td class='path'>/works/</td><td>1,840</td></tr><tr><td>性能・仕様</td><td class='path'>/quality/</td><td>1,620</td></tr><tr><td>会社案内</td><td class='path'>/company/</td><td>980</td></tr><tr><td>展示場のご案内</td><td class='path'>/showroom/</td><td>920</td></tr><tr><td>コラム｜高気密高断熱とは</td><td class='path'>/blog/high-insulation/</td><td>880</td></tr><tr><td>コラム｜平屋のメリット</td><td class='path'>/blog/single-story/</td><td>720</td></tr><tr><td>資料請求フォーム</td><td class='path'>/contact/document/</td><td>640</td></tr><tr><td>来場予約フォーム</td><td class='path'>/contact/visit/</td><td>580</td></tr><tr><td>スタッフ紹介</td><td class='path'>/staff/</td><td>420</td></tr></tbody></table>
+
+  <h3>ランディングページ TOP20（流入の入口）</h3>
+  <table class="ranking-table"><thead><tr><th>パス</th><th>セッション</th></tr></thead><tbody><tr><td class='path'>/</td><td>2,680</td></tr><tr><td class='path'>/blog/high-insulation/</td><td>640</td></tr><tr><td class='path'>/blog/single-story/</td><td>520</td></tr><tr><td class='path'>/works/</td><td>480</td></tr><tr><td class='path'>/quality/</td><td>380</td></tr><tr><td class='path'>/showroom/</td><td>320</td></tr><tr><td class='path'>/blog/cost-calculation/</td><td>280</td></tr><tr><td class='path'>/blog/heat20-g2/</td><td>240</td></tr><tr><td class='path'>/contact/visit/</td><td>180</td></tr><tr><td class='path'>/blog/zeh-meaning/</td><td>160</td></tr></tbody></table>
+
+  <h3>コラム記事別ランディングページ TOP15</h3>
+  <table class="ranking-table"><thead><tr><th>パス</th><th>セッション</th></tr></thead><tbody><tr><td class='path'>/blog/high-insulation/</td><td>640</td></tr><tr><td class='path'>/blog/single-story/</td><td>520</td></tr><tr><td class='path'>/blog/cost-calculation/</td><td>280</td></tr><tr><td class='path'>/blog/heat20-g2/</td><td>240</td></tr><tr><td class='path'>/blog/zeh-meaning/</td><td>160</td></tr></tbody></table>
+</section>
+
+<!-- 9. CV -->
+<section id="cv">
+  <h2>コンバージョン（CV）分析</h2>
+  <p class="section-sub">問い合わせ・資料請求・来場予約などの発生状況</p>
+
+  <h3>月別CV数（直近6ヶ月）</h3>
+  <table class='ranking-table'><thead><tr><th>イベント</th><th>11月</th><th>12月</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th></tr></thead><tbody><tr><td>お問い合わせ</td><td>5</td><td>5</td><td>5</td><td>5</td><td>5</td><td>5</td></tr><tr><td>来場予約</td><td>8</td><td>8</td><td>8</td><td>8</td><td>8</td><td>8</td></tr><tr><td>資料請求</td><td>12</td><td>12</td><td>12</td><td>12</td><td>12</td><td>12</td></tr></tbody></table>
+
+  <h3>CV種別 × 流入経路（当月）</h3>
+  <table class="ranking-table"><thead><tr><th>イベント</th><th>参照元</th><th>メディア</th><th>CV数</th></tr></thead><tbody><tr><td>資料請求</td><td>google</td><td>organic</td><td>8</td></tr><tr><td>来場予約</td><td>google</td><td>organic</td><td>5</td></tr><tr><td>資料請求</td><td>(direct)</td><td>(none)</td><td>3</td></tr><tr><td>お問い合わせ</td><td>yahoo</td><td>organic</td><td>3</td></tr><tr><td>来場予約</td><td>(direct)</td><td>(none)</td><td>2</td></tr></tbody></table>
+</section>
+
+<!-- 10. 改善提案 -->
+<section id="proposals">
+  <h2>サイト改善提案（データに基づく自動診断）</h2>
+  <p class="section-sub">当月の数値から導いた優先施策。次月の打ち手としてご活用ください。</p>
+  
+        <div class="proposal-card">
+          <div class="proposal-num">1</div>
+          <div class="proposal-body">
+            <h3>あと一歩で上位表示できるキーワードの強化</h3>
+            <p class="proposal-evidence"><i class="fas fa-chart-line"></i> 現状の課題 ／ データ根拠</p>
+            <p>検索順位11〜30位で月間表示回数50回以上のクエリが 4 件あります（例: 宮崎 工務店 おすすめ, 注文住宅 坪単価 宮崎, 宮崎 住宅 おしゃれ）。</p>
+            <p class="proposal-action"><i class="fas fa-lightbulb"></i> 改善案</p>
+            <p>これらのキーワードを対策ページの本文内見出しに自然に組み込み、関連コラムを1〜2本追加で執筆することで、上位10位以内への押し上げが見込めます。1ページ1キーワードの原則を意識してください。</p>
+          </div>
+        </div>
+        
+</section>
+
+</div>
+
+<footer>
+  © 2026 GA4 月次レポート ／ 宮崎住宅 様
+  <div class="gen">Generated: 2026-05-25T10:59:50</div>
+</footer>
+
+<script>
+const D = {"labels_13": ["2025/04", "2025/05", "2025/06", "2025/07", "2025/08", "2025/09", "2025/10", "2025/11", "2025/12", "2026/01", "2026/02", "2026/03", "2026/04"], "users_13": [3461, 3436, 3719, 3801, 3479, 3529, 3845, 4062, 3848, 3604, 3654, 4142, 4053], "sessions_13": [4845, 4810, 5206, 5321, 4870, 4940, 5383, 5686, 5387, 5045, 5115, 5798, 5674], "pvs_13": [11075, 10995, 11900, 12163, 11132, 11292, 12304, 12998, 12313, 11532, 11692, 13254, 12969], "bounce_13": [43.3, 45.4, 46.6, 42.6, 50.1, 45.1, 47.6, 42.4, 44.1, 51.4, 40.7, 45.7, 43.4], "duration_13": [126.0, 115.0, 95.0, 103.0, 102.0, 92.0, 79.0, 108.0, 77.0, 102.0, 83.0, 73.0, 113.0], "organic_13": [1903, 1889, 2045, 2090, 1913, 1940, 2114, 2234, 2116, 1982, 2009, 2278, 2229], "highlight": ["#fb923c", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#fb923c"], "daily_labels": ["1日", "2日", "3日", "4日", "5日", "6日", "7日", "8日", "9日", "10日", "11日", "12日", "13日", "14日", "15日", "16日", "17日", "18日", "19日", "20日", "21日", "22日", "23日", "24日", "25日", "26日", "27日", "28日", "29日", "30日"], "daily_users": [150, 122, 102, 124, 93, 172, 109, 140, 148, 127, 99, 162, 140, 167, 150, 165, 175, 180, 157, 99, 161, 168, 126, 128, 156, 93, 169, 146, 149, 163], "daily_sessions": [210, 170, 142, 173, 130, 240, 152, 196, 207, 177, 138, 226, 196, 233, 210, 230, 244, 251, 219, 138, 225, 235, 176, 179, 218, 130, 236, 204, 208, 228], "daily_pvs": [480, 390, 326, 396, 297, 550, 348, 448, 473, 406, 316, 518, 448, 534, 480, 528, 560, 576, 502, 316, 515, 537, 403, 409, 499, 297, 540, 467, 476, 521], "channel_labels": ["自然検索", "直接流入", "外部サイト", "SNS", "不明"], "channel_curr": [2100, 850, 320, 180, 50], "channel_prev": [1980, 920, 280, 150, 65], "bucket_labels": ["指名", "地域×注文住宅", "性能", "価格", "デザイン", "その他"], "bucket_clicks_curr": [528, 108, 42, 0, 26, 24]};
+
+function bar(id, labels, data, label, bg, opts) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  new Chart(el.getContext('2d'), {
+    type: 'bar',
+    data: { labels: labels, datasets: [{ label: label, data: data, backgroundColor: bg }] },
+    options: Object.assign({
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: true } }
+    }, opts || {})
+  });
+}
+
+function barCompare(id, labels, curr, prev, lbl_curr, lbl_prev) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  new Chart(el.getContext('2d'), {
+    type: 'bar',
+    data: { labels: labels, datasets: [
+      { label: lbl_curr, data: curr, backgroundColor: '#fb923c' },
+      { label: lbl_prev, data: prev, backgroundColor: '#93c5fd' }
+    ]},
+    options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
+  });
+}
+
+// 月別
+bar('chartUsersM', D.labels_13, D.users_13, 'ユーザー数', D.highlight);
+bar('chartSessM', D.labels_13, D.sessions_13, 'セッション数', D.highlight);
+bar('chartPvsM', D.labels_13, D.pvs_13, 'ページビュー', D.highlight);
+bar('chartDur', D.labels_13, D.duration_13, '滞在秒数', D.highlight);
+bar('chartBounce', D.labels_13, D.bounce_13, '直帰率(%)', D.highlight);
+bar('chartOrganic', D.labels_13, D.organic_13, '自然検索ユーザー', D.highlight);
+
+// 日別
+bar('chartUsersD', D.daily_labels, D.daily_users, 'ユーザー数', '#5B7FBA');
+bar('chartSessD', D.daily_labels, D.daily_sessions, 'セッション数', '#5B7FBA');
+bar('chartPvsD', D.daily_labels, D.daily_pvs, 'ページビュー', '#5B7FBA');
+
+// 流入経路
+barCompare('chartChannel', D.channel_labels, D.channel_curr, D.channel_prev, '当月', '先月');
+
+// カテゴリ別クリック
+bar('chartBucket', D.bucket_labels, D.bucket_clicks_curr, 'クリック数', '#5B7FBA');
+
+// 年齢/デバイス（属性は当月のみ）
+const ATTR_CURR = {"age": [{"userAgeBracket": "18-24", "activeUsers": "180"}, {"userAgeBracket": "25-34", "activeUsers": "920"}, {"userAgeBracket": "35-44", "activeUsers": "1340"}, {"userAgeBracket": "45-54", "activeUsers": "780"}, {"userAgeBracket": "55-64", "activeUsers": "320"}, {"userAgeBracket": "65+", "activeUsers": "140"}], "device": [{"deviceCategory": "mobile", "activeUsers": "2480"}, {"deviceCategory": "desktop", "activeUsers": "880"}, {"deviceCategory": "tablet", "activeUsers": "140"}], "gender": [{"userGender": "male", "activeUsers": "1980"}, {"userGender": "female", "activeUsers": "1520"}]};
+function attrLabels(rows, dim) { return rows.map(r => r[dim] || '不明'); }
+function attrVals(rows) { return rows.map(r => parseInt(r.activeUsers || 0)); }
+
+bar('chartAge', attrLabels(ATTR_CURR.age, 'userAgeBracket'), attrVals(ATTR_CURR.age), '人数', '#5B7FBA');
+bar('chartDevice', attrLabels(ATTR_CURR.device, 'deviceCategory'), attrVals(ATTR_CURR.device), '人数', '#5B7FBA');
+</script>
+</body>
+</html>
