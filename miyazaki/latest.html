@@ -60,6 +60,14 @@
   .read-guide b { color: var(--primary-deep); font-weight: 500; }
   .read-guide .legend-row { display: inline-block; margin-right: 14px; }
   .read-guide .legend-row code { background: white; padding: 1px 6px; border-radius: 3px; font-size: 0.78rem; color: #1c2536; border: 1px solid #d8e0ec; }
+  /* 詳細経路 3×3 グリッド */
+  .detail-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 12px; }
+  @media (max-width: 900px) { .detail-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .detail-grid { grid-template-columns: 1fr; } }
+  .detail-card { background: #fafbfd; border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px 8px; }
+  .detail-card .dc-label { font-size: 0.78rem; font-weight: 500; color: var(--dark); margin-bottom: 4px; word-break: break-all; line-height: 1.4; }
+  .detail-card .dc-total { font-size: 0.7rem; color: var(--text-muted); margin-bottom: 4px; }
+  .detail-card .dc-chart { height: 100px; }
   section > h2 + .section-sub { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 18px; padding-left: 16px; }
   section h3 { font-size: 1rem; font-weight: 500; color: var(--dark); margin: 22px 0 10px; }
   section h3 .badge-source { font-size: 0.7rem; background: var(--primary-light); color: var(--primary-deep); padding: 2px 8px; border-radius: 4px; margin-left: 8px; font-weight: 400; }
@@ -199,8 +207,8 @@
 
   <div class="chart-row">
     <div>
-      <h3>年齢層</h3>
-      <div class="chart-box"><canvas id="chartAge"></canvas></div>
+      <h3>性別</h3>
+      <div class="chart-box"><canvas id="chartGender"></canvas></div>
     </div>
     <div>
       <h3>デバイス</h3>
@@ -232,9 +240,11 @@
   <div class="chart-box"><canvas id="chartChannelTrend"></canvas></div>
   <div class="comment">Paid Social, 直接流入, SNSが増加、自然検索が減少しています。</div>
 
-  <h3>詳細経路（参照元 / メディア 上位9）</h3>
-  <p class="section-sub" style="padding-left:0;">数字の右の <span style="color:var(--good);">▲</span> は前月比上昇、<span style="color:var(--bad);">▼</span> は下降</p>
-  <div class="chart-box" style="height:420px;"><canvas id="chartDetailSource"></canvas></div>
+  <h3>詳細経路（参照元 / メディア 上位9・直近3ヶ月推移）</h3>
+  <p class="section-sub" style="padding-left:0;">経路ごとの3ヶ月推移を3×3グリッドで表示</p>
+  <div class="detail-grid" id="detailGrid">
+    <div class="detail-card"><div class="dc-label">ig / paid</div><div class="dc-total">合計 5,881 人</div><div class="dc-chart"><canvas id="dcChart0"></canvas></div></div><div class="detail-card"><div class="dc-label">google / organic</div><div class="dc-total">合計 3,478 人</div><div class="dc-chart"><canvas id="dcChart1"></canvas></div></div><div class="detail-card"><div class="dc-label">fb / paid</div><div class="dc-total">合計 813 人</div><div class="dc-chart"><canvas id="dcChart2"></canvas></div></div><div class="detail-card"><div class="dc-label">(direct) / (none)</div><div class="dc-total">合計 1,654 人</div><div class="dc-chart"><canvas id="dcChart3"></canvas></div></div><div class="detail-card"><div class="dc-label">yahoo / organic</div><div class="dc-total">合計 1,208 人</div><div class="dc-chart"><canvas id="dcChart4"></canvas></div></div><div class="detail-card"><div class="dc-label">m.facebook.com / referral</div><div class="dc-total">合計 86 人</div><div class="dc-chart"><canvas id="dcChart5"></canvas></div></div><div class="detail-card"><div class="dc-label">bing / organic</div><div class="dc-total">合計 150 人</div><div class="dc-chart"><canvas id="dcChart6"></canvas></div></div><div class="detail-card"><div class="dc-label">ig / social</div><div class="dc-total">合計 63 人</div><div class="dc-chart"><canvas id="dcChart7"></canvas></div></div><div class="detail-card"><div class="dc-label">l.instagram.com / referral</div><div class="dc-total">合計 33 人</div><div class="dc-chart"><canvas id="dcChart8"></canvas></div></div>
+  </div>
 </section>
 
 <section id="keywords">
@@ -252,17 +262,17 @@
     <span class="legend-row" style="color: var(--text-muted);">※ 表示回数5回以下のクエリは全表で除外しています</span>
   </div>
 
-  <h3>カテゴリ「指名」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/04</th><th>2026/03</th><th>2026/02</th></tr></thead><tbody><tr><td>宮崎住宅建設工業</td><td>80</td><td>71</td><td>75</td></tr><tr><td>宮崎住宅建設工業株式会社</td><td>9</td><td>11</td><td>8</td></tr><tr><td>宮崎住宅</td><td>3</td><td>3</td><td>2</td></tr></tbody></table><h3>カテゴリ「移住」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/04</th><th>2026/03</th><th>2026/02</th></tr></thead><tbody><tr><td>宮崎移住 やめとけ</td><td>53</td><td>1</td><td>0</td></tr><tr><td>宮崎 移住</td><td>13</td><td>29</td><td>27</td></tr><tr><td>宮崎県 移住 失敗</td><td>7</td><td>8</td><td>7</td></tr><tr><td>宮崎移住 後悔</td><td>7</td><td>6</td><td>7</td></tr><tr><td>移住支援金 確定申告</td><td>7</td><td>33</td><td>38</td></tr><tr><td>宮崎移住</td><td>6</td><td>11</td><td>8</td></tr><tr><td>宮崎移住 やめ とけ</td><td>6</td><td>74</td><td>63</td></tr><tr><td>宮崎 移住支援金 500万</td><td>5</td><td>9</td><td>3</td></tr><tr><td>宮崎県 移住</td><td>5</td><td>4</td><td>3</td></tr><tr><td>都城 移住支援金</td><td>5</td><td>9</td><td>15</td></tr></tbody></table><h3>カテゴリ「地域×注文住宅」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/04</th><th>2026/03</th><th>2026/02</th></tr></thead><tbody><tr><td>宮崎市 住宅補助金</td><td>6</td><td>2</td><td>2</td></tr><tr><td>宮崎 住宅</td><td>4</td><td>1</td><td>1</td></tr><tr><td>宮崎 工務店</td><td>3</td><td>1</td><td>1</td></tr><tr><td>宮崎市 注文住宅</td><td>2</td><td>1</td><td>2</td></tr><tr><td>宮崎市 高級住宅街</td><td>2</td><td>1</td><td>1</td></tr><tr><td>住宅 補助金</td><td>1</td><td>1</td><td>0</td></tr><tr><td>住宅トレンド 2026</td><td>1</td><td>1</td><td>0</td></tr><tr><td>住宅補助金</td><td>1</td><td>1</td><td>0</td></tr><tr><td>宮崎 ハウスメーカー</td><td>1</td><td>0</td><td>0</td></tr><tr><td>宮崎 住宅メーカー</td><td>1</td><td>0</td><td>1</td></tr></tbody></table><h3>カテゴリ「性能」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/04</th><th>2026/03</th><th>2026/02</th></tr></thead><tbody><tr><td colspan='4' class='empty'>該当キーワードなし（表示回数5回超のもの）</td></tr></tbody></table><h3>カテゴリ「価格」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/04</th><th>2026/03</th><th>2026/02</th></tr></thead><tbody><tr><td>固定資産税 宮崎市 相場</td><td>7</td><td>8</td><td>4</td></tr><tr><td>宮崎市土地価格</td><td>2</td><td>1</td><td>1</td></tr><tr><td>土地価格</td><td>1</td><td>0</td><td>0</td></tr><tr><td>宮崎市 土地価格</td><td>1</td><td>1</td><td>0</td></tr><tr><td>土地 宮崎 価格</td><td>0</td><td>0</td><td>0</td></tr><tr><td>土地 宮崎 相場</td><td>0</td><td>0</td><td>0</td></tr><tr><td>坪単価</td><td>0</td><td>0</td><td>0</td></tr><tr><td>坪単価 住所</td><td>0</td><td>0</td><td>0</td></tr><tr><td>坪単価 分譲</td><td>0</td><td>0</td><td>0</td></tr><tr><td>坪単価 土地</td><td>0</td><td>0</td><td>0</td></tr></tbody></table><h3>カテゴリ「デザイン」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/04</th><th>2026/03</th><th>2026/02</th></tr></thead><tbody><tr><td>宮崎 平屋</td><td>3</td><td>2</td><td>1</td></tr><tr><td>宮崎 平屋 新築</td><td>1</td><td>1</td><td>0</td></tr><tr><td>カリフォルニア スタイル 家 平屋</td><td>0</td><td>0</td><td>0</td></tr><tr><td>カリフォルニアスタイル 平屋</td><td>0</td><td>0</td><td>0</td></tr></tbody></table><h3>カテゴリ「その他」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/04</th><th>2026/03</th><th>2026/02</th></tr></thead><tbody><tr><td>みやじゅう</td><td>15</td><td>9</td><td>12</td></tr><tr><td>宮崎市 子育て支援</td><td>12</td><td>8</td><td>14</td></tr><tr><td>宮住</td><td>10</td><td>3</td><td>1</td></tr><tr><td>宮崎市 新築 補助金</td><td>10</td><td>7</td><td>7</td></tr><tr><td>みやじゅう 宮崎</td><td>9</td><td>16</td><td>7</td></tr><tr><td>宮崎市 モデルハウス 販売</td><td>5</td><td>6</td><td>4</td></tr><tr><td>宮崎市 建売 モデルハウス</td><td>4</td><td>3</td><td>3</td></tr><tr><td>ハザードマップ 宮崎市</td><td>3</td><td>1</td><td>0</td></tr><tr><td>モデルハウス お譲りします 宮崎</td><td>3</td><td>1</td><td>3</td></tr><tr><td>宮崎 モデルハウス 販売</td><td>3</td><td>4</td><td>3</td></tr></tbody></table>
+  <h3>カテゴリ「指名」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/04</th><th>2026/03</th><th>2026/02</th></tr></thead><tbody><tr><td>宮崎住宅建設工業</td><td>80</td><td>71</td><td>75</td></tr><tr><td>宮崎住宅建設工業株式会社</td><td>9</td><td>11</td><td>8</td></tr><tr><td>宮崎住宅</td><td>3</td><td>3</td><td>2</td></tr></tbody></table><h3>カテゴリ「移住」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/04</th><th>2026/03</th><th>2026/02</th></tr></thead><tbody><tr><td>宮崎移住 やめとけ</td><td>53</td><td>1</td><td>0</td></tr><tr><td>宮崎 移住</td><td>13</td><td>29</td><td>27</td></tr><tr><td>宮崎県 移住 失敗</td><td>7</td><td>8</td><td>7</td></tr><tr><td>宮崎移住 後悔</td><td>7</td><td>6</td><td>7</td></tr><tr><td>移住支援金 確定申告</td><td>7</td><td>33</td><td>38</td></tr><tr><td>宮崎移住</td><td>6</td><td>11</td><td>8</td></tr><tr><td>宮崎移住 やめ とけ</td><td>6</td><td>74</td><td>63</td></tr><tr><td>宮崎 移住支援金 500万</td><td>5</td><td>9</td><td>3</td></tr><tr><td>宮崎県 移住</td><td>5</td><td>4</td><td>3</td></tr><tr><td>都城 移住支援金</td><td>5</td><td>9</td><td>15</td></tr></tbody></table><h3>カテゴリ「注文住宅」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/04</th><th>2026/03</th><th>2026/02</th></tr></thead><tbody><tr><td>宮崎市 新築 補助金</td><td>10</td><td>7</td><td>7</td></tr><tr><td>宮崎市 建売 モデルハウス</td><td>4</td><td>3</td><td>3</td></tr><tr><td>宮崎 工務店</td><td>3</td><td>1</td><td>1</td></tr><tr><td>宮崎市 注文住宅</td><td>2</td><td>1</td><td>2</td></tr><tr><td>宮崎 ハウスメーカー</td><td>1</td><td>0</td><td>0</td></tr><tr><td>宮崎 平屋 新築</td><td>1</td><td>1</td><td>0</td></tr><tr><td>宮崎 注文住宅 相場</td><td>1</td><td>6</td><td>0</td></tr><tr><td>宮崎市 工務店</td><td>1</td><td>2</td><td>0</td></tr><tr><td>宮崎市 注文住宅 相場</td><td>1</td><td>1</td><td>0</td></tr><tr><td>宮崎県 注文住宅</td><td>1</td><td>0</td><td>2</td></tr></tbody></table><h3>カテゴリ「価格」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/04</th><th>2026/03</th><th>2026/02</th></tr></thead><tbody><tr><td>固定資産税 宮崎市 相場</td><td>7</td><td>8</td><td>4</td></tr><tr><td>宮崎市土地価格</td><td>2</td><td>1</td><td>1</td></tr><tr><td>土地価格</td><td>1</td><td>0</td><td>0</td></tr><tr><td>宮崎市 土地価格</td><td>1</td><td>1</td><td>0</td></tr><tr><td>土地 宮崎 価格</td><td>0</td><td>0</td><td>0</td></tr><tr><td>土地 宮崎 相場</td><td>0</td><td>0</td><td>0</td></tr><tr><td>坪単価</td><td>0</td><td>0</td><td>0</td></tr><tr><td>坪単価 住所</td><td>0</td><td>0</td><td>0</td></tr><tr><td>坪単価 分譲</td><td>0</td><td>0</td><td>0</td></tr><tr><td>坪単価 土地</td><td>0</td><td>0</td><td>0</td></tr></tbody></table><h3>カテゴリ「デザイン」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/04</th><th>2026/03</th><th>2026/02</th></tr></thead><tbody><tr><td>宮崎 平屋</td><td>3</td><td>2</td><td>1</td></tr><tr><td>カリフォルニア スタイル 家 平屋</td><td>0</td><td>0</td><td>0</td></tr><tr><td>カリフォルニアスタイル 平屋</td><td>0</td><td>0</td><td>0</td></tr><tr><td>住宅トレンド デザイン</td><td>0</td><td>0</td><td>0</td></tr></tbody></table><h3>カテゴリ「地域」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/04</th><th>2026/03</th><th>2026/02</th></tr></thead><tbody><tr><td>宮崎市 子育て支援</td><td>12</td><td>8</td><td>14</td></tr><tr><td>みやじゅう 宮崎</td><td>9</td><td>16</td><td>7</td></tr><tr><td>宮崎市 住宅補助金</td><td>6</td><td>2</td><td>2</td></tr><tr><td>宮崎市 モデルハウス 販売</td><td>5</td><td>6</td><td>4</td></tr><tr><td>宮崎 住宅</td><td>4</td><td>1</td><td>1</td></tr><tr><td>ハザードマップ 宮崎市</td><td>3</td><td>1</td><td>0</td></tr><tr><td>モデルハウス お譲りします 宮崎</td><td>3</td><td>1</td><td>3</td></tr><tr><td>宮崎 モデルハウス 販売</td><td>3</td><td>4</td><td>3</td></tr><tr><td>宮崎市 地価</td><td>3</td><td>1</td><td>2</td></tr><tr><td>固定資産税 宮崎市</td><td>2</td><td>3</td><td>3</td></tr></tbody></table><h3>カテゴリ「その他」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/04</th><th>2026/03</th><th>2026/02</th></tr></thead><tbody><tr><td>みやじゅう</td><td>15</td><td>9</td><td>12</td></tr><tr><td>宮住</td><td>10</td><td>3</td><td>1</td></tr><tr><td>家を建てる 補助金</td><td>2</td><td>0</td><td>0</td></tr><tr><td>miyaju</td><td>1</td><td>0</td><td>0</td></tr><tr><td>住宅 補助金</td><td>1</td><td>1</td><td>0</td></tr><tr><td>住宅トレンド 2026</td><td>1</td><td>1</td><td>0</td></tr><tr><td>住宅補助金</td><td>1</td><td>1</td><td>0</td></tr><tr><td>子育て</td><td>1</td><td>3</td><td>1</td></tr><tr><td>最近の住宅</td><td>1</td><td>0</td><td>0</td></tr><tr><td>流行りの家</td><td>1</td><td>1</td><td>0</td></tr></tbody></table>
 
-  <h3>検索順位 改善 TOP5（先月 → 当月）</h3>
-  <p class="section-sub" style="padding-left:0;">表示回数5回超のクエリで、先月から順位が上がった上位5件</p>
+  <h3>検索順位 改善 TOP10（先月 → 当月）</h3>
+  <p class="section-sub" style="padding-left:0;">表示回数5回超のクエリで、先月から順位が上がった上位10件</p>
   <table class="ranking-table"><thead><tr><th>クエリ</th><th>2026/04 順位</th><th>2026/03 順位</th><th>変化</th></tr></thead>
-  <tbody><tr><td>住宅ローン 宮崎</td><td>12.0</td><td>44.9</td><td style='color:var(--good);font-weight:500;'>↑ 32.9</td></tr><tr><td>住宅 建設</td><td>22.2</td><td>48.6</td><td style='color:var(--good);font-weight:500;'>↑ 26.4</td></tr><tr><td>住宅建設</td><td>14.5</td><td>29.5</td><td style='color:var(--good);font-weight:500;'>↑ 15.0</td></tr><tr><td>宮崎 住みやすい</td><td>5.9</td><td>16.8</td><td style='color:var(--good);font-weight:500;'>↑ 10.9</td></tr><tr><td>宮崎 子育て</td><td>4.9</td><td>14.3</td><td style='color:var(--good);font-weight:500;'>↑ 9.4</td></tr></tbody></table>
+  <tbody><tr><td>住宅ローン 宮崎</td><td>12.0</td><td>44.9</td><td style='color:var(--good);font-weight:500;'>↑ 32.9</td></tr><tr><td>住宅 建設</td><td>22.2</td><td>48.6</td><td style='color:var(--good);font-weight:500;'>↑ 26.4</td></tr><tr><td>住宅建設</td><td>14.5</td><td>29.5</td><td style='color:var(--good);font-weight:500;'>↑ 15.0</td></tr><tr><td>宮崎 住みやすい</td><td>5.9</td><td>16.8</td><td style='color:var(--good);font-weight:500;'>↑ 10.9</td></tr><tr><td>宮崎 子育て</td><td>4.9</td><td>14.3</td><td style='color:var(--good);font-weight:500;'>↑ 9.4</td></tr><tr><td>都城市 子育て</td><td>7.1</td><td>16.3</td><td style='color:var(--good);font-weight:500;'>↑ 9.2</td></tr><tr><td>えびの市 建設業 求人</td><td>55.7</td><td>64.3</td><td style='color:var(--good);font-weight:500;'>↑ 8.7</td></tr><tr><td>中庭 パティオ</td><td>22.9</td><td>31.4</td><td style='color:var(--good);font-weight:500;'>↑ 8.5</td></tr><tr><td>住宅トレンド デザイン</td><td>1.0</td><td>9.2</td><td style='color:var(--good);font-weight:500;'>↑ 8.2</td></tr><tr><td>坪単価 平均 土地</td><td>23.8</td><td>30.8</td><td style='color:var(--good);font-weight:500;'>↑ 7.0</td></tr></tbody></table>
 
-  <h3>検索順位 悪化 ワースト5（先月 → 当月）</h3>
-  <p class="section-sub" style="padding-left:0;">表示回数5回超のクエリで、先月から順位が下がった上位5件</p>
+  <h3>検索順位 悪化 ワースト10（先月 → 当月）</h3>
+  <p class="section-sub" style="padding-left:0;">表示回数5回超のクエリで、先月から順位が下がった上位10件</p>
   <table class="ranking-table"><thead><tr><th>クエリ</th><th>2026/04 順位</th><th>2026/03 順位</th><th>変化</th></tr></thead>
-  <tbody><tr><td>五ヶ瀬町 リフォーム会社</td><td>40.2</td><td>19.5</td><td style='color:var(--bad);font-weight:500;'>↓ 20.7</td></tr><tr><td>三股町 注文住宅</td><td>22.5</td><td>6.9</td><td style='color:var(--bad);font-weight:500;'>↓ 15.6</td></tr><tr><td>住宅展示場 宮崎県</td><td>36.4</td><td>22.1</td><td style='color:var(--bad);font-weight:500;'>↓ 14.3</td></tr><tr><td>地方移住 やめとけ</td><td>19.1</td><td>6.2</td><td style='color:var(--bad);font-weight:500;'>↓ 12.9</td></tr><tr><td>坪単価 土地 平均</td><td>32.8</td><td>22.0</td><td style='color:var(--bad);font-weight:500;'>↓ 10.9</td></tr></tbody></table>
+  <tbody><tr><td>五ヶ瀬町 リフォーム会社</td><td>40.2</td><td>19.5</td><td style='color:var(--bad);font-weight:500;'>↓ 20.7</td></tr><tr><td>三股町 注文住宅</td><td>22.5</td><td>6.9</td><td style='color:var(--bad);font-weight:500;'>↓ 15.6</td></tr><tr><td>住宅展示場 宮崎県</td><td>36.4</td><td>22.1</td><td style='color:var(--bad);font-weight:500;'>↓ 14.3</td></tr><tr><td>地方移住 やめとけ</td><td>19.1</td><td>6.2</td><td style='color:var(--bad);font-weight:500;'>↓ 12.9</td></tr><tr><td>坪単価 土地 平均</td><td>32.8</td><td>22.0</td><td style='color:var(--bad);font-weight:500;'>↓ 10.9</td></tr><tr><td>宮崎 モデルルーム</td><td>32.6</td><td>22.6</td><td style='color:var(--bad);font-weight:500;'>↓ 10.0</td></tr><tr><td>サーフィン 移住</td><td>23.7</td><td>13.9</td><td style='color:var(--bad);font-weight:500;'>↓ 9.7</td></tr><tr><td>流行りの家</td><td>10.3</td><td>1.2</td><td style='color:var(--bad);font-weight:500;'>↓ 9.1</td></tr><tr><td>二世帯住宅 宮崎</td><td>19.8</td><td>11.0</td><td style='color:var(--bad);font-weight:500;'>↓ 8.8</td></tr><tr><td>宮崎 一軒家 相場</td><td>25.5</td><td>17.0</td><td style='color:var(--bad);font-weight:500;'>↓ 8.5</td></tr></tbody></table>
 
   <h3>順位は低いが検索数が多い TOP10（改善余地大）</h3>
   <p class="section-sub" style="padding-left:0;">検索順位11位以下で、月間表示回数5回超のクエリ。コラム強化候補。</p>
@@ -287,9 +297,10 @@
   <table class="ranking-table"><thead><tr><th>ページ</th><th>セッション</th></tr></thead>
   <tbody><tr><td><div style='font-weight:500;'>宮崎県の注文住宅・工務店なら【宮崎住宅建設工業株式会社】</div><div class='path' style='margin-top:2px;'>/</div></td><td>517</td></tr><tr><td><div style='font-weight:500;'>移住はやめた方がいい？宮崎移住で失敗を避けるための対策 | 宮崎県の注文住宅なら本社</div><div class='path' style='margin-top:2px;'>/columns/ijyuu-miss</div></td><td>137</td></tr><tr><td><div style='font-weight:500;'>都城市なら最大500万円！【移住補助金】完全ガイド | 宮崎県の注文住宅なら本社</div><div class='path' style='margin-top:2px;'>/columns/miyakonojyo-hojyokin</div></td><td>122</td></tr><tr><td><div style='font-weight:500;'>宮崎県の移住先人気ランキング！おすすめはどこ？ | 宮崎県の注文住宅・新築なら本社</div><div class='path' style='margin-top:2px;'>/columns/emigration</div></td><td>98</td></tr><tr><td><div style='font-weight:500;'>(not set)</div><div class='path' style='margin-top:2px;'>(not set)</div></td><td>69</td></tr><tr><td><div style='font-weight:500;'>宮崎市に住むなら知っておきたい「子育て支援制度」とは？助成の内容や手続き方法を紹介 | 宮崎県の注文住宅・新築なら本社</div><div class='path' style='margin-top:2px;'>/miyazakishi/columns/5946</div></td><td>69</td></tr><tr><td><div style='font-weight:500;'>宮崎市で一戸建てを建てたあとにかかる維持費はどのくらい？ | 宮崎県の注文住宅・新築なら本社</div><div class='path' style='margin-top:2px;'>/columns/maintenance-cost</div></td><td>56</td></tr><tr><td><div style='font-weight:500;'>宮崎市の土地価格・坪単価・相場は？ 今後10年の価格推移も予想！注文住宅を建てる際の土地選びのポイント | 宮崎県の注文住宅・新築・土地なら本社</div><div class='path' style='margin-top:2px;'>/columns/miyazaki-tochi</div></td><td>50</td></tr><tr><td><div style='font-weight:500;'>miyajyuモデルハウス(建売) | 宮崎県の新築・注文住宅なら宮崎住宅建設工業株式会社</div><div class='path' style='margin-top:2px;'>/products/miyajyuモデルハウス</div></td><td>48</td></tr><tr><td><div style='font-weight:500;'>宮崎住宅建設工業株式会社の会社概要 | 宮崎県の注文住宅なら宮崎住宅建設工業株式会社</div><div class='path' style='margin-top:2px;'>/company</div></td><td>46</td></tr><tr><td><div style='font-weight:500;'>見学会・お知らせ | 宮崎県の注文住宅なら宮崎住宅建設工業株式会社</div><div class='path' style='margin-top:2px;'>/news</div></td><td>46</td></tr><tr><td><div style='font-weight:500;'>宮崎市の特徴や土地相場は？注文住宅の人気エリアもチェック！ | 宮崎県の注文住宅・土地なら本社</div><div class='path' style='margin-top:2px;'>/miyazakishi/columns/miyazaki-tochisouba</div></td><td>45</td></tr><tr><td><div style='font-weight:500;'>【完成見学会】in 天満町 4/11(土)-12(日)</div><div class='path' style='margin-top:2px;'>/news/4060</div></td><td>45</td></tr><tr><td><div style='font-weight:500;'>お問い合わせフォーム</div><div class='path' style='margin-top:2px;'>/inquiries/new</div></td><td>44</td></tr><tr><td><div style='font-weight:500;'>宮崎市で移住支援金をもらったら、確定申告が必要になるって本当？ | 宮崎県の注文住宅なら本社</div><div class='path' style='margin-top:2px;'>/columns/miyazaki-tax</div></td><td>42</td></tr><tr><td><div style='font-weight:500;'>【完成見学会】in 中村東 4/25(土)-26(日)</div><div class='path' style='margin-top:2px;'>/news/4085</div></td><td>42</td></tr><tr><td><div style='font-weight:500;'>/columns/emigration-merit</div><div class='path' style='margin-top:2px;'>/columns/emigration-merit</div></td><td>41</td></tr><tr><td><div style='font-weight:500;'>【完成見学会】in 潮見町 4/18(土)-19(日)</div><div class='path' style='margin-top:2px;'>/news/4086</div></td><td>41</td></tr><tr><td><div style='font-weight:500;'>/columns/miyazaki-hojokin</div><div class='path' style='margin-top:2px;'>/columns/miyazaki-hojokin</div></td><td>39</td></tr><tr><td><div style='font-weight:500;'>施工事例 | 宮崎県宮崎市のおしゃれな注文住宅なら宮崎住宅建設工業</div><div class='path' style='margin-top:2px;'>/galleries</div></td><td>39</td></tr></tbody></table>
 
-  <h3>コラム記事別ランディング TOP15</h3>
+  <h3>コラム記事別ランディング TOP20</h3>
+  <p class="section-sub" style="padding-left:0;">URLに「columns」を含むページのみ抽出</p>
   <table class="ranking-table"><thead><tr><th>ページ</th><th>セッション</th></tr></thead>
-  <tbody><tr><td><div style='font-weight:500;'>【完成見学会】in 天満町 4/11(土)-12(日)</div><div class='path' style='margin-top:2px;'>/news/4060</div></td><td>45</td></tr><tr><td><div style='font-weight:500;'>【完成見学会】in 中村東 4/25(土)-26(日)</div><div class='path' style='margin-top:2px;'>/news/4085</div></td><td>42</td></tr><tr><td><div style='font-weight:500;'>【完成見学会】in 潮見町 4/18(土)-19(日)</div><div class='path' style='margin-top:2px;'>/news/4086</div></td><td>41</td></tr><tr><td><div style='font-weight:500;'>【モデルハウス】見学予約受付中！　</div><div class='path' style='margin-top:2px;'>/news/2084</div></td><td>20</td></tr></tbody></table>
+  <tbody><tr><td><div style='font-weight:500;'>【完成見学会】in 天満町 4/11(土)-12(日)</div><div class='path' style='margin-top:2px;'>/news/4060</div></td><td>45</td></tr><tr><td><div style='font-weight:500;'>【完成見学会】in 中村東 4/25(土)-26(日)</div><div class='path' style='margin-top:2px;'>/news/4085</div></td><td>42</td></tr><tr><td><div style='font-weight:500;'>【完成見学会】in 潮見町 4/18(土)-19(日)</div><div class='path' style='margin-top:2px;'>/news/4086</div></td><td>41</td></tr><tr><td><div style='font-weight:500;'>【モデルハウス】見学予約受付中！　</div><div class='path' style='margin-top:2px;'>/news/2084</div></td><td>20</td></tr><tr><td><div style='font-weight:500;'>４/４(土)・５(日)FP・設計士による家づくりマネー相談会</div><div class='path' style='margin-top:2px;'>/news/4123</div></td><td>19</td></tr><tr><td><div style='font-weight:500;'>/news/3812</div><div class='path' style='margin-top:2px;'>/news/3812</div></td><td>4</td></tr><tr><td><div style='font-weight:500;'>/news/4195</div><div class='path' style='margin-top:2px;'>/news/4195</div></td><td>4</td></tr><tr><td><div style='font-weight:500;'>【完成見学会】in 天満町 4/11(土)-12(日)</div><div class='path' style='margin-top:2px;'>/news/4060?fbclid=IwZXh0bgNhZW0BMABhZGlkAaszk9ttuL1zcnRjBmFwcF9pZAo2NjI4NTY4Mzc5AAEeiz3U2ky4jU-ToJ5IN-svfgrd_s2iFF1K2N99HW7V1isBol8Jhi2LyeCiwrs_aem_3RPhoczMQue4_LIE4BgxUw</div></td><td>2</td></tr><tr><td><div style='font-weight:500;'>【完成見学会】in 天満町 4/11(土)-12(日)</div><div class='path' style='margin-top:2px;'>/news/4060?fbclid=PAZXh0bgNhZW0BMABhZGlkAaszk9nvLw1zcnRjBmFwcF9pZA8xMjQwMjQ1NzQyODc0MTQAAacJ7DxNTDe0D9cavKO2hi9HRpl4ffeuT1HH05T4UsyyizvLsk4PcYFvaeUPHA_aem_DEHyitJNbFPNdIrVJsUFuw</div></td><td>2</td></tr><tr><td><div style='font-weight:500;'>【完成見学会】in 天満町 4/11(土)-12(日)</div><div class='path' style='margin-top:2px;'>/news/4060?fbclid=PAZXh0bgNhZW0BMABhZGlkAaszk9nvLw1zcnRjBmFwcF9pZA8xMjQwMjQ1NzQyODc0MTQAAaci-fofG-O9l-vtsklyuO6F4vcZfDayKr07o7Gbi4c3wyy5QCRH8gb15CZmHw_aem_1BQCVqWsGfPdYhecx2y3KA</div></td><td>2</td></tr><tr><td><div style='font-weight:500;'>【完成見学会】in 天満町 4/11(土)-12(日)</div><div class='path' style='margin-top:2px;'>/news/4060?fbclid=PAZXh0bgNhZW0BMABhZGlkAaszk9nvLw1zcnRjBmFwcF9pZA8xMjQwMjQ1NzQyODc0MTQAAackq83mRetRNNd2Qts9WsQQcj9vIdNjBDM1qajASKnru99CZy4HGwhMktt1eQ_aem_UcwTfU_F8sWf8rX3_K063g</div></td><td>2</td></tr><tr><td><div style='font-weight:500;'>【完成見学会】in 天満町 4/11(土)-12(日)</div><div class='path' style='margin-top:2px;'>/news/4060?fbclid=PAZXh0bgNhZW0BMABhZGlkAaszk9nvLw1zcnRjBmFwcF9pZA8xMjQwMjQ1NzQyODc0MTQAAacw9ysSWHEskKbqyVudICk2snGJwwUzQU6vhVvbaXcagd3VnExXaelA3P4Vmw_aem_jev5cjuPpN1fXtiH8jnIqw</div></td><td>2</td></tr><tr><td><div style='font-weight:500;'>【完成見学会】in 天満町 4/11(土)-12(日)</div><div class='path' style='margin-top:2px;'>/news/4060?fbclid=PAZXh0bgNhZW0BMABhZGlkAaszk9nvLw1zcnRjBmFwcF9pZA8xMjQwMjQ1NzQyODc0MTQAAadGLv2YJn2JmRkTdTwnyCFSH_r-z1ZC0ADlmwDYtGAFREfKOhDUVcGjdtdIGA_aem_bJag1uWOlz8KrSH6pvLW_Q</div></td><td>2</td></tr></tbody></table>
 </section>
 
 <section id="cv">
@@ -374,11 +385,11 @@
 
 <footer>
   © 2026 GA4 月次レポート ／ 宮崎住宅 様<br>
-  <span style="font-size:0.75rem;opacity:0.7;">Generated: 2026-05-25T17:13:29</span>
+  <span style="font-size:0.75rem;opacity:0.7;">Generated: 2026-05-26T09:27:01</span>
 </footer>
 
 <script>
-const D = {"labels_13": ["2025/04", "2025/05", "2025/06", "2025/07", "2025/08", "2025/09", "2025/10", "2025/11", "2025/12", "2026/01", "2026/02", "2026/03", "2026/04"], "users_13": [2378, 2542, 2702, 3127, 2212, 2854, 4085, 2505, 2421, 4367, 4352, 2793, 6467], "pvs_13": [5012, 12108, 5601, 5246, 8199, 5219, 6409, 4544, 4642, 6496, 6989, 4827, 10453], "bounce_13": [53.8, 53.2, 52.8, 60.4, 47.6, 51.6, 65.6, 54.8, 49.4, 65.9, 58.0, 49.8, 72.7], "duration_13": [52.0, 94.0, 47.0, 34.0, 78.0, 47.0, 30.0, 41.0, 54.0, 31.0, 37.0, 47.0, 22.0], "organic_13": [1562, 1292, 1452, 1422, 1419, 1684, 1503, 1389, 1375, 1707, 1898, 1826, 1422], "highlight": ["#fb923c", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#fb923c"], "main_channel_labels": ["Paid Social", "自然検索", "直接流入", "SNS", "外部サイト", "不明"], "main_channel_datasets": [{"label": "2月", "data": [1708, 1808, 686, 87, 40, 30]}, {"label": "3月", "data": [459, 1760, 447, 64, 50, 15]}, {"label": "4月", "data": [4527, 1292, 521, 123, 53, 18]}], "detail_labels": ["ig / paid", "google / organic", "fb / paid", "(direct) / (none)", "yahoo / organic", "m.facebook.com / referral", "bing / organic", "ig / social", "l.instagram.com / referral"], "detail_curr": [3907, 923, 620, 521, 320, 51, 42, 24, 24], "detail_prev": [409, 1298, 50, 447, 400, 24, 53, 15, 2], "attr_payload": {"all": {"age": [], "device": [{"deviceCategory": "mobile", "activeUsers": "5727"}, {"deviceCategory": "desktop", "activeUsers": "724"}, {"deviceCategory": "tablet", "activeUsers": "69"}], "gender": []}, "cv": {"age": [], "device": [{"deviceCategory": "desktop", "activeUsers": "10"}], "gender": []}}};
+const D = {"labels_13": ["2025/04", "2025/05", "2025/06", "2025/07", "2025/08", "2025/09", "2025/10", "2025/11", "2025/12", "2026/01", "2026/02", "2026/03", "2026/04"], "users_13": [2378, 2542, 2702, 3127, 2212, 2854, 4085, 2505, 2421, 4367, 4352, 2793, 6467], "pvs_13": [5012, 12108, 5601, 5246, 8199, 5219, 6409, 4544, 4642, 6496, 6989, 4827, 10453], "bounce_13": [53.8, 53.2, 52.8, 60.4, 47.6, 51.6, 65.6, 54.8, 49.4, 65.9, 58.0, 49.8, 72.7], "duration_13": [52.0, 94.0, 47.0, 34.0, 78.0, 47.0, 30.0, 41.0, 54.0, 31.0, 37.0, 47.0, 22.0], "organic_13": [1562, 1292, 1452, 1422, 1419, 1684, 1503, 1389, 1375, 1707, 1898, 1826, 1422], "highlight": ["#fb923c", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#fb923c"], "main_channel_labels": ["Paid Social", "自然検索", "直接流入", "SNS", "外部サイト", "不明"], "main_channel_datasets": [{"label": "2月", "data": [1708, 1808, 686, 87, 40, 30]}, {"label": "3月", "data": [459, 1760, 447, 64, 50, 15]}, {"label": "4月", "data": [4527, 1292, 521, 123, 53, 18]}], "detail_cards": [{"label": "ig / paid", "labels_x": ["2月", "3月", "4月"], "data": [1565, 409, 3907], "total": 5881}, {"label": "google / organic", "labels_x": ["2月", "3月", "4月"], "data": [1257, 1298, 923], "total": 3478}, {"label": "fb / paid", "labels_x": ["2月", "3月", "4月"], "data": [143, 50, 620], "total": 813}, {"label": "(direct) / (none)", "labels_x": ["2月", "3月", "4月"], "data": [686, 447, 521], "total": 1654}, {"label": "yahoo / organic", "labels_x": ["2月", "3月", "4月"], "data": [488, 400, 320], "total": 1208}, {"label": "m.facebook.com / referral", "labels_x": ["2月", "3月", "4月"], "data": [11, 24, 51], "total": 86}, {"label": "bing / organic", "labels_x": ["2月", "3月", "4月"], "data": [55, 53, 42], "total": 150}, {"label": "ig / social", "labels_x": ["2月", "3月", "4月"], "data": [24, 15, 24], "total": 63}, {"label": "l.instagram.com / referral", "labels_x": ["2月", "3月", "4月"], "data": [7, 2, 24], "total": 33}], "attr_payload": {"all": {"age": [], "device": [{"deviceCategory": "mobile", "activeUsers": "5727"}, {"deviceCategory": "desktop", "activeUsers": "724"}, {"deviceCategory": "tablet", "activeUsers": "69"}], "gender": []}, "cv": {"age": [], "device": [{"deviceCategory": "desktop", "activeUsers": "10"}], "gender": []}}};
 if (window.Chart && window.ChartDataLabels) Chart.register(window.ChartDataLabels);
 
 const DL_OPTS = {
@@ -448,62 +459,33 @@ bar('chartOrganic', D.labels_13, D.organic_13, '自然検索ユーザー', D.hig
   });
 })();
 
-// === 詳細経路: source/medium 上位9（横棒 + 前月比矢印） ===
+// === 詳細経路: 上位9経路の3ヶ月推移ミニグラフ ===
 (function() {
-  const el = document.getElementById('chartDetailSource');
-  if (!el) return;
-  const curr = D.detail_curr;
-  const prev = D.detail_prev;
-  new Chart(el.getContext('2d'), {
-    type: 'bar',
-    data: {
-      labels: D.detail_labels,
-      datasets: [{
-        label: '当月ユーザー数',
-        data: curr,
-        backgroundColor: '#5b8fd9',
-      }]
-    },
-    options: {
-      indexAxis: 'y',
-      responsive: true, maintainAspectRatio: false,
-      plugins: {
-        legend: { display: false },
-        datalabels: {
-          anchor: 'end', align: 'right', offset: 4,
-          font: { size: 11, weight: '500' },
-          color: '#1c2536',
-          formatter: function(v, ctx) {
-            const p = prev[ctx.dataIndex] || 0;
-            let mark = '';
-            if (p > 0) {
-              if (v > p) mark = ' <span style="color:#16a34a;">▲</span>';
-              else if (v < p) mark = ' <span style="color:#dc2626;">▼</span>';
-            }
-            return Number(v).toLocaleString();
-          },
-          // datalabels プラグインは HTML 不可なのでテキスト矢印で表現
-          formatter: function(v, ctx) {
-            const p = prev[ctx.dataIndex] || 0;
-            let mark = '';
-            if (p > 0) {
-              if (v > p) mark = ' ▲';
-              else if (v < p) mark = ' ▼';
-            }
-            return Number(v).toLocaleString() + mark;
-          },
-          color: function(ctx) {
-            const v = ctx.dataset.data[ctx.dataIndex];
-            const p = prev[ctx.dataIndex] || 0;
-            if (p === 0) return '#1c2536';
-            if (v > p) return '#16a34a';
-            if (v < p) return '#dc2626';
-            return '#1c2536';
+  (D.detail_cards || []).forEach(function(card, i) {
+    const el = document.getElementById('dcChart' + i);
+    if (!el) return;
+    // 直近月(末尾)とそれ以前で色分け
+    const n = card.data.length;
+    const bg = card.data.map(function(_, j) { return j === n - 1 ? '#e08e4e' : '#93c5fd'; });
+    new Chart(el.getContext('2d'), {
+      type: 'bar',
+      data: { labels: card.labels_x, datasets: [{ label: card.label, data: card.data, backgroundColor: bg }] },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          datalabels: {
+            anchor: 'end', align: 'top', offset: 2,
+            font: { size: 9, weight: '500' }, color: '#1c2536',
+            formatter: function(v) { return v === 0 ? '' : Number(v).toLocaleString(); }
           }
+        },
+        scales: {
+          x: { ticks: { font: { size: 9 } }, grid: { display: false } },
+          y: { beginAtZero: true, grace: '20%', display: false }
         }
-      },
-      scales: { x: { beginAtZero: true, grace: '20%' } }
-    }
+      }
+    });
   });
 })();
 
@@ -539,7 +521,7 @@ function attrCompareRatio(canvasId, dim, allRows, cvRows) {
     }
   });
 }
-attrCompareRatio('chartAge', 'userAgeBracket', D.attr_payload.all.age, D.attr_payload.cv.age);
+attrCompareRatio('chartGender', 'userGender', D.attr_payload.all.gender, D.attr_payload.cv.gender);
 attrCompareRatio('chartDevice', 'deviceCategory', D.attr_payload.all.device, D.attr_payload.cv.device);
 </script>
 </body>
