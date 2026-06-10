@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>クライアント横断ダッシュボード 2026年5月</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #4f6fa5; --primary-deep: #2d4978; --primary-light: #eaf0f8;
+    --accent: #e08e4e; --dark: #1c2536; --text-main: #3a4456; --text-muted: #7c8595;
+    --bg: #fafbfd; --border: #e3e8f0; --good: #16a34a; --bad: #dc2626;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Noto Sans JP', sans-serif; background: var(--bg); color: var(--text-main); line-height: 1.6; }
+  header { background: white; border-bottom: 1px solid var(--border); padding: 30px 24px; }
+  header .inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: baseline; gap: 24px; flex-wrap: wrap; }
+  h1 { font-size: 1.5rem; font-weight: 500; color: var(--dark); border-left: 4px solid var(--primary); padding-left: 12px; }
+  .ym { font-size: 1.2rem; color: var(--primary-deep); font-weight: 500; }
+  .subtitle { color: var(--text-muted); font-size: 0.85rem; }
+
+  .container { max-width: 1400px; margin: 0 auto; padding: 30px 24px; }
+
+  .summary-bar { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-bottom: 28px; }
+  .sum-card { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 16px 18px; }
+  .sum-card .lbl { color: var(--text-muted); font-size: 0.78rem; }
+  .sum-card .val { font-size: 1.6rem; font-weight: 700; color: var(--dark); margin-top: 4px; }
+  .sum-card .trend { font-size: 0.78rem; margin-top: 4px; }
+
+  h2 { font-size: 1.1rem; font-weight: 500; color: var(--dark); margin: 24px 0 14px; border-left: 3px solid var(--primary); padding-left: 12px; }
+
+  .clients-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 18px; }
+  .client-card { background: white; border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; text-decoration: none; color: var(--text-main); display: block; transition: 0.2s; }
+  .client-card:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.08); border-color: var(--primary); }
+  .cc-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+  .cc-name { font-size: 1.1rem; font-weight: 500; color: var(--dark); }
+  .cc-grade { width: 56px; height: 56px; border-radius: 50%; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .cc-grade .g-letter { font-size: 1.4rem; font-weight: 700; line-height: 1; }
+  .cc-grade .g-num { font-size: 0.7rem; }
+  .cc-metrics { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .cc-m { background: #f6f8fb; padding: 8px 10px; border-radius: 4px; }
+  .cc-m-l { font-size: 0.7rem; color: var(--text-muted); }
+  .cc-m-v { font-size: 1rem; font-weight: 600; color: var(--dark); margin-top: 2px; }
+  .cc-m-t { font-size: 0.7rem; margin-top: 2px; }
+  .cc-foot { text-align: right; color: var(--primary); margin-top: 14px; font-size: 0.82rem; font-weight: 500; }
+
+  footer { text-align: center; color: var(--text-muted); font-size: 0.75rem; padding: 24px; margin-top: 30px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="inner">
+    <h1>クライアント横断ダッシュボード</h1>
+    <span class="ym">2026年5月</span>
+    <span class="subtitle">対象クライアント数: 2社</span>
+  </div>
+</header>
+
+<div class="container">
+
+<h2>全体サマリー（2026年5月）</h2>
+<div class="summary-bar">
+  <div class="sum-card">
+    <div class="lbl">合計ユーザー数</div>
+    <div class="val">5,485</div>
+    <div class="trend"><span style="color:var(--bad); font-size:0.8rem;">-36.5%</span></div>
+  </div>
+  <div class="sum-card">
+    <div class="lbl">合計セッション数</div>
+    <div class="val">6,313</div>
+  </div>
+  <div class="sum-card">
+    <div class="lbl">合計PV</div>
+    <div class="val">10,123</div>
+  </div>
+  <div class="sum-card">
+    <div class="lbl">合計CV</div>
+    <div class="val">32</div>
+    <div class="trend"><span style="color:var(--good); font-size:0.8rem;">+113.3%</span></div>
+  </div>
+</div>
+
+<h2>クライアント別サマリー</h2>
+<div class="clients-grid">
+  
+    <a href="https://suzuki-omsolar.github.io/ga4-reports/nara/2026-05-835aca11abe2b093.html" target="_blank" rel="noopener" class="client-card">
+      <div class="cc-head">
+        <div class="cc-name">奈良不動産 様</div>
+        <div class="cc-grade" style="background:#16a34a;">
+          <div class="g-letter">A</div>
+          <div class="g-num">75.3</div>
+        </div>
+      </div>
+      <div class="cc-metrics">
+        <div class="cc-m">
+          <div class="cc-m-l">ユーザー</div>
+          <div class="cc-m-v">1,576</div>
+          <div class="cc-m-t"><span style="color:var(--bad); font-size:0.8rem;">-27.4%</span></div>
+        </div>
+        <div class="cc-m">
+          <div class="cc-m-l">セッション</div>
+          <div class="cc-m-v">1,846</div>
+        </div>
+        <div class="cc-m">
+          <div class="cc-m-l">PV</div>
+          <div class="cc-m-v">2,632</div>
+        </div>
+        <div class="cc-m">
+          <div class="cc-m-l">CV</div>
+          <div class="cc-m-v">19</div>
+          <div class="cc-m-t"><span style="color:var(--good); font-size:0.8rem;">+280.0%</span></div>
+        </div>
+        <div class="cc-m">
+          <div class="cc-m-l">直帰率</div>
+          <div class="cc-m-v">45.8%</div>
+        </div>
+        <div class="cc-m">
+          <div class="cc-m-l">エンゲージ秒</div>
+          <div class="cc-m-v">35秒</div>
+        </div>
+      </div>
+      <div class="cc-foot">レポートを開く ↗</div>
+    </a>
+    
+    <a href="https://suzuki-omsolar.github.io/ga4-reports/miyazaki/2026-05-8361f8f20bb09ced.html" target="_blank" rel="noopener" class="client-card">
+      <div class="cc-head">
+        <div class="cc-name">宮崎住宅 様</div>
+        <div class="cc-grade" style="background:#16a34a;">
+          <div class="g-letter">A</div>
+          <div class="g-num">76.4</div>
+        </div>
+      </div>
+      <div class="cc-metrics">
+        <div class="cc-m">
+          <div class="cc-m-l">ユーザー</div>
+          <div class="cc-m-v">3,909</div>
+          <div class="cc-m-t"><span style="color:var(--bad); font-size:0.8rem;">-39.6%</span></div>
+        </div>
+        <div class="cc-m">
+          <div class="cc-m-l">セッション</div>
+          <div class="cc-m-v">4,467</div>
+        </div>
+        <div class="cc-m">
+          <div class="cc-m-l">PV</div>
+          <div class="cc-m-v">7,491</div>
+        </div>
+        <div class="cc-m">
+          <div class="cc-m-l">CV</div>
+          <div class="cc-m-v">13</div>
+          <div class="cc-m-t"><span style="color:var(--good); font-size:0.8rem;">+30.0%</span></div>
+        </div>
+        <div class="cc-m">
+          <div class="cc-m-l">直帰率</div>
+          <div class="cc-m-v">60.7%</div>
+        </div>
+        <div class="cc-m">
+          <div class="cc-m-l">エンゲージ秒</div>
+          <div class="cc-m-v">53秒</div>
+        </div>
+      </div>
+      <div class="cc-foot">レポートを開く ↗</div>
+    </a>
+    
+</div>
+
+</div>
+
+<footer>
+  Generated: 2026-06-10 10:24:16
+</footer>
+
+</body>
+</html>
