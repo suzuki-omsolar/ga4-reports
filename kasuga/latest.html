@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>春日工務店 様 2026年5月 サイト改善レポート</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.0/marked.min.js"></script>
+<style>
+  :root {
+    --primary: #4f6fa5;
+    --primary-deep: #2d4978;
+    --primary-light: #eaf0f8;
+    --accent: #e08e4e;
+    --accent-light: #fdf3e9;
+    --dark: #1c2536;
+    --text-main: #3a4456;
+    --text-muted: #7c8595;
+    --bg: #fafbfd;
+    --border: #e3e8f0;
+    --good: #16a34a;
+    --bad: #dc2626;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Noto Sans JP', sans-serif; background: var(--bg); color: var(--text-main); line-height: 1.7; font-weight: 400; }
+
+  /* === シンプルな表紙 === */
+  .cover {
+    background: white;
+    padding: 50px 30px 30px;
+    border-bottom: 1px solid var(--border);
+  }
+  .cover-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: baseline; gap: 24px; flex-wrap: wrap; }
+  .cover h1 {
+    font-size: 1.6rem; font-weight: 500; letter-spacing: 0.08em;
+    color: var(--dark); border-left: 4px solid var(--primary); padding-left: 14px;
+  }
+  .cover .client { font-size: 1rem; color: var(--text-muted); }
+  .cover .ym { font-size: 1rem; color: var(--primary-deep); font-weight: 500; }
+  .cover .month-select {
+    margin-left: auto;
+    padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px;
+    background: white; font-size: 0.9rem; cursor: pointer;
+  }
+
+  nav.toc { background: white; border-bottom: 1px solid var(--border); padding: 10px 20px; position: sticky; top: 0; z-index: 10; overflow-x: auto; }
+  nav.toc ul { display: flex; gap: 18px; max-width: 1200px; margin: 0 auto; list-style: none; white-space: nowrap; }
+  nav.toc a { color: var(--text-muted); text-decoration: none; font-weight: 500; font-size: 0.88rem; }
+  nav.toc a:hover { color: var(--primary); }
+
+  .container { max-width: 1200px; margin: 0 auto; padding: 24px 20px 60px; }
+  section { background: white; border-radius: 6px; padding: 26px 28px; margin-bottom: 20px; border: 1px solid var(--border); }
+  section > h2 { font-size: 1.25rem; font-weight: 500; color: var(--dark); margin-bottom: 4px; border-left: 3px solid var(--primary); padding-left: 12px; }
+  .src-link { display: inline-block; font-size: 0.68rem; font-weight: 400; color: var(--primary-deep); text-decoration: none; margin-left: 10px; padding: 2px 8px; background: var(--primary-light); border-radius: 3px; vertical-align: middle; letter-spacing: 0.02em; }
+  .src-link:hover { background: var(--primary); color: white; }
+  .src-link.gsc { color: #2d4978; }
+  .src-note { font-size: 0.7rem; color: var(--text-muted); margin-top: 8px; padding-left: 16px; font-style: italic; }
+  .read-guide { background: #f4f7fb; border-left: 3px solid #b8c8e0; padding: 10px 14px; border-radius: 4px; font-size: 0.82rem; line-height: 1.7; margin: 10px 0 18px; color: #4a5568; }
+  .read-guide b { color: var(--primary-deep); font-weight: 500; }
+  .read-guide .legend-row { display: inline-block; margin-right: 14px; }
+  .read-guide .legend-row code { background: white; padding: 1px 6px; border-radius: 3px; font-size: 0.78rem; color: #1c2536; border: 1px solid #d8e0ec; }
+  /* 詳細経路 3×3 グリッド */
+  .detail-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 12px; }
+  @media (max-width: 900px) { .detail-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .detail-grid { grid-template-columns: 1fr; } }
+  .detail-card { background: #fafbfd; border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px 8px; }
+  .detail-card .dc-label { font-size: 0.78rem; font-weight: 500; color: var(--dark); margin-bottom: 4px; word-break: break-all; line-height: 1.4; }
+  .detail-card .dc-total { font-size: 0.7rem; color: var(--text-muted); margin-bottom: 4px; }
+  .detail-card .dc-chart { height: 100px; }
+  /* コメントエリア */
+  .comment-block { background: #fff9ef; border-left: 4px solid #f0b76e; border-radius: 4px; padding: 12px 16px; margin: 12px 0 18px; font-size: 0.92rem; line-height: 1.75; color: #4a3a1c; }
+  .comment-block.empty { background: #f7f8fa; border-left-color: #cfd5e0; color: var(--text-muted); font-style: italic; }
+  .comment-block p { margin: 0 0 6px; }
+  .comment-block ul, .comment-block ol { margin: 4px 0 6px 1.4em; }
+  .comment-block strong { color: #2c2210; }
+  .comment-block code { background: white; padding: 1px 6px; border-radius: 3px; font-size: 0.85em; }
+  .comment-header { display: flex; align-items: center; gap: 8px; font-size: 0.78rem; color: var(--text-muted); margin-bottom: 6px; font-weight: 500; }
+  .edit-link { font-size: 0.7rem; font-weight: 400; color: var(--primary-deep); text-decoration: none; padding: 2px 8px; background: var(--primary-light); border-radius: 3px; }
+  .edit-link:hover { background: var(--primary); color: white; }
+  /* GBP セクション */
+  .gbp-head { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; padding: 14px 16px; background: linear-gradient(90deg, #fff7ed 0%, #fef3c7 100%); border-radius: 8px; margin-bottom: 14px; }
+  .gbp-rating { font-size: 2.4rem; font-weight: 700; color: #b45309; }
+  .gbp-stars { color: #f59e0b; font-size: 1.2rem; letter-spacing: 0.05em; }
+  .gbp-count { font-size: 0.9rem; color: var(--text-muted); }
+  .gbp-link { margin-left: auto; }
+  .gbp-reviews { display: grid; gap: 12px; }
+  .gbp-review { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; }
+  .gbp-review-head { display: flex; gap: 10px; align-items: center; margin-bottom: 6px; font-size: 0.85rem; }
+  .gbp-review-head .author { font-weight: 500; color: var(--dark); }
+  .gbp-review-head .stars { color: #f59e0b; }
+  .gbp-review-head .time { color: var(--text-muted); margin-left: auto; font-size: 0.75rem; }
+  .gbp-review-text { font-size: 0.9rem; line-height: 1.7; color: #3a4456; white-space: pre-wrap; }
+  .gbp-owner-reply { background: #f0f4fa; border-left: 3px solid var(--primary); padding: 8px 12px; margin-top: 8px; font-size: 0.85rem; }
+  .gbp-note { font-size: 0.75rem; color: var(--text-muted); margin-top: 8px; font-style: italic; }
+  /* SEOスコア */
+  .seo-score-head { display: flex; align-items: center; gap: 24px; padding: 20px 24px; background: linear-gradient(135deg, #eef2ff 0%, #f5f3ff 100%); border-radius: 10px; margin-bottom: 16px; }
+  .seo-grade { width: 90px; height: 90px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; flex-shrink: 0; }
+  .seo-grade .g-letter { font-size: 2.4rem; font-weight: 700; line-height: 1; }
+  .seo-grade .g-label { font-size: 0.7rem; margin-top: 2px; }
+  .seo-total { flex: 1; }
+  .seo-total .total-num { font-size: 2rem; font-weight: 700; color: var(--dark); line-height: 1; }
+  .seo-total .total-of { font-size: 1rem; color: var(--text-muted); margin-left: 4px; }
+  .seo-total .total-label { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
+  .seo-total .total-action { font-size: 0.85rem; color: var(--dark); margin-top: 8px; padding-top: 8px; border-top: 1px dashed #c7d2fe; line-height: 1.5; }
+  .seo-metrics { display: grid; grid-template-columns: 1fr; gap: 6px; }
+  .seo-metric { display: grid; grid-template-columns: 130px 1fr 90px 60px; gap: 12px; align-items: center; padding: 10px 14px; background: white; border: 1px solid var(--border); border-radius: 6px; }
+  .seo-metric .m-label { font-weight: 500; color: var(--dark); font-size: 0.92rem; }
+  .seo-metric .m-desc { font-size: 0.78rem; color: var(--text-muted); }
+  .seo-metric .m-value { font-size: 1rem; font-weight: 600; text-align: right; color: var(--dark); }
+  .seo-metric .m-stars { color: #f59e0b; font-size: 0.95rem; letter-spacing: 0.05em; text-align: right; }
+  @media (max-width: 700px) {
+    .seo-metric { grid-template-columns: 1fr; gap: 4px; }
+    .seo-metric .m-value, .seo-metric .m-stars { text-align: left; }
+  }
+  /* 業界比較バッジ */
+  .bench-badge { display: inline-block; font-size: 0.72rem; padding: 1px 6px; border-radius: 3px; margin-left: 6px; font-weight: 500; }
+  .bench-badge.good { background: #dcfce7; color: #166534; }
+  .bench-badge.warn { background: #fef3c7; color: #854d0e; }
+  .bench-badge.bad { background: #fee2e2; color: #991b1b; }
+  /* 印刷 PDF ボタン */
+  .pdf-btn { background: var(--primary-deep); color: white; padding: 6px 14px; border-radius: 6px; font-size: 0.82rem; text-decoration: none; cursor: pointer; border: none; }
+  .pdf-btn:hover { background: var(--primary); }
+  /* 印刷専用CSS */
+  @media print {
+    body { background: white; }
+    nav.toc, .month-select, #editCommentsBtn, .pdf-btn, .src-link, .edit-link { display: none !important; }
+    section { page-break-inside: avoid; box-shadow: none; border: 1px solid #ccc; }
+    section > h2 { page-break-after: avoid; }
+    h3 { page-break-after: avoid; }
+    .chart-box { page-break-inside: avoid; max-height: 280px; }
+    table { page-break-inside: avoid; }
+    .cover { padding: 30px 20px; }
+    .seo-score-head { page-break-after: avoid; }
+  }
+  section > h2 + .section-sub { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 18px; padding-left: 16px; }
+  section h3 { font-size: 1rem; font-weight: 500; color: var(--dark); margin: 22px 0 10px; }
+  section h3 .badge-source { font-size: 0.7rem; background: var(--primary-light); color: var(--primary-deep); padding: 2px 8px; border-radius: 4px; margin-left: 8px; font-weight: 400; }
+
+  .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 720px) { .summary-grid { grid-template-columns: 1fr; } }
+  .orange-box, .blue-box { border-radius: 8px; padding: 18px 20px; }
+  .orange-box { background: var(--accent); color: white; }
+  .blue-box { background: var(--primary); color: white; }
+  .orange-box h4, .blue-box h4 { font-size: 0.95rem; margin-bottom: 8px; font-weight: 500; }
+  .orange-box ul, .blue-box ul { padding-left: 1.2em; line-height: 1.8; font-size: 0.9rem; }
+
+  .metric-table { width: 100%; border-collapse: collapse; }
+  .metric-table th, .metric-table td { border-bottom: 1px solid var(--border); padding: 11px 14px; text-align: right; font-size: 0.92rem; }
+  .metric-table thead th { background: var(--primary-light); color: var(--primary-deep); text-align: center; font-weight: 500; }
+  .metric-table tbody th { text-align: left; font-weight: 500; }
+  .metric-sub { font-size: 0.72rem; color: var(--text-muted); font-weight: 400; margin-top: 2px; }
+
+  .ranking-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  .ranking-table th, .ranking-table td { border-bottom: 1px solid var(--border); padding: 9px 11px; text-align: right; }
+  .ranking-table thead th { background: var(--primary-light); color: var(--primary-deep); text-align: center; font-weight: 500; }
+  .ranking-table td:first-child, .ranking-table th:first-child { text-align: left; }
+  .ranking-table td.path, .path { font-family: ui-monospace, monospace; font-size: 0.68rem; color: #5a6473; word-break: break-all; }
+  .ranking-table .empty { text-align: center; color: var(--text-muted); padding: 22px; }
+  .ranking-table a { color: var(--primary); text-decoration: none; }
+  .ranking-table a:hover { text-decoration: underline; }
+
+  /* スクロール可能テーブル（CV詳細） */
+  .scroll-x { overflow-x: auto; }
+
+  .chart-box { position: relative; height: 320px; margin: 12px 0; }
+  .chart-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 800px) { .chart-row { grid-template-columns: 1fr; } }
+
+  .comment { background: var(--accent); color: white; padding: 12px 16px; border-radius: 6px; margin-top: 12px; font-size: 0.88rem; line-height: 1.7; }
+
+  .proposal-card { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 20px 22px; margin-bottom: 14px; display: grid; grid-template-columns: 48px 1fr; gap: 16px; }
+  .proposal-num { background: var(--primary); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; font-weight: 500; }
+  .proposal-body h3 { color: var(--dark); margin-bottom: 10px; font-size: 1.05rem; font-weight: 500; }
+  .proposal-evidence, .proposal-action { font-weight: 500; margin: 10px 0 4px; color: var(--primary-deep); font-size: 0.85rem; }
+  .proposal-action { color: var(--accent); }
+  .proposal-card p { font-size: 0.9rem; }
+
+  footer { text-align: center; padding: 30px 20px; color: var(--text-muted); font-size: 0.82rem; }
+  .demo-banner { background: #fef3c7; color: #92400e; text-align: center; padding: 8px; font-size: 0.85rem; border-bottom: 1px solid #fde68a; }
+</style>
+</head>
+<body>
+
+
+
+<div class="cover">
+  <div class="cover-inner">
+    <h1>サイト改善レポート</h1>
+    <span class="client">春日工務店 様</span>
+    <span class="ym">2026.05</span>
+    <a id="editCommentsBtn" class="edit-link" href="#" target="_blank" rel="noopener" style="margin-left: 10px;">📝 コメントを編集</a>
+    <button class="pdf-btn" onclick="window.print()" title="ブラウザの印刷機能でPDFとして保存できます">🖨 PDF印刷</button>
+    <select class="month-select" onchange="if(this.value && this.value!=='#') window.location.href=this.value;">
+      <option value="#" selected>2026年5月</option>
+    </select>
+  </div>
+</div>
+
+<nav class="toc">
+  <ul>
+    <li><a href="#summary">総括</a></li>
+    <li><a href="#seo-score">SEOスコア</a></li>
+    <li><a href="#basic">基本指標</a></li>
+    <li><a href="#monthly">月別推移</a></li>
+    <li><a href="#users">ユーザー属性</a></li>
+    <li><a href="#acquisition">流入経路</a></li>
+    <li><a href="#keywords">流入キーワード</a></li>
+    <li><a href="#pages">ページランキング</a></li>
+    <li><a href="#cv">CV分析</a></li>
+    <li><a href="#proposals">改善提案</a></li>
+  </ul>
+</nav>
+
+<div class="container">
+
+<section id="summary">
+  <h2>アクセス解析の総括</h2>
+  <p class="section-sub">当月の主要指標と次月のアクションプラン</p>
+  <div class="comment-block empty" data-comment-key="総括"><div class="comment-header">📝 担当者コメント</div><div class="comment-body">編集するには右上「📝 編集」ボタンから</div></div>
+  <div class="summary-grid">
+    <div class="orange-box"><h4>全体を通して良い点・悪い点</h4><ul><li>全体アクセスが先月から落ち込んでおり、流入経路の確認が必要</li><li>昨年同月比で成長基調にあり、SEO施策が効いている</li><li>セッション滞在時間が短く、コンテンツが十分に読まれていない可能性</li><li>対策キーワードの多くが10位以内に入っており、SEOは順調</li><li>CVが減少傾向。フォームや展示場ページの導線見直しが必要</li></ul></div>
+    <div class="blue-box"><h4>次月のタスク</h4><ul><li>対策キーワードを軸としたコラム制作（1ページ1キーワード）</li><li>ランディングが集中しているページの内部リンク強化と回遊導線整備</li><li>CV計測イベントの設定見直しとCVR計測の精度向上</li><li>title/description/H1の対策キーワード整合性チェック</li></ul></div>
+  </div>
+</section>
+
+
+<section id="seo-score">
+  <h2>SEO 総合評価スコア</h2>
+  <p class="section-sub">Search Console + GA4 のデータから5指標を採点。S(85+) / A(70+) / B(55+) / C(40+) / D の5段階</p>
+  <div class="comment-block empty" data-comment-key="SEOスコア"><div class="comment-header">📝 担当者コメント</div><div class="comment-body">未記入</div></div>
+
+  <div class="seo-score-head">
+    <div class="seo-grade" style="background: #16a34a;">
+      <div class="g-letter">A</div>
+      <div class="g-label">良好</div>
+    </div>
+    <div class="seo-total">
+      <div><span class="total-num">81.8</span><span class="total-of">/ 100点</span></div>
+      <div class="total-label">5指標の合計スコア（直近月）</div>
+      <div class="total-action"><b>次月のヒント:</b> 順位は高いがクリック率が低いページは、titleとmeta descriptionの見直しが効果的です。（最も弱い: クリック誘引力）</div>
+    </div>
+  </div>
+
+  <div class="seo-metrics">
+    
+        <div class="seo-metric">
+          <div>
+            <div class="m-label">上位表示力</div>
+            <div class="m-desc">検索順位10位以内のクエリ割合 73.2% (業界目安 30〜50%)</div>
+          </div>
+          <div></div>
+          <div class="m-value">73.2%</div>
+          <div class="m-stars">★★★★★</div>
+        </div>
+        
+        <div class="seo-metric">
+          <div>
+            <div class="m-label">オーガニック依存度</div>
+            <div class="m-desc">自然検索からの流入割合 86.6% (業界目安 40〜60%)</div>
+          </div>
+          <div></div>
+          <div class="m-value">86.6%</div>
+          <div class="m-stars">★★★★★</div>
+        </div>
+        
+        <div class="seo-metric">
+          <div>
+            <div class="m-label">クリック誘引力</div>
+            <div class="m-desc">平均CTR 2.75% (Search Console全体)</div>
+          </div>
+          <div></div>
+          <div class="m-value">2.75%</div>
+          <div class="m-stars">★★☆☆☆</div>
+        </div>
+        
+        <div class="seo-metric">
+          <div>
+            <div class="m-label">平均掲載順位</div>
+            <div class="m-desc">全クエリ平均 10.9位 (低いほど良い)</div>
+          </div>
+          <div></div>
+          <div class="m-value">10.9位</div>
+          <div class="m-stars">★★★☆☆</div>
+        </div>
+        
+        <div class="seo-metric">
+          <div>
+            <div class="m-label">順位上昇トレンド</div>
+            <div class="m-desc">先月→当月で順位改善したクエリ 40.0%</div>
+          </div>
+          <div></div>
+          <div class="m-value">40.0%</div>
+          <div class="m-stars">★★★★★</div>
+        </div>
+        
+  </div>
+</section>
+
+
+<section id="basic">
+  <h2>基本指標（直近3ヶ月の比較） <a class="src-link" href="https://analytics.google.com/analytics/web/#/p436517430/reports/intelligenthome" target="_blank" rel="noopener" title="GA4で同じデータを確認">GA4 ↗</a></h2>
+  <p class="section-sub">出典: Google Analytics 4 / 平均エンゲージメント時間は userEngagementDuration ÷ activeUsers で算出</p>
+  <div class="read-guide">
+    <b>📖 読み方:</b>
+    <b>ユーザー数</b>=サイトを訪れた人数。
+    <b>セッション数</b>=訪問回数（30分の無操作で再カウント）。
+    <b>ページビュー数</b>=ページが表示された延べ回数。
+    <b>自然検索流入数</b>=Google / Yahoo! の検索から訪れたユーザー数。
+    <b>平均エンゲージメント時間</b>=ユーザー1人がブラウザを実際に開いていた平均時間（GA4 UIと同じ計算）。
+    <b>直帰率</b>=1ページだけ見て離脱した割合（低いほど良い）。
+  </div>
+  <div class="comment-block empty" data-comment-key="基本指標"><div class="comment-header">📝 担当者コメント</div><div class="comment-body">未記入</div></div>
+  <table class='metric-table'><thead><tr><th>指標</th><th>2026/03</th><th>2026/04</th><th>2026/05</th><th>業界平均（不動産・住宅）</th></tr></thead><tbody><tr><th class='metric-label'><div>ユーザー数</div><div class='metric-sub'>サイトを訪れた人数</div></th><td>1,956</td><td>2,898</td><td>1,950</td><td>—</td></tr><tr><th class='metric-label'><div>ページビュー数</div><div class='metric-sub'>ページが閲覧された回数</div></th><td>2,989</td><td>4,771</td><td>2,772</td><td>—</td></tr><tr><th class='metric-label'><div>自然検索流入数</div><div class='metric-sub'>GoogleやYahoo!の検索から訪れたユーザー数</div></th><td>1,668</td><td>2,635</td><td>1,691</td><td>—</td></tr><tr><th class='metric-label'><div>平均エンゲージメント時間</div><div class='metric-sub'>1セッションあたりの平均滞在秒数</div></th><td>56秒</td><td>31秒</td><td>52秒</td><td>45秒<br><span class="bench-badge good">業界比 ↑ 16%</span></td></tr><tr><th class='metric-label'><div>直帰率</div><div class='metric-sub'>1ページのみ閲覧して離脱した割合（低いほど良い）</div></th><td>37.2%</td><td>50.8%</td><td>37.5%</td><td>60.0%<br><span class="bench-badge good">業界比 ↑ 38%</span></td></tr></tbody></table><p class="src-note">※ 業界平均は不動産・住宅メーカーサイトの一般的な参考値。<span class="bench-badge good">↑</span>=業界平均より良い／<span class="bench-badge bad">↓</span>=改善余地</p>
+</section>
+
+<section id="monthly">
+  <h2>月別推移（過去13ヶ月） <a class="src-link" href="https://analytics.google.com/analytics/web/#/p436517430/reports/intelligenthome" target="_blank" rel="noopener" title="GA4で同じデータを確認">GA4 ↗</a></h2>
+  <p class="section-sub">出典: Google Analytics 4 ／ 直近月と昨年同月をオレンジで強調</p>
+  <div class="comment-block empty" data-comment-key="月別推移"><div class="comment-header">📝 担当者コメント</div><div class="comment-body">未記入</div></div>
+
+  <h3>月別ユーザー数 <a class="src-link" href="https://analytics.google.com/analytics/web/#/p436517430/reports/user-acquisition" target="_blank" rel="noopener" title="GA4で同じデータを確認">GA4 ↗</a></h3>
+  <div class="chart-box"><canvas id="chartUsersM"></canvas></div>
+
+  <h3>月別ページビュー数 <a class="src-link" href="https://analytics.google.com/analytics/web/#/p436517430/reports/page-screen-class" target="_blank" rel="noopener" title="GA4で同じデータを確認">GA4 ↗</a></h3>
+  <div class="chart-box"><canvas id="chartPvsM"></canvas></div>
+
+  <div class="chart-row">
+    <div>
+      <h3>月別平均エンゲージメント時間（秒）</h3>
+      <div class="chart-box"><canvas id="chartDur"></canvas></div>
+    </div>
+    <div>
+      <h3>月別直帰率（%）</h3>
+      <div class="chart-box"><canvas id="chartBounce"></canvas></div>
+    </div>
+  </div>
+
+  <h3>月別自然検索流入ユーザー数 <a class="src-link" href="https://analytics.google.com/analytics/web/#/p436517430/reports/traffic-acquisition" target="_blank" rel="noopener" title="GA4で同じデータを確認">GA4 ↗</a></h3>
+  <div class="chart-box"><canvas id="chartOrganic"></canvas></div>
+</section>
+
+<section id="users">
+  <h2>ユーザー属性 <a class="src-link" href="https://analytics.google.com/analytics/web/#/p436517430/reports/demographics-overview" target="_blank" rel="noopener" title="GA4で同じデータを確認">GA4 ↗</a></h2>
+  <p class="section-sub">出典: GA4「ユーザー属性 概要」／ 全体ユーザー（青）と CV発生ユーザー（オレンジ）の構成比（%）で比較</p>
+  <div class="read-guide">
+    <b>📖 読み方:</b> 「全体」(青) と「CVに至ったユーザー」(オレンジ) の<b>属性構成比</b>を %で比較。<br>
+    左右の差が大きい属性ほど、<b>その属性のユーザーがCVしやすい</b>（あるいはしにくい）ヒントになります。
+    例: CV側だけリピーター比率が高い → 初回訪問者にCV意欲を持たせる導線が弱い、など。<br>
+    <span class="legend-row" style="color:var(--text-muted);">※ 年齢・性別は GA4 の個人特定回避しきい値により非表示になりやすいため、代わりに「新規 vs リピーター」を表示</span>
+  </div>
+  <div class="comment-block empty" data-comment-key="ユーザー属性"><div class="comment-header">📝 担当者コメント</div><div class="comment-body">未記入</div></div>
+
+  <div class="chart-row">
+    <div>
+      <h3>新規 vs リピーター</h3>
+      <div class="chart-box"><canvas id="chartNewReturning"></canvas></div>
+    </div>
+    <div>
+      <h3>デバイス</h3>
+      <div class="chart-box"><canvas id="chartDevice"></canvas></div>
+    </div>
+  </div>
+
+  <h3>市区町村 TOP10（構成比 %） <a class="src-link" href="https://analytics.google.com/analytics/web/#/p436517430/reports/demographics-overview" target="_blank" rel="noopener" title="GA4で同じデータを確認">GA4 ↗</a></h3>
+  <table class="ranking-table"><thead><tr><th>市区町村</th><th>全体構成比</th><th>CVユーザー構成比</th></tr></thead>
+  <tbody><tr><td>(not set)</td><td>24.3%</td><td>16.7%</td></tr><tr><td>Minato City</td><td>11.4%</td><td>16.7%</td></tr><tr><td>Shibuya</td><td>4.0%</td><td>16.7%</td></tr><tr><td>Itabashi City</td><td>1.9%</td><td>16.7%</td></tr><tr><td>Nakano City</td><td>0.9%</td><td>16.7%</td></tr><tr><td>Hitachinaka</td><td>0.0%</td><td>16.7%</td></tr><tr><td>Nerima City</td><td>13.2%</td><td>0.0%</td></tr><tr><td>Shinjuku City</td><td>11.0%</td><td>0.0%</td></tr><tr><td>Setagaya City</td><td>4.9%</td><td>0.0%</td></tr><tr><td>Osaka</td><td>4.6%</td><td>0.0%</td></tr></tbody></table>
+</section>
+
+<section id="acquisition">
+  <h2>流入経路 <a class="src-link" href="https://analytics.google.com/analytics/web/#/p436517430/reports/traffic-acquisition" target="_blank" rel="noopener" title="GA4で同じデータを確認">GA4 ↗</a></h2>
+  <p class="section-sub">出典: GA4「トラフィック獲得」レポート ／ 主経路（チャネル別3ヶ月推移）と、参照元/メディアの詳細上位9</p>
+  <div class="read-guide">
+    <b>📖 読み方:</b> ユーザーがどこから来たかをGA4が自動分類した「チャネル」と、具体的な参照元の組み合わせ。<br>
+    <span class="legend-row"><code>Organic Search</code> Google/Yahoo!の自然検索</span>
+    <span class="legend-row"><code>Direct</code> URL直打ち・ブックマーク・アプリ等</span>
+    <span class="legend-row"><code>Referral</code> 他サイトのリンクから</span><br>
+    <span class="legend-row"><code>Paid Social</code> SNSの広告</span>
+    <span class="legend-row"><code>Organic Social</code> SNSの通常投稿</span>
+    <span class="legend-row"><code>Paid Search</code> 検索広告</span>
+    <span class="legend-row"><code>Unassigned</code> 判別不能</span><br>
+    詳細経路の <code>google / organic</code> は「Googleの自然検索」、<code>(direct) / (none)</code> は「直接アクセス」を意味します。
+  </div>
+  <div class="comment-block empty" data-comment-key="流入経路"><div class="comment-header">📝 担当者コメント</div><div class="comment-body">未記入</div></div>
+
+  <h3>主経路（チャネル別 3ヶ月推移） <a class="src-link" href="https://analytics.google.com/analytics/web/#/p436517430/reports/traffic-acquisition" target="_blank" rel="noopener" title="GA4で同じデータを確認">GA4 ↗</a></h3>
+  <div class="chart-box"><canvas id="chartChannelTrend"></canvas></div>
+  <div class="comment">自然検索が増加、不明, SNSが減少しています。</div>
+
+  <h3>詳細経路（参照元 / メディア 上位9・直近3ヶ月推移） <a class="src-link" href="https://analytics.google.com/analytics/web/#/p436517430/reports/traffic-acquisition" target="_blank" rel="noopener" title="GA4で同じデータを確認">GA4 ↗</a></h3>
+  <p class="section-sub" style="padding-left:0;">経路ごとの3ヶ月推移を3×3グリッドで表示</p>
+  <div class="detail-grid" id="detailGrid">
+    <div class="detail-card"><div class="dc-label">google / organic</div><div class="dc-total">合計 3,552 人</div><div class="dc-chart"><canvas id="dcChart0"></canvas></div></div><div class="detail-card"><div class="dc-label">yahoo / organic</div><div class="dc-total">合計 1,076 人</div><div class="dc-chart"><canvas id="dcChart1"></canvas></div></div><div class="detail-card"><div class="dc-label">(direct) / (none)</div><div class="dc-total">合計 653 人</div><div class="dc-chart"><canvas id="dcChart2"></canvas></div></div><div class="detail-card"><div class="dc-label">bing / organic</div><div class="dc-total">合計 115 人</div><div class="dc-chart"><canvas id="dcChart3"></canvas></div></div><div class="detail-card"><div class="dc-label">service.smt.docomo.ne.jp / referral</div><div class="dc-total">合計 31 人</div><div class="dc-chart"><canvas id="dcChart4"></canvas></div></div><div class="detail-card"><div class="dc-label">chatgpt.com / (not set)</div><div class="dc-total">合計 17 人</div><div class="dc-chart"><canvas id="dcChart5"></canvas></div></div><div class="detail-card"><div class="dc-label">nerimakanko / portal</div><div class="dc-total">合計 23 人</div><div class="dc-chart"><canvas id="dcChart6"></canvas></div></div><div class="detail-card"><div class="dc-label">websearch.rakuten.co.jp / referral</div><div class="dc-total">合計 10 人</div><div class="dc-chart"><canvas id="dcChart7"></canvas></div></div><div class="detail-card"><div class="dc-label">goguynet / portal</div><div class="dc-total">合計 8 人</div><div class="dc-chart"><canvas id="dcChart8"></canvas></div></div>
+  </div>
+</section>
+
+<section id="keywords">
+  <h2>流入キーワード <a class="src-link gsc" href="https://search.google.com/u/0/search-console/performance/search-analytics?resource_id=sc-domain%3Akasugakoumuten.net" target="_blank" rel="noopener" title="Search Consoleで同じデータを確認">GSC ↗</a></h2>
+  <p class="section-sub">出典: Google Search Console 「検索パフォーマンス」</p>
+  <div class="read-guide">
+    <b>📖 読み方:</b><br>
+    <b>クリック</b>=検索結果からサイトへ実際にクリックされた回数。
+    <b>表示</b>=検索結果に自社が出た回数。
+    <b>CTR</b>=表示のうちクリックされた割合(クリック÷表示)。
+    <b>順位</b>=検索結果の平均掲載順位(数字が小さいほど上位)。<br>
+    <b>カテゴリ別TOP10</b>: 当月のクリック数上位10件。<b>当月 / 先月 / 前々月の3ヶ月推移</b>を横に並べて、伸びているクエリ・落ちているクエリが一目で分かる。<br>
+    <b>順位改善TOP5 / 悪化ワースト5</b>: 先月と当月で順位が動いたクエリ。<span style="color:var(--good);">↑</span>が改善、<span style="color:var(--bad);">↓</span>が悪化。<br>
+    <b>順位は低いが検索数が多いTOP10</b>: 表示は多いのに順位が11位以下で機会損失しているクエリ。<b>コラム強化やtitle改善の候補</b>になります。<br>
+    <span class="legend-row" style="color: var(--text-muted);">※ 表示回数5回以下のクエリは全表で除外しています</span>
+  </div>
+  <div class="comment-block empty" data-comment-key="流入キーワード"><div class="comment-header">📝 担当者コメント</div><div class="comment-body">未記入</div></div>
+
+  <h3>カテゴリ「指名」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/05</th><th>2026/04</th><th>2026/03</th></tr></thead><tbody><tr><td>春日工務店</td><td>24</td><td>32</td><td>41</td></tr><tr><td>春日工務店 練馬区</td><td>14</td><td>4</td><td>12</td></tr><tr><td>株式会社春日工務店</td><td>7</td><td>7</td><td>3</td></tr></tbody></table><h3>カテゴリ「注文住宅」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/05</th><th>2026/04</th><th>2026/03</th></tr></thead><tbody><tr><td>練馬区 注文住宅 相場</td><td>4</td><td>5</td><td>0</td></tr><tr><td>練馬区 工務店 注文住宅</td><td>2</td><td>0</td><td>0</td></tr><tr><td>工務店 練馬</td><td>1</td><td>0</td><td>0</td></tr><tr><td>板橋区 ハウスメーカー</td><td>1</td><td>0</td><td>0</td></tr><tr><td>練馬 工務店</td><td>1</td><td>0</td><td>1</td></tr><tr><td>練馬 注文住宅</td><td>1</td><td>0</td><td>0</td></tr><tr><td>23区 工務店</td><td>0</td><td>0</td><td>0</td></tr><tr><td>23区 注文住宅 相場</td><td>0</td><td>0</td><td>0</td></tr><tr><td>お問い合わせ メール 工務店 練馬区</td><td>0</td><td>0</td><td>0</td></tr><tr><td>ハウスメーカー デメリット</td><td>0</td><td>0</td><td>0</td></tr></tbody></table><h3>カテゴリ「価格」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/05</th><th>2026/04</th><th>2026/03</th></tr></thead><tbody><tr><td>練馬区土地価格</td><td>3</td><td>0</td><td>0</td></tr><tr><td>練馬区 土地価格</td><td>2</td><td>1</td><td>2</td></tr><tr><td>土地価格</td><td>1</td><td>0</td><td>1</td></tr><tr><td>坪単価 23区</td><td>1</td><td>0</td><td>0</td></tr><tr><td>練馬 土地相場</td><td>1</td><td>0</td><td>0</td></tr><tr><td>練馬区 坪単価</td><td>1</td><td>2</td><td>1</td></tr><tr><td>練馬区 坪単価 平均</td><td>1</td><td>0</td><td>0</td></tr><tr><td>練馬駅 土地価格</td><td>1</td><td>0</td><td>1</td></tr><tr><td>50坪 3階建て 費用</td><td>0</td><td>0</td><td>0</td></tr><tr><td>不動産価格 練馬区</td><td>0</td><td>0</td><td>0</td></tr></tbody></table><h3>カテゴリ「住宅関連」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/05</th><th>2026/04</th><th>2026/03</th></tr></thead><tbody><tr><td colspan='4' class='empty'>該当キーワードなし（表示回数5回超のもの）</td></tr></tbody></table><h3>カテゴリ「防災」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/05</th><th>2026/04</th><th>2026/03</th></tr></thead><tbody><tr><td>練馬区 ハザードマップ</td><td>32</td><td>6</td><td>3</td></tr><tr><td>練馬区ハザードマップ</td><td>19</td><td>1</td><td>5</td></tr><tr><td>練馬 ハザードマップ</td><td>2</td><td>1</td><td>0</td></tr><tr><td>練馬区 ハザードマップ 地盤</td><td>2</td><td>2</td><td>3</td></tr><tr><td>練馬区 ハザードマップ 地震</td><td>2</td><td>0</td><td>2</td></tr><tr><td>練馬区 災害リスク</td><td>2</td><td>2</td><td>1</td></tr><tr><td>ハザードマップ</td><td>1</td><td>1</td><td>1</td></tr><tr><td>練馬区 内水ハザードマップ</td><td>1</td><td>0</td><td>0</td></tr><tr><td>練馬区 地震 リアルタイム</td><td>1</td><td>0</td><td>0</td></tr><tr><td>練馬区 造成宅地防災区域</td><td>1</td><td>0</td><td>0</td></tr></tbody></table><h3>カテゴリ「地域」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/05</th><th>2026/04</th><th>2026/03</th></tr></thead><tbody><tr><td colspan='4' class='empty'>該当キーワードなし（表示回数5回超のもの）</td></tr></tbody></table><h3>カテゴリ「その他」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/05</th><th>2026/04</th><th>2026/03</th></tr></thead><tbody><tr><td>練馬区 子育て支援</td><td>27</td><td>9</td><td>26</td></tr><tr><td>練馬区 引っ越し 助成金</td><td>17</td><td>8</td><td>17</td></tr><tr><td>練馬区 住宅 補助金</td><td>15</td><td>30</td><td>16</td></tr><tr><td>練馬区 引っ越し 補助金</td><td>12</td><td>29</td><td>22</td></tr><tr><td>中学受験率が高い 小学校 練馬区</td><td>11</td><td>9</td><td>3</td></tr><tr><td>練馬区 小学校ランキング</td><td>11</td><td>3</td><td>1</td></tr><tr><td>練馬区 固定資産税</td><td>10</td><td>4</td><td>2</td></tr><tr><td>次世代育成転居助成 練馬区</td><td>9</td><td>6</td><td>8</td></tr><tr><td>練馬区 保育園 人気</td><td>7</td><td>7</td><td>2</td></tr><tr><td>練馬区 子育て 支援 一覧</td><td>6</td><td>0</td><td>5</td></tr></tbody></table>
+
+  <h3>検索順位 改善 TOP10（先月 → 当月）</h3>
+  <p class="section-sub" style="padding-left:0;">表示回数5回超のクエリで、先月から順位が上がった上位10件</p>
+  <table class="ranking-table"><thead><tr><th>クエリ</th><th>2026/05 順位</th><th>2026/04 順位</th><th>変化</th></tr></thead>
+  <tbody><tr><td>株式会社春日工務店</td><td>1.0</td><td>20.6</td><td style='color:var(--good);font-weight:500;'>↑ 19.6</td></tr><tr><td>備蓄品 置き場所</td><td>48.3</td><td>67.5</td><td style='color:var(--good);font-weight:500;'>↑ 19.2</td></tr><tr><td>和光市 住宅ローン 相談</td><td>32.1</td><td>44.6</td><td style='color:var(--good);font-weight:500;'>↑ 12.5</td></tr><tr><td>坪単価 練馬</td><td>9.4</td><td>14.1</td><td style='color:var(--good);font-weight:500;'>↑ 4.7</td></tr><tr><td>光が丘駅 保育園 口コミ</td><td>20.3</td><td>24.7</td><td style='color:var(--good);font-weight:500;'>↑ 4.4</td></tr><tr><td>練馬駅 公園</td><td>6.1</td><td>9.7</td><td style='color:var(--good);font-weight:500;'>↑ 3.7</td></tr><tr><td>練馬 ハザードマップ</td><td>4.8</td><td>8.1</td><td style='color:var(--good);font-weight:500;'>↑ 3.4</td></tr><tr><td>練馬区ハザードマップ</td><td>3.2</td><td>6.5</td><td style='color:var(--good);font-weight:500;'>↑ 3.3</td></tr><tr><td>練馬区 ハザードマップ</td><td>3.3</td><td>6.5</td><td style='color:var(--good);font-weight:500;'>↑ 3.3</td></tr><tr><td>わがまちハザードマップ</td><td>4.3</td><td>7.1</td><td style='color:var(--good);font-weight:500;'>↑ 2.8</td></tr></tbody></table>
+
+  <h3>検索順位 悪化 ワースト10（先月 → 当月）</h3>
+  <p class="section-sub" style="padding-left:0;">表示回数5回超のクエリで、先月から順位が下がった上位10件</p>
+  <table class="ranking-table"><thead><tr><th>クエリ</th><th>2026/05 順位</th><th>2026/04 順位</th><th>変化</th></tr></thead>
+  <tbody><tr><td>住宅 自由設計</td><td>50.1</td><td>14.8</td><td style='color:var(--bad);font-weight:500;'>↓ 35.4</td></tr><tr><td>ハウスメーカー 工務店 違い</td><td>74.1</td><td>44.4</td><td style='color:var(--bad);font-weight:500;'>↓ 29.7</td></tr><tr><td>ハウスメーカー メリット</td><td>37.6</td><td>11.1</td><td style='color:var(--bad);font-weight:500;'>↓ 26.5</td></tr><tr><td>家 自由設計</td><td>34.8</td><td>12.8</td><td style='color:var(--bad);font-weight:500;'>↓ 22.0</td></tr><tr><td>ハウス メーカー か 工務 店 か</td><td>40.8</td><td>18.7</td><td style='color:var(--bad);font-weight:500;'>↓ 22.0</td></tr><tr><td>古家 解体</td><td>54.6</td><td>37.9</td><td style='color:var(--bad);font-weight:500;'>↓ 16.7</td></tr><tr><td>太陽光発電 zeh</td><td>26.1</td><td>14.4</td><td style='color:var(--bad);font-weight:500;'>↓ 11.7</td></tr><tr><td>ハウスメーカー 工務店 どっち</td><td>32.1</td><td>21.2</td><td style='color:var(--bad);font-weight:500;'>↓ 11.0</td></tr><tr><td>ハウスメーカー デメリット</td><td>29.0</td><td>23.0</td><td style='color:var(--bad);font-weight:500;'>↓ 6.0</td></tr><tr><td>マイホーム 維持費 後悔</td><td>20.8</td><td>14.8</td><td style='color:var(--bad);font-weight:500;'>↓ 5.9</td></tr></tbody></table>
+
+  <h3>順位は低いが検索数が多い TOP10（改善余地大）</h3>
+  <p class="section-sub" style="padding-left:0;">検索順位11位以下で、月間表示回数5回超のクエリ。コラム強化候補。</p>
+  <table class="ranking-table"><thead><tr><th>クエリ</th><th>クリック</th><th>表示</th><th>CTR</th><th>順位</th></tr></thead>
+  <tbody><tr><td>ナフサ いつまで</td><td>5</td><td>457</td><td>1.1%</td><td>10.1</td></tr><tr><td>ナフサいつまで</td><td>0</td><td>147</td><td>0.0%</td><td>10.7</td></tr><tr><td>ナフサショックいつまで</td><td>2</td><td>123</td><td>1.6%</td><td>10.7</td></tr><tr><td>坪単価 練馬区</td><td>0</td><td>119</td><td>0.0%</td><td>13.0</td></tr><tr><td>引っ越し 補助金 東京</td><td>1</td><td>80</td><td>1.2%</td><td>10.6</td></tr><tr><td>ナフサ ショック いつまで</td><td>0</td><td>80</td><td>0.0%</td><td>11.6</td></tr><tr><td>練馬 注文住宅</td><td>1</td><td>78</td><td>1.3%</td><td>19.1</td></tr><tr><td>坪単価 年収</td><td>0</td><td>77</td><td>0.0%</td><td>34.3</td></tr><tr><td>ハウスメーカー 工務店 どっち</td><td>0</td><td>63</td><td>0.0%</td><td>32.1</td></tr><tr><td>ナフサショック いつまで</td><td>0</td><td>59</td><td>0.0%</td><td>11.1</td></tr></tbody></table>
+</section>
+
+<section id="pages">
+  <h2>ページ別アクセス分析 <a class="src-link" href="https://analytics.google.com/analytics/web/#/p436517430/reports/page-screen-class" target="_blank" rel="noopener" title="GA4で同じデータを確認">GA4 ↗</a></h2>
+  <p class="section-sub">出典: GA4「ページとスクリーン」レポート</p>
+  <div class="read-guide">
+    <b>📖 読み方:</b><br>
+    <b>表示回数の多いページ</b>=サイト内で<b>よく見られているページ</b>。施策の手応えや人気コンテンツが分かる。<br>
+    <b>ランディングページ</b>=各ユーザーが<b>最初に着地したページ</b>。SEO・広告・SNSの集客効果が出やすい。トップが多い場合は下層ページのSEO強化が必要。<br>
+    <b>コラム記事別ランディング</b>=ランディングのうち、ブログ・コラム系URL（/blog/、/column/、/news/）のみ抽出。<b>コンテンツマーケの効果測定</b>に。
+  </div>
+  <div class="comment-block empty" data-comment-key="ページ別"><div class="comment-header">📝 担当者コメント</div><div class="comment-body">未記入</div></div>
+  <h3>表示回数の多いページ TOP20 <a class="src-link" href="https://analytics.google.com/analytics/web/#/p436517430/reports/page-screen-class" target="_blank" rel="noopener" title="GA4で同じデータを確認">GA4 ↗</a></h3>
+  <table class="ranking-table"><thead><tr><th>ページ</th><th>PV</th></tr></thead>
+  <tbody><tr><td><div style='font-weight:500;'>練馬区の子育て支援制度がすごい！具体的なサポート内容や手続き方法は？ | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅・新築なら本社</div><div class='path' style='margin-top:2px;'>/columns/nerima-kosodate</div></td><td>298</td></tr><tr><td><div style='font-weight:500;'>中学受験は学区選びが肝！練馬区で人気の注文住宅エリアを紹介 | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅・新築なら本社</div><div class='path' style='margin-top:2px;'>/columns/school-district</div></td><td>248</td></tr><tr><td><div style='font-weight:500;'>練馬区・板橋区の注文住宅（工務店）なら春日工務店</div><div class='path' style='margin-top:2px;'>/</div></td><td>226</td></tr><tr><td><div style='font-weight:500;'>練馬区の引っ越し助成金と費用負担をかしこく抑える方法 | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅・新築なら本社</div><div class='path' style='margin-top:2px;'>/columns/nerima-hikkoshi</div></td><td>174</td></tr><tr><td><div style='font-weight:500;'>初めてのハザードマップと練馬区に住むなら知っておきたい防災の基本 | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅・新築なら本社</div><div class='path' style='margin-top:2px;'>/columns/nerimaku-hazard-map</div></td><td>165</td></tr><tr><td><div style='font-weight:500;'>練馬区ではこんなに補助金が受けられる！練馬区の住宅・医療の支援制度を解説 | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅・新築なら本社</div><div class='path' style='margin-top:2px;'>/columns/nerima-hojokin</div></td><td>159</td></tr><tr><td><div style='font-weight:500;'>練馬区で子どもと遊べる公園5選！注文住宅におすすめのエリアも紹介 | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅・新築なら本社</div><div class='path' style='margin-top:2px;'>/columns/nerima-park</div></td><td>92</td></tr><tr><td><div style='font-weight:500;'>練馬区一戸建て維持費のリアル。知らないと後悔する内訳を紹介！ | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の新築なら本社</div><div class='path' style='margin-top:2px;'>/columns/nerima-runningcost</div></td><td>76</td></tr><tr><td><div style='font-weight:500;'>ナフサ高騰はいつまで続く？建材値下げが期待できない理由 | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅・新築なら本社</div><div class='path' style='margin-top:2px;'>/columns/naphtha-soar</div></td><td>71</td></tr><tr><td><div style='font-weight:500;'>練馬区で古家解体するなら補助金の活用を！制度と申請のポイント | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅・新築なら本社</div><div class='path' style='margin-top:2px;'>/columns/nerima-kaitai</div></td><td>69</td></tr><tr><td><div style='font-weight:500;'>【2026年最新】東京23区の土地相場を比較｜練馬区が狙い目な理由 | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅・土地なら本社</div><div class='path' style='margin-top:2px;'>/columns/2026-tokyo23ku-tochisoba</div></td><td>61</td></tr><tr><td><div style='font-weight:500;'>株式会社春日工務店の会社概要 | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅なら株式会社春日工務店</div><div class='path' style='margin-top:2px;'>/company</div></td><td>59</td></tr><tr><td><div style='font-weight:500;'>練馬区で評価が高い保育園5選！注文住宅を建てたいエリアも紹介 | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅・新築なら本社</div><div class='path' style='margin-top:2px;'>/columns/nursery-school</div></td><td>58</td></tr><tr><td><div style='font-weight:500;'>練馬区の土地価格相場は？土地の売買事例やおすすめエリアも紹介 | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅・新築・土地なら本社</div><div class='path' style='margin-top:2px;'>/columns/nerima-land</div></td><td>55</td></tr><tr><td><div style='font-weight:500;'>練馬区って治安はいいの？子育てしやすい地域をランキング形式でご紹介 | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅なら本社</div><div class='path' style='margin-top:2px;'>/columns/nerimaku-chian</div></td><td>52</td></tr><tr><td><div style='font-weight:500;'>株式会社春日工務店の家づくり | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅なら株式会社春日工務店</div><div class='path' style='margin-top:2px;'>/about</div></td><td>49</td></tr><tr><td><div style='font-weight:500;'>お問い合わせフォーム</div><div class='path' style='margin-top:2px;'>/inquiries/new</div></td><td>48</td></tr><tr><td><div style='font-weight:500;'>施工事例 | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅なら本社</div><div class='path' style='margin-top:2px;'>/galleries</div></td><td>45</td></tr><tr><td><div style='font-weight:500;'>練馬区から都心へのアクセスは？注文住宅におすすめのエリアを紹介 | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅なら本社</div><div class='path' style='margin-top:2px;'>/columns/nerimaku-access</div></td><td>44</td></tr><tr><td><div style='font-weight:500;'>【7月4日開催】おとなもこどもも！おかねのがっこう家族でお金について考えてみよう！(練馬区) | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応のその他イベントなら株式会社春日工務店</div><div class='path' style='margin-top:2px;'>/events/7513</div></td><td>43</td></tr></tbody></table>
+
+  <h3>ランディングページ TOP20 <a class="src-link" href="https://analytics.google.com/analytics/web/#/p436517430/reports/lifecycle-acquisition-landing-page" target="_blank" rel="noopener" title="GA4で同じデータを確認">GA4 ↗</a></h3>
+  <table class="ranking-table"><thead><tr><th>ページ</th><th>セッション</th></tr></thead>
+  <tbody><tr><td><div style='font-weight:500;'>練馬区の子育て支援制度がすごい！具体的なサポート内容や手続き方法は？ | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅・新築なら本社</div><div class='path' style='margin-top:2px;'>/columns/nerima-kosodate</div></td><td>281</td></tr><tr><td><div style='font-weight:500;'>中学受験は学区選びが肝！練馬区で人気の注文住宅エリアを紹介 | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅・新築なら本社</div><div class='path' style='margin-top:2px;'>/columns/school-district</div></td><td>233</td></tr><tr><td><div style='font-weight:500;'>練馬区・板橋区の注文住宅（工務店）なら春日工務店</div><div class='path' style='margin-top:2px;'>/</div></td><td>162</td></tr><tr><td><div style='font-weight:500;'>練馬区の引っ越し助成金と費用負担をかしこく抑える方法 | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅・新築なら本社</div><div class='path' style='margin-top:2px;'>/columns/nerima-hikkoshi</div></td><td>159</td></tr><tr><td><div style='font-weight:500;'>初めてのハザードマップと練馬区に住むなら知っておきたい防災の基本 | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅・新築なら本社</div><div class='path' style='margin-top:2px;'>/columns/nerimaku-hazard-map</div></td><td>154</td></tr><tr><td><div style='font-weight:500;'>練馬区ではこんなに補助金が受けられる！練馬区の住宅・医療の支援制度を解説 | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅・新築なら本社</div><div class='path' style='margin-top:2px;'>/columns/nerima-hojokin</div></td><td>149</td></tr><tr><td><div style='font-weight:500;'>練馬区で子どもと遊べる公園5選！注文住宅におすすめのエリアも紹介 | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅・新築なら本社</div><div class='path' style='margin-top:2px;'>/columns/nerima-park</div></td><td>91</td></tr><tr><td><div style='font-weight:500;'>練馬区一戸建て維持費のリアル。知らないと後悔する内訳を紹介！ | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の新築なら本社</div><div class='path' style='margin-top:2px;'>/columns/nerima-runningcost</div></td><td>74</td></tr><tr><td><div style='font-weight:500;'>(not set)</div><div class='path' style='margin-top:2px;'>(not set)</div></td><td>73</td></tr><tr><td><div style='font-weight:500;'>ナフサ高騰はいつまで続く？建材値下げが期待できない理由 | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅・新築なら本社</div><div class='path' style='margin-top:2px;'>/columns/naphtha-soar</div></td><td>70</td></tr><tr><td><div style='font-weight:500;'>練馬区で古家解体するなら補助金の活用を！制度と申請のポイント | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅・新築なら本社</div><div class='path' style='margin-top:2px;'>/columns/nerima-kaitai</div></td><td>63</td></tr><tr><td><div style='font-weight:500;'>【2026年最新】東京23区の土地相場を比較｜練馬区が狙い目な理由 | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅・土地なら本社</div><div class='path' style='margin-top:2px;'>/columns/2026-tokyo23ku-tochisoba</div></td><td>58</td></tr><tr><td><div style='font-weight:500;'>練馬区で評価が高い保育園5選！注文住宅を建てたいエリアも紹介 | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅・新築なら本社</div><div class='path' style='margin-top:2px;'>/columns/nursery-school</div></td><td>56</td></tr><tr><td><div style='font-weight:500;'>練馬区の土地価格相場は？土地の売買事例やおすすめエリアも紹介 | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅・新築・土地なら本社</div><div class='path' style='margin-top:2px;'>/columns/nerima-land</div></td><td>54</td></tr><tr><td><div style='font-weight:500;'>練馬区って治安はいいの？子育てしやすい地域をランキング形式でご紹介 | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅なら本社</div><div class='path' style='margin-top:2px;'>/columns/nerimaku-chian</div></td><td>48</td></tr><tr><td><div style='font-weight:500;'>練馬区から都心へのアクセスは？注文住宅におすすめのエリアを紹介 | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅なら本社</div><div class='path' style='margin-top:2px;'>/columns/nerimaku-access</div></td><td>44</td></tr><tr><td><div style='font-weight:500;'>練馬区の水害リスクや地盤をハザードマップでチェック！注文住宅に浸水や耐震対策は必要？ | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅・新築・土地なら本社</div><div class='path' style='margin-top:2px;'>/columns/nerima-hazard</div></td><td>26</td></tr><tr><td><div style='font-weight:500;'>【7月4日開催】おとなもこどもも！おかねのがっこう家族でお金について考えてみよう！(練馬区) | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応のその他イベントなら株式会社春日工務店</div><div class='path' style='margin-top:2px;'>/events/7513</div></td><td>25</td></tr><tr><td><div style='font-weight:500;'>株式会社春日工務店の会社概要 | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅なら株式会社春日工務店</div><div class='path' style='margin-top:2px;'>/company/</div></td><td>23</td></tr><tr><td><div style='font-weight:500;'>東京の注文住宅、坪単価の"本当の相場"を知っていますか？【2026年版】 | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅なら本社</div><div class='path' style='margin-top:2px;'>/columns/2026-tokyo-tubotanka</div></td><td>22</td></tr></tbody></table>
+
+  <h3>コラム記事別ランディング TOP20</h3>
+  <p class="section-sub" style="padding-left:0;">URLに「columns」を含むページのみ抽出</p>
+  <table class="ranking-table"><thead><tr><th>ページ</th><th>セッション</th></tr></thead>
+  <tbody><tr><td colspan=2 class=empty>該当なし</td></tr></tbody></table>
+</section>
+
+<section id="cv">
+  <h2>CV分析 <a class="src-link" href="https://analytics.google.com/analytics/web/#/p436517430/reports/conversions" target="_blank" rel="noopener" title="GA4で同じデータを確認">GA4 ↗</a></h2>
+  <p class="section-sub">出典: GA4「コンバージョン」レポート ／ キーイベントとして設定されているイベントを自動で対象化</p>
+  <div class="read-guide">
+    <b>📖 読み方:</b><br>
+    <b>CV(コンバージョン)</b>=GA4で「キーイベント」として登録した重要アクション(問い合わせ送信・資料請求・来場予約等)。<br>
+    <b>月別CV数</b>: 各CV種別の月別件数推移。施策のインパクトが見えます。<br>
+    <b>CV詳細リスト</b>: 当月に発生したCVを<b>1件ずつ時系列で展開</b>。
+    <b>初回アクセス</b>=そのユーザーが初めて来た日(リード長期化を示す)。
+    <b>チャネル/参照元/LP/流入クエリ</b>=どこから来てどのページからCVしたか。
+    各行の <b>GA4↗ / GSC↗</b> をクリックすると、該当条件でフィルタした管理画面が開きます。<br>
+    <span class="legend-row" style="color: var(--text-muted);">※ Search Console との完全な突合はAPIの制約上できないため、流入クエリは推定値</span>
+  </div>
+  <div class="comment-block empty" data-comment-key="CV分析"><div class="comment-header">📝 担当者コメント</div><div class="comment-body">未記入</div></div>
+
+  <h3>月別CV数（直近6ヶ月） <a class="src-link" href="https://analytics.google.com/analytics/web/#/p436517430/reports/conversions" target="_blank" rel="noopener" title="GA4で同じデータを確認">GA4 ↗</a></h3>
+  <table class='ranking-table'><thead><tr><th>イベント</th><th>12月</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th></tr></thead><tbody><tr><td>お問い合わせ</td><td>1</td><td>4</td><td>6</td><td>7</td><td>2</td><td>12</td></tr><tr><td>イベント申込</td><td>2</td><td>2</td><td>18</td><td>1</td><td>15</td><td>0</td></tr><tr><td>資料請求</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr></tbody></table>
+
+  <h3>CV詳細リスト（2026年5月の発生分）</h3>
+  <p class="section-sub" style="padding-left:0;">クリックでGA4/Search Consoleの該当画面が開きます</p>
+  <div class="scroll-x">
+    <table class="ranking-table"><thead><tr>
+      <th>イベント</th><th>年</th><th>月日</th><th>初回アクセス</th>
+      <th>チャネル</th><th>参照元</th><th>LP</th><th>流入クエリ</th><th>地域</th>
+      <th>GA4</th><th>GSC</th>
+    </tr></thead><tbody><tr><td>お問い合わせ</td><td>2026</td><td>05/01</td><td>2026-05-01</td><td>SNS</td><td>ig</td><td class='path'>/?fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGnZBEWXKm06e_juqI2bPKZwvDgxR18Urjz7RpcRWofws84M5dumogD8fFhhyY_aem_68IzDPTBGgvLSIQo8Ysn0Q</td><td>-</td><td>Hitachinaka</td><td><a href='https://analytics.google.com/analytics/web/?authuser=0#/p436517430/reports/conversions?params=_u..nav%3Dmaui%26_u.date00%3D20260501%26_u.date01%3D20260531' target='_blank' rel='noopener'>GA4</a></td><td><a href='https://search.google.com/u/0/search-console/performance/search-analytics?resource_id=sc-domain%3Akasugakoumuten.net&page=~%2F' target='_blank' rel='noopener'>GSC</a></td></tr><tr><td>お問い合わせ</td><td>2026</td><td>05/03</td><td>2026-05-03</td><td>自然検索</td><td>google</td><td class='path'>/</td><td>-</td><td>(not set)</td><td><a href='https://analytics.google.com/analytics/web/?authuser=0#/p436517430/reports/conversions?params=_u..nav%3Dmaui%26_u.date00%3D20260501%26_u.date01%3D20260531' target='_blank' rel='noopener'>GA4</a></td><td><a href='https://search.google.com/u/0/search-console/performance/search-analytics?resource_id=sc-domain%3Akasugakoumuten.net&page=~%2F' target='_blank' rel='noopener'>GSC</a></td></tr><tr><td>お問い合わせ</td><td>2026</td><td>05/08</td><td>2026-05-08</td><td>直接流入</td><td>(direct)</td><td class='path'>/inquiries/new</td><td>-</td><td>Itabashi City</td><td><a href='https://analytics.google.com/analytics/web/?authuser=0#/p436517430/reports/conversions?params=_u..nav%3Dmaui%26_u.date00%3D20260501%26_u.date01%3D20260531' target='_blank' rel='noopener'>GA4</a></td><td><a href='https://search.google.com/u/0/search-console/performance/search-analytics?resource_id=sc-domain%3Akasugakoumuten.net&page=~%2Finquiries%2Fnew' target='_blank' rel='noopener'>GSC</a></td></tr><tr><td>お問い合わせ</td><td>2026</td><td>05/11</td><td>2026-05-11</td><td>自然検索</td><td>google</td><td class='path'>/columns/fixture-furniture</td><td>-</td><td>Shibuya</td><td><a href='https://analytics.google.com/analytics/web/?authuser=0#/p436517430/reports/conversions?params=_u..nav%3Dmaui%26_u.date00%3D20260501%26_u.date01%3D20260531' target='_blank' rel='noopener'>GA4</a></td><td><a href='https://search.google.com/u/0/search-console/performance/search-analytics?resource_id=sc-domain%3Akasugakoumuten.net&page=~%2Fcolumns%2Ffixture-furniture' target='_blank' rel='noopener'>GSC</a></td></tr><tr><td>お問い合わせ</td><td>2026</td><td>05/13</td><td>2026-05-08</td><td>直接流入</td><td>(direct)</td><td class='path'>/inquiries/new</td><td>-</td><td>Itabashi City</td><td><a href='https://analytics.google.com/analytics/web/?authuser=0#/p436517430/reports/conversions?params=_u..nav%3Dmaui%26_u.date00%3D20260501%26_u.date01%3D20260531' target='_blank' rel='noopener'>GA4</a></td><td><a href='https://search.google.com/u/0/search-console/performance/search-analytics?resource_id=sc-domain%3Akasugakoumuten.net&page=~%2Finquiries%2Fnew' target='_blank' rel='noopener'>GSC</a></td></tr><tr><td>お問い合わせ</td><td>2026</td><td>05/18</td><td>2026-05-08</td><td>直接流入</td><td>(direct)</td><td class='path'>/inquiries/new</td><td>-</td><td>Itabashi City</td><td><a href='https://analytics.google.com/analytics/web/?authuser=0#/p436517430/reports/conversions?params=_u..nav%3Dmaui%26_u.date00%3D20260501%26_u.date01%3D20260531' target='_blank' rel='noopener'>GA4</a></td><td><a href='https://search.google.com/u/0/search-console/performance/search-analytics?resource_id=sc-domain%3Akasugakoumuten.net&page=~%2Finquiries%2Fnew' target='_blank' rel='noopener'>GSC</a></td></tr><tr><td>お問い合わせ</td><td>2026</td><td>05/21</td><td>2026-05-21</td><td>直接流入</td><td>(direct)</td><td class='path'>/columns/wooden-house</td><td>-</td><td>Minato City</td><td><a href='https://analytics.google.com/analytics/web/?authuser=0#/p436517430/reports/conversions?params=_u..nav%3Dmaui%26_u.date00%3D20260501%26_u.date01%3D20260531' target='_blank' rel='noopener'>GA4</a></td><td><a href='https://search.google.com/u/0/search-console/performance/search-analytics?resource_id=sc-domain%3Akasugakoumuten.net&page=~%2Fcolumns%2Fwooden-house' target='_blank' rel='noopener'>GSC</a></td></tr><tr><td>お問い合わせ</td><td>2026</td><td>05/25</td><td>2026-05-08</td><td>直接流入</td><td>(direct)</td><td class='path'>/inquiries/new</td><td>-</td><td>Itabashi City</td><td><a href='https://analytics.google.com/analytics/web/?authuser=0#/p436517430/reports/conversions?params=_u..nav%3Dmaui%26_u.date00%3D20260501%26_u.date01%3D20260531' target='_blank' rel='noopener'>GA4</a></td><td><a href='https://search.google.com/u/0/search-console/performance/search-analytics?resource_id=sc-domain%3Akasugakoumuten.net&page=~%2Finquiries%2Fnew' target='_blank' rel='noopener'>GSC</a></td></tr><tr><td>お問い合わせ</td><td>2026</td><td>05/28</td><td>2026-05-28</td><td>自然検索</td><td>google</td><td class='path'>/</td><td>-</td><td>Nakano City</td><td><a href='https://analytics.google.com/analytics/web/?authuser=0#/p436517430/reports/conversions?params=_u..nav%3Dmaui%26_u.date00%3D20260501%26_u.date01%3D20260531' target='_blank' rel='noopener'>GA4</a></td><td><a href='https://search.google.com/u/0/search-console/performance/search-analytics?resource_id=sc-domain%3Akasugakoumuten.net&page=~%2F' target='_blank' rel='noopener'>GSC</a></td></tr></tbody></table>
+  </div>
+</section>
+
+<section id="proposals">
+  <h2>サイト改善提案</h2>
+  <p class="section-sub">当月の数値から導いた優先施策</p>
+  
+        <div class="proposal-card">
+          <div class="proposal-num">1</div>
+          <div class="proposal-body">
+            <h3>コンテンツの回遊性改善</h3>
+            <p class="proposal-evidence">現状・データ根拠</p>
+            <p>平均セッション滞在時間が 52 秒と短く、深く読まれていない可能性があります。</p>
+            <p class="proposal-action">改善案</p>
+            <p>各ページ末尾に『次に読むべき関連記事／施工事例／展示場情報』への内部リンクを設置し、回遊率を高めましょう。</p>
+          </div>
+        </div>
+        
+        <div class="proposal-card">
+          <div class="proposal-num">2</div>
+          <div class="proposal-body">
+            <h3>検索結果でのCTR改善（タイトル・ディスクリプション）</h3>
+            <p class="proposal-evidence">現状・データ根拠</p>
+            <p>検索順位は10位以内に入っているのにクリック率2%未満のクエリが 16 件あります（例: 固定資産税 練馬区, 練馬 中学受験, 練馬区 公園）。</p>
+            <p class="proposal-action">改善案</p>
+            <p>該当ページの title タグと meta description を見直し、対策キーワードとベネフィットを盛り込みましょう。</p>
+          </div>
+        </div>
+        
+        <div class="proposal-card">
+          <div class="proposal-num">3</div>
+          <div class="proposal-body">
+            <h3>あと一歩で上位表示できるキーワードの強化</h3>
+            <p class="proposal-evidence">現状・データ根拠</p>
+            <p>検索順位11〜30位で月間表示回数50回以上のクエリが 12 件あります（例: ナフサ いつまで, ナフサショックいつまで, 引っ越し 補助金 東京）。</p>
+            <p class="proposal-action">改善案</p>
+            <p>これらのキーワードを対策ページの本文内見出しに自然に組み込み、関連コラムを1〜2本追加で執筆しましょう。</p>
+          </div>
+        </div>
+        
+</section>
+
+</div>
+
+<footer>
+  © 2026 GA4 月次レポート ／ 春日工務店 様<br>
+  <span style="font-size:0.75rem;opacity:0.7;">Generated: 2026-06-10T15:17:27</span>
+</footer>
+
+<script>
+const D = {"labels_13": ["2025/05", "2025/06", "2025/07", "2025/08", "2025/09", "2025/10", "2025/11", "2025/12", "2026/01", "2026/02", "2026/03", "2026/04", "2026/05"], "users_13": [1581, 1586, 1687, 1644, 2028, 1794, 3752, 1730, 2353, 1989, 1956, 2898, 1950], "pvs_13": [2468, 2314, 2387, 2261, 2707, 2761, 4786, 2645, 3451, 2976, 2989, 4771, 2772], "bounce_13": [36.1, 33.9, 33.7, 34.5, 34.5, 34.4, 57.5, 37.9, 43.8, 37.2, 37.2, 50.8, 37.5], "duration_13": [53.0, 54.0, 45.0, 48.0, 47.0, 53.0, 25.0, 47.0, 45.0, 51.0, 56.0, 31.0, 52.0], "organic_13": [1419, 1336, 1522, 1454, 1820, 1550, 1474, 1425, 1747, 1644, 1668, 2635, 1691], "highlight": ["#fb923c", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#fb923c"], "main_channel_labels": ["自然検索", "SNS", "直接流入", "不明", "外部サイト", "メール"], "main_channel_datasets": [{"label": "3月", "data": [1647, 21, 238, 19, 33, 1]}, {"label": "4月", "data": [1441, 1194, 205, 39, 24, 3]}, {"label": "5月", "data": [1679, 12, 210, 27, 24, 0]}], "detail_cards": [{"label": "google / organic", "labels_x": ["3月", "4月", "5月"], "data": [1225, 1101, 1226], "total": 3552}, {"label": "yahoo / organic", "labels_x": ["3月", "4月", "5月"], "data": [374, 305, 397], "total": 1076}, {"label": "(direct) / (none)", "labels_x": ["3月", "4月", "5月"], "data": [238, 205, 210], "total": 653}, {"label": "bing / organic", "labels_x": ["3月", "4月", "5月"], "data": [41, 30, 44], "total": 115}, {"label": "service.smt.docomo.ne.jp / referral", "labels_x": ["3月", "4月", "5月"], "data": [16, 4, 11], "total": 31}, {"label": "chatgpt.com / (not set)", "labels_x": ["3月", "4月", "5月"], "data": [4, 7, 6], "total": 17}, {"label": "nerimakanko / portal", "labels_x": ["3月", "4月", "5月"], "data": [2, 15, 6], "total": 23}, {"label": "websearch.rakuten.co.jp / referral", "labels_x": ["3月", "4月", "5月"], "data": [3, 1, 6], "total": 10}, {"label": "goguynet / portal", "labels_x": ["3月", "4月", "5月"], "data": [2, 1, 5], "total": 8}], "attr_payload": {"all": {"device": [{"deviceCategory": "mobile", "activeUsers": "1239"}, {"deviceCategory": "desktop", "activeUsers": "691"}, {"deviceCategory": "tablet", "activeUsers": "20"}], "new_returning": [{"newVsReturning": "new", "activeUsers": "1914"}, {"newVsReturning": "returning", "activeUsers": "163"}], "gender": [], "age": []}, "cv": {"device": [{"deviceCategory": "desktop", "activeUsers": "5"}, {"deviceCategory": "mobile", "activeUsers": "1"}], "new_returning": [{"newVsReturning": "new", "activeUsers": "3"}, {"newVsReturning": "returning", "activeUsers": "3"}], "gender": [], "age": []}}, "comments_config": {"github_owner": "suzuki-omsolar", "github_repo": "ga4-reports", "branch": "main", "comments_path": "company/kasuga/comments"}, "comments_year": 2026, "comments_month": 5};
+if (window.Chart && window.ChartDataLabels) Chart.register(window.ChartDataLabels);
+
+const DL_OPTS = {
+  anchor: 'end', align: 'top', offset: 2,
+  font: { size: 10, weight: '500' }, color: '#3a4456',
+  formatter: function(v) { if (v === 0 || v === null || v === undefined) return ''; return Number(v).toLocaleString(); }
+};
+
+function bar(id, labels, data, label, bg) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  new Chart(el.getContext('2d'), {
+    type: 'bar',
+    data: { labels: labels, datasets: [{ label: label, data: data, backgroundColor: bg }] },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, datalabels: DL_OPTS },
+      scales: { y: { beginAtZero: true, grace: '10%' } }
+    }
+  });
+}
+
+function barCompare(id, labels, curr, prev, lbl_curr, lbl_prev) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  new Chart(el.getContext('2d'), {
+    type: 'bar',
+    data: { labels: labels, datasets: [
+      { label: lbl_curr, data: curr, backgroundColor: '#e08e4e' },
+      { label: lbl_prev, data: prev, backgroundColor: '#93c5fd' }
+    ]},
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { datalabels: DL_OPTS },
+      scales: { y: { beginAtZero: true, grace: '10%' } }
+    }
+  });
+}
+
+bar('chartUsersM', D.labels_13, D.users_13, 'ユーザー数', D.highlight);
+bar('chartPvsM', D.labels_13, D.pvs_13, 'ページビュー', D.highlight);
+bar('chartDur', D.labels_13, D.duration_13, '滞在秒数', D.highlight);
+bar('chartBounce', D.labels_13, D.bounce_13, '直帰率(%)', D.highlight);
+bar('chartOrganic', D.labels_13, D.organic_13, '自然検索ユーザー', D.highlight);
+
+// === 主経路: チャネル × 3ヶ月推移（グループ化棒グラフ） ===
+(function() {
+  const el = document.getElementById('chartChannelTrend');
+  if (!el) return;
+  const palette = ['#93c5fd', '#5b8fd9', '#e08e4e'];
+  const datasets = D.main_channel_datasets.map((ds, i) => ({
+    label: ds.label,
+    data: ds.data,
+    backgroundColor: palette[i % palette.length],
+  }));
+  new Chart(el.getContext('2d'), {
+    type: 'bar',
+    data: { labels: D.main_channel_labels, datasets: datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'top' },
+        datalabels: Object.assign({}, DL_OPTS, { font: { size: 9 } })
+      },
+      scales: { y: { beginAtZero: true, grace: '12%' } }
+    }
+  });
+})();
+
+// === 詳細経路: 上位9経路の3ヶ月推移ミニグラフ ===
+(function() {
+  (D.detail_cards || []).forEach(function(card, i) {
+    const el = document.getElementById('dcChart' + i);
+    if (!el) return;
+    // 直近月(末尾)とそれ以前で色分け
+    const n = card.data.length;
+    const bg = card.data.map(function(_, j) { return j === n - 1 ? '#e08e4e' : '#93c5fd'; });
+    new Chart(el.getContext('2d'), {
+      type: 'bar',
+      data: { labels: card.labels_x, datasets: [{ label: card.label, data: card.data, backgroundColor: bg }] },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          datalabels: {
+            anchor: 'end', align: 'top', offset: 2,
+            font: { size: 9, weight: '500' }, color: '#1c2536',
+            formatter: function(v) { return v === 0 ? '' : Number(v).toLocaleString(); }
+          }
+        },
+        scales: {
+          x: { ticks: { font: { size: 9 } }, grid: { display: false } },
+          y: { beginAtZero: true, grace: '20%', display: false }
+        }
+      }
+    });
+  });
+})();
+
+// === ユーザー属性: 構成比(%)で全体 vs CV比較 ===
+function attrCompareRatio(canvasId, dim, allRows, cvRows) {
+  const el = document.getElementById(canvasId);
+  if (!el) return;
+  const allMap = {}, cvMap = {};
+  allRows.forEach(r => allMap[r[dim] || '不明'] = parseInt(r.activeUsers || 0));
+  cvRows.forEach(r => cvMap[r[dim] || '不明'] = parseInt(r.activeUsers || 0));
+  const labels = Array.from(new Set([...Object.keys(allMap), ...Object.keys(cvMap)]));
+  const allTotal = Object.values(allMap).reduce((a,b)=>a+b, 0) || 1;
+  const cvTotal = Object.values(cvMap).reduce((a,b)=>a+b, 0) || 1;
+  const allPct = labels.map(l => Math.round((allMap[l] || 0) / allTotal * 1000) / 10);
+  const cvPct = labels.map(l => Math.round((cvMap[l] || 0) / cvTotal * 1000) / 10);
+  new Chart(el.getContext('2d'), {
+    type: 'bar',
+    data: { labels: labels, datasets: [
+      { label: '全体構成比', data: allPct, backgroundColor: '#93c5fd' },
+      { label: 'CVユーザー構成比', data: cvPct, backgroundColor: '#e08e4e' }
+    ]},
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        datalabels: Object.assign({}, DL_OPTS, {
+          formatter: v => (v === 0 ? '' : v.toFixed(1) + '%')
+        })
+      },
+      scales: { y: {
+        beginAtZero: true, grace: '15%',
+        ticks: { callback: v => v + '%' }
+      } }
+    }
+  });
+}
+attrCompareRatio('chartNewReturning', 'newVsReturning', D.attr_payload.all.new_returning, D.attr_payload.cv.new_returning);
+attrCompareRatio('chartDevice', 'deviceCategory', D.attr_payload.all.device, D.attr_payload.cv.device);
+
+// === コメント機能: GitHub raw から Markdown を取得して各セクションに表示 ===
+(function() {
+  const cfg = D.comments_config || {};
+  const y = D.comments_year, m = D.comments_month;
+  if (!cfg.github_owner || !cfg.github_repo) return;
+  // 編集ボタンURL: GitHub Webエディタ
+  const editPath = `${cfg.comments_path}/${y}-${String(m).padStart(2,'0')}.md`;
+  const editUrl = `https://github.com/${cfg.github_owner}/${cfg.github_repo}/edit/${cfg.branch||'main'}/${editPath}`;
+  const newFileUrl = `https://github.com/${cfg.github_owner}/${cfg.github_repo}/new/${cfg.branch||'main'}?filename=${encodeURIComponent(editPath)}`;
+  // 各 .edit-link のクリック先を設定（最初は編集URL、ファイル無しなら新規作成URL）
+  const editBtn = document.getElementById('editCommentsBtn');
+  if (editBtn) editBtn.href = editUrl;
+
+  // raw 取得 URL（GitHub Pages とは別、push 後すぐ反映される）
+  const rawUrl = `https://raw.githubusercontent.com/${cfg.github_owner}/${cfg.github_repo}/${cfg.branch||'main'}/${editPath}`;
+
+  fetch(rawUrl + '?t=' + Date.now())  // キャッシュ回避
+    .then(function(r) {
+      if (!r.ok) {
+        // ファイル無し: 編集ボタンを「新規作成」URLに
+        if (editBtn) editBtn.href = newFileUrl;
+        return null;
+      }
+      return r.text();
+    })
+    .then(function(md) {
+      if (!md) return;
+      // Markdown を ## 見出しで分割
+      const sections = {};
+      let current = null;
+      const lines = md.split(/\r?\n/);
+      for (const line of lines) {
+        const m2 = line.match(/^##\s+(.+?)\s*$/);
+        if (m2) {
+          current = m2[1].trim();
+          sections[current] = '';
+        } else if (current !== null) {
+          sections[current] += line + '\n';
+        }
+      }
+      // 各コメントブロックに反映
+      document.querySelectorAll('.comment-block[data-comment-key]').forEach(function(el) {
+        const key = el.getAttribute('data-comment-key');
+        const text = (sections[key] || '').trim();
+        if (text) {
+          el.classList.remove('empty');
+          const body = el.querySelector('.comment-body');
+          if (body && window.marked) {
+            body.innerHTML = window.marked.parse(text);
+          } else if (body) {
+            body.textContent = text;
+          }
+        }
+      });
+    })
+    .catch(function(e) { console.warn('コメント読み込み失敗:', e); });
+})();
+</script>
+</body>
+</html>
