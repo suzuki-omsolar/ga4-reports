@@ -79,6 +79,61 @@
   .comment-header { display: flex; align-items: center; gap: 8px; font-size: 0.78rem; color: var(--text-muted); margin-bottom: 6px; font-weight: 500; }
   .edit-link { font-size: 0.7rem; font-weight: 400; color: var(--primary-deep); text-decoration: none; padding: 2px 8px; background: var(--primary-light); border-radius: 3px; }
   .edit-link:hover { background: var(--primary); color: white; }
+  /* GBP セクション */
+  .gbp-head { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; padding: 14px 16px; background: linear-gradient(90deg, #fff7ed 0%, #fef3c7 100%); border-radius: 8px; margin-bottom: 14px; }
+  .gbp-rating { font-size: 2.4rem; font-weight: 700; color: #b45309; }
+  .gbp-stars { color: #f59e0b; font-size: 1.2rem; letter-spacing: 0.05em; }
+  .gbp-count { font-size: 0.9rem; color: var(--text-muted); }
+  .gbp-link { margin-left: auto; }
+  .gbp-reviews { display: grid; gap: 12px; }
+  .gbp-review { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; }
+  .gbp-review-head { display: flex; gap: 10px; align-items: center; margin-bottom: 6px; font-size: 0.85rem; }
+  .gbp-review-head .author { font-weight: 500; color: var(--dark); }
+  .gbp-review-head .stars { color: #f59e0b; }
+  .gbp-review-head .time { color: var(--text-muted); margin-left: auto; font-size: 0.75rem; }
+  .gbp-review-text { font-size: 0.9rem; line-height: 1.7; color: #3a4456; white-space: pre-wrap; }
+  .gbp-owner-reply { background: #f0f4fa; border-left: 3px solid var(--primary); padding: 8px 12px; margin-top: 8px; font-size: 0.85rem; }
+  .gbp-note { font-size: 0.75rem; color: var(--text-muted); margin-top: 8px; font-style: italic; }
+  /* SEOスコア */
+  .seo-score-head { display: flex; align-items: center; gap: 24px; padding: 20px 24px; background: linear-gradient(135deg, #eef2ff 0%, #f5f3ff 100%); border-radius: 10px; margin-bottom: 16px; }
+  .seo-grade { width: 90px; height: 90px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; flex-shrink: 0; }
+  .seo-grade .g-letter { font-size: 2.4rem; font-weight: 700; line-height: 1; }
+  .seo-grade .g-label { font-size: 0.7rem; margin-top: 2px; }
+  .seo-total { flex: 1; }
+  .seo-total .total-num { font-size: 2rem; font-weight: 700; color: var(--dark); line-height: 1; }
+  .seo-total .total-of { font-size: 1rem; color: var(--text-muted); margin-left: 4px; }
+  .seo-total .total-label { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
+  .seo-total .total-action { font-size: 0.85rem; color: var(--dark); margin-top: 8px; padding-top: 8px; border-top: 1px dashed #c7d2fe; line-height: 1.5; }
+  .seo-metrics { display: grid; grid-template-columns: 1fr; gap: 6px; }
+  .seo-metric { display: grid; grid-template-columns: 130px 1fr 90px 60px; gap: 12px; align-items: center; padding: 10px 14px; background: white; border: 1px solid var(--border); border-radius: 6px; }
+  .seo-metric .m-label { font-weight: 500; color: var(--dark); font-size: 0.92rem; }
+  .seo-metric .m-desc { font-size: 0.78rem; color: var(--text-muted); }
+  .seo-metric .m-value { font-size: 1rem; font-weight: 600; text-align: right; color: var(--dark); }
+  .seo-metric .m-stars { color: #f59e0b; font-size: 0.95rem; letter-spacing: 0.05em; text-align: right; }
+  @media (max-width: 700px) {
+    .seo-metric { grid-template-columns: 1fr; gap: 4px; }
+    .seo-metric .m-value, .seo-metric .m-stars { text-align: left; }
+  }
+  /* 業界比較バッジ */
+  .bench-badge { display: inline-block; font-size: 0.72rem; padding: 1px 6px; border-radius: 3px; margin-left: 6px; font-weight: 500; }
+  .bench-badge.good { background: #dcfce7; color: #166534; }
+  .bench-badge.warn { background: #fef3c7; color: #854d0e; }
+  .bench-badge.bad { background: #fee2e2; color: #991b1b; }
+  /* 印刷 PDF ボタン */
+  .pdf-btn { background: var(--primary-deep); color: white; padding: 6px 14px; border-radius: 6px; font-size: 0.82rem; text-decoration: none; cursor: pointer; border: none; }
+  .pdf-btn:hover { background: var(--primary); }
+  /* 印刷専用CSS */
+  @media print {
+    body { background: white; }
+    nav.toc, .month-select, #editCommentsBtn, .pdf-btn, .src-link, .edit-link { display: none !important; }
+    section { page-break-inside: avoid; box-shadow: none; border: 1px solid #ccc; }
+    section > h2 { page-break-after: avoid; }
+    h3 { page-break-after: avoid; }
+    .chart-box { page-break-inside: avoid; max-height: 280px; }
+    table { page-break-inside: avoid; }
+    .cover { padding: 30px 20px; }
+    .seo-score-head { page-break-after: avoid; }
+  }
   section > h2 + .section-sub { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 18px; padding-left: 16px; }
   section h3 { font-size: 1rem; font-weight: 500; color: var(--dark); margin: 22px 0 10px; }
   section h3 .badge-source { font-size: 0.7rem; background: var(--primary-light); color: var(--primary-deep); padding: 2px 8px; border-radius: 4px; margin-left: 8px; font-weight: 400; }
@@ -136,6 +191,7 @@
     <span class="client">奈良不動産 様</span>
     <span class="ym">2026.05</span>
     <a id="editCommentsBtn" class="edit-link" href="#" target="_blank" rel="noopener" style="margin-left: 10px;">📝 コメントを編集</a>
+    <button class="pdf-btn" onclick="window.print()" title="ブラウザの印刷機能でPDFとして保存できます">🖨 PDF印刷</button>
     <select class="month-select" onchange="if(this.value && this.value!=='#') window.location.href=this.value;">
       <option value="#" selected>2026年5月</option>
     </select>
@@ -145,6 +201,7 @@
 <nav class="toc">
   <ul>
     <li><a href="#summary">総括</a></li>
+    <li><a href="#seo-score">SEOスコア</a></li>
     <li><a href="#basic">基本指標</a></li>
     <li><a href="#monthly">月別推移</a></li>
     <li><a href="#users">ユーザー属性</a></li>
@@ -168,6 +225,80 @@
   </div>
 </section>
 
+
+<section id="seo-score">
+  <h2>SEO 総合評価スコア</h2>
+  <p class="section-sub">Search Console + GA4 のデータから5指標を採点。S(85+) / A(70+) / B(55+) / C(40+) / D の5段階</p>
+  <div class="comment-block empty" data-comment-key="SEOスコア"><div class="comment-header">📝 担当者コメント</div><div class="comment-body">未記入</div></div>
+
+  <div class="seo-score-head">
+    <div class="seo-grade" style="background: #16a34a;">
+      <div class="g-letter">A</div>
+      <div class="g-label">良好</div>
+    </div>
+    <div class="seo-total">
+      <div><span class="total-num">75.3</span><span class="total-of">/ 100点</span></div>
+      <div class="total-label">5指標の合計スコア（直近月）</div>
+      <div class="total-action"><b>次月のヒント:</b> 順位は高いがクリック率が低いページは、titleとmeta descriptionの見直しが効果的です。（最も弱い: クリック誘引力）</div>
+    </div>
+  </div>
+
+  <div class="seo-metrics">
+    
+        <div class="seo-metric">
+          <div>
+            <div class="m-label">上位表示力</div>
+            <div class="m-desc">検索順位10位以内のクエリ割合 51.4% (業界目安 30〜50%)</div>
+          </div>
+          <div></div>
+          <div class="m-value">51.4%</div>
+          <div class="m-stars">★★★★★</div>
+        </div>
+        
+        <div class="seo-metric">
+          <div>
+            <div class="m-label">オーガニック依存度</div>
+            <div class="m-desc">自然検索からの流入割合 80.8% (業界目安 40〜60%)</div>
+          </div>
+          <div></div>
+          <div class="m-value">80.8%</div>
+          <div class="m-stars">★★★★★</div>
+        </div>
+        
+        <div class="seo-metric">
+          <div>
+            <div class="m-label">クリック誘引力</div>
+            <div class="m-desc">平均CTR 1.16% (Search Console全体)</div>
+          </div>
+          <div></div>
+          <div class="m-value">1.16%</div>
+          <div class="m-stars">★☆☆☆☆</div>
+        </div>
+        
+        <div class="seo-metric">
+          <div>
+            <div class="m-label">平均掲載順位</div>
+            <div class="m-desc">全クエリ平均 15.8位 (低いほど良い)</div>
+          </div>
+          <div></div>
+          <div class="m-value">15.8位</div>
+          <div class="m-stars">★★☆☆☆</div>
+        </div>
+        
+        <div class="seo-metric">
+          <div>
+            <div class="m-label">順位上昇トレンド</div>
+            <div class="m-desc">先月→当月で順位改善したクエリ 60.3%</div>
+          </div>
+          <div></div>
+          <div class="m-value">60.3%</div>
+          <div class="m-stars">★★★★★</div>
+        </div>
+        
+  </div>
+</section>
+
+
 <section id="basic">
   <h2>基本指標（直近3ヶ月の比較） <a class="src-link" href="https://analytics.google.com/analytics/web/#/p458277193/reports/intelligenthome" target="_blank" rel="noopener" title="GA4で同じデータを確認">GA4 ↗</a></h2>
   <p class="section-sub">出典: Google Analytics 4 / 平均エンゲージメント時間は userEngagementDuration ÷ activeUsers で算出</p>
@@ -181,7 +312,7 @@
     <b>直帰率</b>=1ページだけ見て離脱した割合（低いほど良い）。
   </div>
   <div class="comment-block empty" data-comment-key="基本指標"><div class="comment-header">📝 担当者コメント</div><div class="comment-body">未記入</div></div>
-  <table class='metric-table'><thead><tr><th>指標</th><th>2026/03</th><th>2026/04</th><th>2026/05</th></tr></thead><tbody><tr><th class='metric-label'><div>ユーザー数</div><div class='metric-sub'>サイトを訪れた人数</div></th><td>1,029</td><td>2,170</td><td>1,576</td></tr><tr><th class='metric-label'><div>ページビュー数</div><div class='metric-sub'>ページが閲覧された回数</div></th><td>1,592</td><td>3,879</td><td>2,632</td></tr><tr><th class='metric-label'><div>自然検索流入数</div><div class='metric-sub'>GoogleやYahoo!の検索から訪れたユーザー数</div></th><td>706</td><td>1,847</td><td>1,279</td></tr><tr><th class='metric-label'><div>平均エンゲージメント時間</div><div class='metric-sub'>1セッションあたりの平均滞在秒数</div></th><td>40秒</td><td>18秒</td><td>35秒</td></tr><tr><th class='metric-label'><div>直帰率</div><div class='metric-sub'>1ページのみ閲覧して離脱した割合</div></th><td>38.3%</td><td>64.0%</td><td>45.8%</td></tr></tbody></table>
+  <table class='metric-table'><thead><tr><th>指標</th><th>2026/03</th><th>2026/04</th><th>2026/05</th><th>業界平均（不動産・住宅）</th></tr></thead><tbody><tr><th class='metric-label'><div>ユーザー数</div><div class='metric-sub'>サイトを訪れた人数</div></th><td>1,029</td><td>2,170</td><td>1,576</td><td>—</td></tr><tr><th class='metric-label'><div>ページビュー数</div><div class='metric-sub'>ページが閲覧された回数</div></th><td>1,592</td><td>3,879</td><td>2,632</td><td>—</td></tr><tr><th class='metric-label'><div>自然検索流入数</div><div class='metric-sub'>GoogleやYahoo!の検索から訪れたユーザー数</div></th><td>706</td><td>1,847</td><td>1,279</td><td>—</td></tr><tr><th class='metric-label'><div>平均エンゲージメント時間</div><div class='metric-sub'>1セッションあたりの平均滞在秒数</div></th><td>40秒</td><td>18秒</td><td>35秒</td><td>45秒<br><span class="bench-badge bad">業界比 ↓ 22%</span></td></tr><tr><th class='metric-label'><div>直帰率</div><div class='metric-sub'>1ページのみ閲覧して離脱した割合（低いほど良い）</div></th><td>38.3%</td><td>64.0%</td><td>45.8%</td><td>60.0%<br><span class="bench-badge good">業界比 ↑ 24%</span></td></tr></tbody></table><p class="src-note">※ 業界平均は不動産・住宅メーカーサイトの一般的な参考値。<span class="bench-badge good">↑</span>=業界平均より良い／<span class="bench-badge bad">↓</span>=改善余地</p>
 </section>
 
 <section id="monthly">
@@ -234,7 +365,7 @@
 
   <h3>市区町村 TOP10（構成比 %） <a class="src-link" href="https://analytics.google.com/analytics/web/#/p458277193/reports/demographics-overview" target="_blank" rel="noopener" title="GA4で同じデータを確認">GA4 ↗</a></h3>
   <table class="ranking-table"><thead><tr><th>市区町村</th><th>全体構成比</th><th>CVユーザー構成比</th></tr></thead>
-  <tbody><tr><td>(not set)</td><td>17.7%</td><td>18.8%</td></tr><tr><td>Kumagaya</td><td>12.9%</td><td>18.8%</td></tr><tr><td>Fukaya</td><td>4.4%</td><td>12.5%</td></tr><tr><td>Chiba</td><td>2.8%</td><td>12.5%</td></tr><tr><td>Minato City</td><td>14.9%</td><td>0.0%</td></tr><tr><td>Shinjuku City</td><td>4.6%</td><td>6.2%</td></tr><tr><td>Saitama</td><td>9.5%</td><td>0.0%</td></tr><tr><td>Konosu</td><td>3.1%</td><td>6.2%</td></tr><tr><td>Osaka</td><td>2.9%</td><td>6.2%</td></tr><tr><td>Iruma</td><td>0.0%</td><td>6.2%</td></tr></tbody></table>
+  <tbody><tr><td>(not set)</td><td>17.7%</td><td>18.8%</td></tr><tr><td>Kumagaya</td><td>12.9%</td><td>18.8%</td></tr><tr><td>Fukaya</td><td>4.4%</td><td>12.5%</td></tr><tr><td>Chiba</td><td>2.8%</td><td>12.5%</td></tr><tr><td>Minato City</td><td>14.9%</td><td>0.0%</td></tr><tr><td>Shinjuku City</td><td>4.6%</td><td>6.2%</td></tr><tr><td>Saitama</td><td>9.5%</td><td>0.0%</td></tr><tr><td>Konosu</td><td>3.1%</td><td>6.2%</td></tr><tr><td>Osaka</td><td>2.9%</td><td>6.2%</td></tr><tr><td>Edogawa City</td><td>0.0%</td><td>6.2%</td></tr></tbody></table>
 </section>
 
 <section id="acquisition">
@@ -394,7 +525,7 @@
 
 <footer>
   © 2026 GA4 月次レポート ／ 奈良不動産 様<br>
-  <span style="font-size:0.75rem;opacity:0.7;">Generated: 2026-06-09T11:52:46</span>
+  <span style="font-size:0.75rem;opacity:0.7;">Generated: 2026-06-10T09:57:26</span>
 </footer>
 
 <script>
