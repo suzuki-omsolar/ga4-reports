@@ -190,7 +190,6 @@
     <h1>サイト改善レポート</h1>
     <span class="client">春日工務店 様</span>
     <span class="ym">2026.05</span>
-    <a id="editCommentsBtn" class="edit-link" href="#" target="_blank" rel="noopener" style="margin-left: 10px;">📝 コメントを編集</a>
     <button class="pdf-btn" onclick="window.print()" title="ブラウザの印刷機能でPDFとして保存できます">🖨 PDF印刷</button>
     <select class="month-select" onchange="if(this.value && this.value!=='#') window.location.href=this.value;">
       <option value="#" selected>2026年5月</option>
@@ -218,7 +217,6 @@
 <section id="summary">
   <h2>アクセス解析の総括</h2>
   <p class="section-sub">当月の主要指標と次月のアクションプラン</p>
-  <div class="comment-block empty" data-comment-key="総括"><div class="comment-header">📝 担当者コメント</div><div class="comment-body">編集するには右上「📝 編集」ボタンから</div></div>
   <div class="summary-grid">
     <div class="orange-box"><h4>全体を通して良い点・悪い点</h4><ul><li>全体アクセスが先月から落ち込んでおり、流入経路の確認が必要</li><li>昨年同月比で成長基調にあり、SEO施策が効いている</li><li>セッション滞在時間が短く、コンテンツが十分に読まれていない可能性</li><li>対策キーワードの多くが10位以内に入っており、SEOは順調</li><li>CVが減少傾向。フォームや展示場ページの導線見直しが必要</li></ul></div>
     <div class="blue-box"><h4>次月のタスク</h4><ul><li>対策キーワードを軸としたコラム制作（1ページ1キーワード）</li><li>ランディングが集中しているページの内部リンク強化と回遊導線整備</li><li>CV計測イベントの設定見直しとCVR計測の精度向上</li><li>title/description/H1の対策キーワード整合性チェック</li></ul></div>
@@ -229,7 +227,6 @@
 <section id="seo-score">
   <h2>SEO 総合評価スコア</h2>
   <p class="section-sub">Search Console + GA4 のデータから5指標を採点。S(85+) / A(70+) / B(55+) / C(40+) / D の5段階</p>
-  <div class="comment-block empty" data-comment-key="SEOスコア"><div class="comment-header">📝 担当者コメント</div><div class="comment-body">未記入</div></div>
 
   <div class="seo-score-head">
     <div class="seo-grade" style="background: #16a34a;">
@@ -311,14 +308,12 @@
     <b>平均エンゲージメント時間</b>=ユーザー1人がブラウザを実際に開いていた平均時間（GA4 UIと同じ計算）。
     <b>直帰率</b>=1ページだけ見て離脱した割合（低いほど良い）。
   </div>
-  <div class="comment-block empty" data-comment-key="基本指標"><div class="comment-header">📝 担当者コメント</div><div class="comment-body">未記入</div></div>
   <table class='metric-table'><thead><tr><th>指標</th><th>2026/03</th><th>2026/04</th><th>2026/05</th><th>業界平均（不動産・住宅）</th></tr></thead><tbody><tr><th class='metric-label'><div>ユーザー数</div><div class='metric-sub'>サイトを訪れた人数</div></th><td>1,956</td><td>2,898</td><td>1,950</td><td>—</td></tr><tr><th class='metric-label'><div>ページビュー数</div><div class='metric-sub'>ページが閲覧された回数</div></th><td>2,989</td><td>4,771</td><td>2,772</td><td>—</td></tr><tr><th class='metric-label'><div>自然検索流入数</div><div class='metric-sub'>GoogleやYahoo!の検索から訪れたユーザー数</div></th><td>1,668</td><td>2,635</td><td>1,691</td><td>—</td></tr><tr><th class='metric-label'><div>平均エンゲージメント時間</div><div class='metric-sub'>1セッションあたりの平均滞在秒数</div></th><td>56秒</td><td>31秒</td><td>52秒</td><td>45秒<br><span class="bench-badge good">業界比 ↑ 16%</span></td></tr><tr><th class='metric-label'><div>直帰率</div><div class='metric-sub'>1ページのみ閲覧して離脱した割合（低いほど良い）</div></th><td>37.2%</td><td>50.8%</td><td>37.5%</td><td>60.0%<br><span class="bench-badge good">業界比 ↑ 38%</span></td></tr></tbody></table><p class="src-note">※ 業界平均は不動産・住宅メーカーサイトの一般的な参考値。<span class="bench-badge good">↑</span>=業界平均より良い／<span class="bench-badge bad">↓</span>=改善余地</p>
 </section>
 
 <section id="monthly">
   <h2>月別推移（過去13ヶ月） <a class="src-link" href="https://analytics.google.com/analytics/web/#/p436517430/reports/intelligenthome" target="_blank" rel="noopener" title="GA4で同じデータを確認">GA4 ↗</a></h2>
   <p class="section-sub">出典: Google Analytics 4 ／ 直近月と昨年同月をオレンジで強調</p>
-  <div class="comment-block empty" data-comment-key="月別推移"><div class="comment-header">📝 担当者コメント</div><div class="comment-body">未記入</div></div>
 
   <h3>月別ユーザー数 <a class="src-link" href="https://analytics.google.com/analytics/web/#/p436517430/reports/user-acquisition" target="_blank" rel="noopener" title="GA4で同じデータを確認">GA4 ↗</a></h3>
   <div class="chart-box"><canvas id="chartUsersM"></canvas></div>
@@ -350,7 +345,6 @@
     例: CV側だけリピーター比率が高い → 初回訪問者にCV意欲を持たせる導線が弱い、など。<br>
     <span class="legend-row" style="color:var(--text-muted);">※ 年齢・性別は GA4 の個人特定回避しきい値により非表示になりやすいため、代わりに「新規 vs リピーター」を表示</span>
   </div>
-  <div class="comment-block empty" data-comment-key="ユーザー属性"><div class="comment-header">📝 担当者コメント</div><div class="comment-body">未記入</div></div>
 
   <div class="chart-row">
     <div>
@@ -382,7 +376,6 @@
     <span class="legend-row"><code>Unassigned</code> 判別不能</span><br>
     詳細経路の <code>google / organic</code> は「Googleの自然検索」、<code>(direct) / (none)</code> は「直接アクセス」を意味します。
   </div>
-  <div class="comment-block empty" data-comment-key="流入経路"><div class="comment-header">📝 担当者コメント</div><div class="comment-body">未記入</div></div>
 
   <h3>主経路（チャネル別 3ヶ月推移） <a class="src-link" href="https://analytics.google.com/analytics/web/#/p436517430/reports/traffic-acquisition" target="_blank" rel="noopener" title="GA4で同じデータを確認">GA4 ↗</a></h3>
   <div class="chart-box"><canvas id="chartChannelTrend"></canvas></div>
@@ -409,19 +402,18 @@
     <b>順位は低いが検索数が多いTOP10</b>: 表示は多いのに順位が11位以下で機会損失しているクエリ。<b>コラム強化やtitle改善の候補</b>になります。<br>
     <span class="legend-row" style="color: var(--text-muted);">※ 表示回数5回以下のクエリは全表で除外しています</span>
   </div>
-  <div class="comment-block empty" data-comment-key="流入キーワード"><div class="comment-header">📝 担当者コメント</div><div class="comment-body">未記入</div></div>
 
-  <h3>カテゴリ「指名」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/05</th><th>2026/04</th><th>2026/03</th></tr></thead><tbody><tr><td>春日工務店</td><td>24</td><td>32</td><td>41</td></tr><tr><td>春日工務店 練馬区</td><td>14</td><td>4</td><td>12</td></tr><tr><td>株式会社春日工務店</td><td>7</td><td>7</td><td>3</td></tr></tbody></table><h3>カテゴリ「地域×注文住宅」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/05</th><th>2026/04</th><th>2026/03</th></tr></thead><tbody><tr><td>練馬区 注文住宅 相場</td><td>4</td><td>5</td><td>0</td></tr><tr><td>練馬区 工務店 注文住宅</td><td>2</td><td>0</td><td>0</td></tr><tr><td>工務店 練馬</td><td>1</td><td>0</td><td>0</td></tr><tr><td>板橋区 ハウスメーカー</td><td>1</td><td>0</td><td>0</td></tr><tr><td>練馬 工務店</td><td>1</td><td>0</td><td>1</td></tr><tr><td>練馬 注文住宅</td><td>1</td><td>0</td><td>0</td></tr><tr><td>お問い合わせ メール 工務店 練馬区</td><td>0</td><td>0</td><td>0</td></tr><tr><td>ハウスメーカー 練馬区</td><td>0</td><td>0</td><td>0</td></tr></tbody></table><h3>カテゴリ「注文住宅」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/05</th><th>2026/04</th><th>2026/03</th></tr></thead><tbody><tr><td>23区 工務店</td><td>0</td><td>0</td><td>0</td></tr><tr><td>23区 注文住宅 相場</td><td>0</td><td>0</td><td>0</td></tr><tr><td>ハウスメーカー デメリット</td><td>0</td><td>0</td><td>0</td></tr><tr><td>ハウスメーカー メリット</td><td>0</td><td>0</td><td>0</td></tr><tr><td>ハウスメーカー 工務店 どっち</td><td>0</td><td>0</td><td>0</td></tr><tr><td>ハウスメーカー 工務店 違い</td><td>0</td><td>0</td><td>0</td></tr><tr><td>フラット35 利用者調査 2024 注文住宅 建設費 3932 延床面積 118.5</td><td>0</td><td>0</td><td>0</td></tr><tr><td>フラット35 利用者調査 2024 注文住宅 建設費 3932万円 延床面積 118.5</td><td>0</td><td>0</td><td>0</td></tr><tr><td>フラット35 利用者調査 2024 注文住宅 建設費 延床面積 3932 118.5</td><td>0</td><td>0</td><td>0</td></tr><tr><td>フラット35 利用者調査 2024年度 注文住宅 建設費 3932 延床面積 118.5</td><td>0</td><td>0</td><td>0</td></tr></tbody></table><h3>カテゴリ「価格・補助金」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/05</th><th>2026/04</th><th>2026/03</th></tr></thead><tbody><tr><td>練馬区 引っ越し 助成金</td><td>17</td><td>8</td><td>17</td></tr><tr><td>練馬区 住宅 補助金</td><td>15</td><td>30</td><td>16</td></tr><tr><td>練馬区 引っ越し 補助金</td><td>12</td><td>29</td><td>22</td></tr><tr><td>練馬区 解体 助成金</td><td>6</td><td>7</td><td>7</td></tr><tr><td>引っ越し 補助金 練馬区</td><td>4</td><td>6</td><td>6</td></tr><tr><td>練馬区 子育て 補助金</td><td>4</td><td>1</td><td>2</td></tr><tr><td>引っ越し 補助金</td><td>3</td><td>1</td><td>6</td></tr><tr><td>練馬区 助成金 住宅</td><td>3</td><td>4</td><td>7</td></tr><tr><td>練馬区土地価格</td><td>3</td><td>0</td><td>0</td></tr><tr><td>練馬区引っ越し助成金</td><td>3</td><td>5</td><td>4</td></tr></tbody></table><h3>カテゴリ「子育て・教育」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/05</th><th>2026/04</th><th>2026/03</th></tr></thead><tbody><tr><td>練馬区 子育て支援</td><td>27</td><td>9</td><td>26</td></tr><tr><td>中学受験率が高い 小学校 練馬区</td><td>11</td><td>9</td><td>3</td></tr><tr><td>練馬区 小学校ランキング</td><td>11</td><td>3</td><td>1</td></tr><tr><td>練馬区 保育園 人気</td><td>7</td><td>7</td><td>2</td></tr><tr><td>練馬区 子育て 支援 一覧</td><td>6</td><td>0</td><td>5</td></tr><tr><td>練馬区 学区 人気</td><td>6</td><td>7</td><td>7</td></tr><tr><td>練馬区 小学校 学力 ランキング</td><td>6</td><td>4</td><td>7</td></tr><tr><td>練馬区 小学校 ランキング</td><td>5</td><td>9</td><td>17</td></tr><tr><td>練馬区 小学校 学区 人気</td><td>4</td><td>5</td><td>9</td></tr><tr><td>練馬区子育て支援</td><td>4</td><td>2</td><td>6</td></tr></tbody></table><h3>カテゴリ「住宅性能」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/05</th><th>2026/04</th><th>2026/03</th></tr></thead><tbody><tr><td colspan='4' class='empty'>該当キーワードなし（表示回数5回超のもの）</td></tr></tbody></table><h3>カテゴリ「防災」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/05</th><th>2026/04</th><th>2026/03</th></tr></thead><tbody><tr><td>練馬区 ハザードマップ</td><td>32</td><td>6</td><td>3</td></tr><tr><td>練馬区ハザードマップ</td><td>19</td><td>1</td><td>5</td></tr><tr><td>練馬 ハザードマップ</td><td>2</td><td>1</td><td>0</td></tr><tr><td>練馬区 ハザードマップ 地盤</td><td>2</td><td>2</td><td>3</td></tr><tr><td>練馬区 ハザードマップ 地震</td><td>2</td><td>0</td><td>2</td></tr><tr><td>練馬区 災害リスク</td><td>2</td><td>2</td><td>1</td></tr><tr><td>ハザードマップ</td><td>1</td><td>1</td><td>1</td></tr><tr><td>練馬区 内水ハザードマップ</td><td>1</td><td>0</td><td>0</td></tr><tr><td>練馬区 地震 リアルタイム</td><td>1</td><td>0</td><td>0</td></tr><tr><td>練馬区 造成宅地防災区域</td><td>1</td><td>0</td><td>0</td></tr></tbody></table><h3>カテゴリ「暮らし・地域」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/05</th><th>2026/04</th><th>2026/03</th></tr></thead><tbody><tr><td>練馬区 固定資産税</td><td>10</td><td>4</td><td>2</td></tr><tr><td>次世代育成転居助成 練馬区</td><td>9</td><td>6</td><td>8</td></tr><tr><td>練馬区 公園 ランキング</td><td>5</td><td>3</td><td>6</td></tr><tr><td>練馬区 固定資産税 いくら</td><td>4</td><td>3</td><td>2</td></tr><tr><td>練馬区 住みやすさランキング</td><td>3</td><td>4</td><td>1</td></tr><tr><td>練馬区 治安 ランキング</td><td>3</td><td>11</td><td>6</td></tr><tr><td>練馬区 浸水 履歴</td><td>3</td><td>0</td><td>0</td></tr><tr><td>練馬区 遊具の多い公園</td><td>3</td><td>2</td><td>2</td></tr><tr><td>練馬駅 公園</td><td>3</td><td>5</td><td>2</td></tr><tr><td>バースデーサポート 練馬区</td><td>2</td><td>1</td><td>0</td></tr></tbody></table><h3>カテゴリ「その他」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/05</th><th>2026/04</th><th>2026/03</th></tr></thead><tbody><tr><td>ナフサ いつまで</td><td>5</td><td>0</td><td>0</td></tr><tr><td>ナフサ ショック いつ終わる</td><td>2</td><td>0</td><td>0</td></tr><tr><td>ナフサショックいつまで</td><td>2</td><td>0</td><td>0</td></tr><tr><td>みらい青空学園</td><td>1</td><td>2</td><td>0</td></tr><tr><td>ナフサ いつまで続く</td><td>1</td><td>0</td><td>0</td></tr><tr><td>omソーラー</td><td>0</td><td>0</td><td>0</td></tr><tr><td>zeh 太陽光</td><td>0</td><td>0</td><td>0</td></tr><tr><td>はざーどまっぷ</td><td>0</td><td>0</td><td>0</td></tr><tr><td>オーエムソーラー</td><td>0</td><td>0</td><td>0</td></tr><tr><td>オーエムソーラーとは</td><td>0</td><td>0</td><td>0</td></tr></tbody></table>
+  <h3>カテゴリ「指名」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/03</th><th>2026/04</th><th>2026/05</th></tr></thead><tbody><tr><td>春日工務店</td><td>41</td><td>32</td><td>24</td></tr><tr><td>春日工務店 練馬区</td><td>12</td><td>4</td><td>14</td></tr><tr><td>株式会社春日工務店</td><td>3</td><td>7</td><td>7</td></tr></tbody></table><h3>カテゴリ「地域×注文住宅」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/03</th><th>2026/04</th><th>2026/05</th></tr></thead><tbody><tr><td>練馬区 注文住宅 相場</td><td>0</td><td>5</td><td>4</td></tr><tr><td>練馬区 工務店 注文住宅</td><td>0</td><td>0</td><td>2</td></tr><tr><td>工務店 練馬</td><td>0</td><td>0</td><td>1</td></tr><tr><td>板橋区 ハウスメーカー</td><td>0</td><td>0</td><td>1</td></tr><tr><td>練馬 工務店</td><td>1</td><td>0</td><td>1</td></tr><tr><td>練馬 注文住宅</td><td>0</td><td>0</td><td>1</td></tr><tr><td>お問い合わせ メール 工務店 練馬区</td><td>0</td><td>0</td><td>0</td></tr><tr><td>ハウスメーカー 練馬区</td><td>0</td><td>0</td><td>0</td></tr></tbody></table><h3>カテゴリ「注文住宅」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/03</th><th>2026/04</th><th>2026/05</th></tr></thead><tbody><tr><td>23区 工務店</td><td>0</td><td>0</td><td>0</td></tr><tr><td>23区 注文住宅 相場</td><td>0</td><td>0</td><td>0</td></tr><tr><td>ハウスメーカー デメリット</td><td>0</td><td>0</td><td>0</td></tr><tr><td>ハウスメーカー メリット</td><td>0</td><td>0</td><td>0</td></tr><tr><td>ハウスメーカー 工務店 どっち</td><td>0</td><td>0</td><td>0</td></tr><tr><td>ハウスメーカー 工務店 違い</td><td>0</td><td>0</td><td>0</td></tr><tr><td>フラット35 利用者調査 2024 注文住宅 建設費 3932 延床面積 118.5</td><td>0</td><td>0</td><td>0</td></tr><tr><td>フラット35 利用者調査 2024 注文住宅 建設費 3932万円 延床面積 118.5</td><td>0</td><td>0</td><td>0</td></tr><tr><td>フラット35 利用者調査 2024 注文住宅 建設費 延床面積 3932 118.5</td><td>0</td><td>0</td><td>0</td></tr><tr><td>フラット35 利用者調査 2024年度 注文住宅 建設費 3932 延床面積 118.5</td><td>0</td><td>0</td><td>0</td></tr></tbody></table><h3>カテゴリ「価格・補助金」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/03</th><th>2026/04</th><th>2026/05</th></tr></thead><tbody><tr><td>練馬区 引っ越し 助成金</td><td>17</td><td>8</td><td>17</td></tr><tr><td>練馬区 住宅 補助金</td><td>16</td><td>30</td><td>15</td></tr><tr><td>練馬区 引っ越し 補助金</td><td>22</td><td>29</td><td>12</td></tr><tr><td>練馬区 解体 助成金</td><td>7</td><td>7</td><td>6</td></tr><tr><td>引っ越し 補助金 練馬区</td><td>6</td><td>6</td><td>4</td></tr><tr><td>練馬区 子育て 補助金</td><td>2</td><td>1</td><td>4</td></tr><tr><td>引っ越し 補助金</td><td>6</td><td>1</td><td>3</td></tr><tr><td>練馬区 助成金 住宅</td><td>7</td><td>4</td><td>3</td></tr><tr><td>練馬区土地価格</td><td>0</td><td>0</td><td>3</td></tr><tr><td>練馬区引っ越し助成金</td><td>4</td><td>5</td><td>3</td></tr></tbody></table><h3>カテゴリ「子育て・教育」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/03</th><th>2026/04</th><th>2026/05</th></tr></thead><tbody><tr><td>練馬区 子育て支援</td><td>26</td><td>9</td><td>27</td></tr><tr><td>中学受験率が高い 小学校 練馬区</td><td>3</td><td>9</td><td>11</td></tr><tr><td>練馬区 小学校ランキング</td><td>1</td><td>3</td><td>11</td></tr><tr><td>練馬区 保育園 人気</td><td>2</td><td>7</td><td>7</td></tr><tr><td>練馬区 子育て 支援 一覧</td><td>5</td><td>0</td><td>6</td></tr><tr><td>練馬区 学区 人気</td><td>7</td><td>7</td><td>6</td></tr><tr><td>練馬区 小学校 学力 ランキング</td><td>7</td><td>4</td><td>6</td></tr><tr><td>練馬区 小学校 ランキング</td><td>17</td><td>9</td><td>5</td></tr><tr><td>練馬区 小学校 学区 人気</td><td>9</td><td>5</td><td>4</td></tr><tr><td>練馬区子育て支援</td><td>6</td><td>2</td><td>4</td></tr></tbody></table><h3>カテゴリ「住宅性能」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/03</th><th>2026/04</th><th>2026/05</th></tr></thead><tbody><tr><td colspan='4' class='empty'>該当キーワードなし（表示回数5回超のもの）</td></tr></tbody></table><h3>カテゴリ「防災」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/03</th><th>2026/04</th><th>2026/05</th></tr></thead><tbody><tr><td>練馬区 ハザードマップ</td><td>3</td><td>6</td><td>32</td></tr><tr><td>練馬区ハザードマップ</td><td>5</td><td>1</td><td>19</td></tr><tr><td>練馬 ハザードマップ</td><td>0</td><td>1</td><td>2</td></tr><tr><td>練馬区 ハザードマップ 地盤</td><td>3</td><td>2</td><td>2</td></tr><tr><td>練馬区 ハザードマップ 地震</td><td>2</td><td>0</td><td>2</td></tr><tr><td>練馬区 災害リスク</td><td>1</td><td>2</td><td>2</td></tr><tr><td>ハザードマップ</td><td>1</td><td>1</td><td>1</td></tr><tr><td>練馬区 内水ハザードマップ</td><td>0</td><td>0</td><td>1</td></tr><tr><td>練馬区 地震 リアルタイム</td><td>0</td><td>0</td><td>1</td></tr><tr><td>練馬区 造成宅地防災区域</td><td>0</td><td>0</td><td>1</td></tr></tbody></table><h3>カテゴリ「暮らし・地域」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/03</th><th>2026/04</th><th>2026/05</th></tr></thead><tbody><tr><td>練馬区 固定資産税</td><td>2</td><td>4</td><td>10</td></tr><tr><td>次世代育成転居助成 練馬区</td><td>8</td><td>6</td><td>9</td></tr><tr><td>練馬区 公園 ランキング</td><td>6</td><td>3</td><td>5</td></tr><tr><td>練馬区 固定資産税 いくら</td><td>2</td><td>3</td><td>4</td></tr><tr><td>練馬区 住みやすさランキング</td><td>1</td><td>4</td><td>3</td></tr><tr><td>練馬区 治安 ランキング</td><td>6</td><td>11</td><td>3</td></tr><tr><td>練馬区 浸水 履歴</td><td>0</td><td>0</td><td>3</td></tr><tr><td>練馬区 遊具の多い公園</td><td>2</td><td>2</td><td>3</td></tr><tr><td>練馬駅 公園</td><td>2</td><td>5</td><td>3</td></tr><tr><td>バースデーサポート 練馬区</td><td>0</td><td>1</td><td>2</td></tr></tbody></table><h3>カテゴリ「その他」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/03</th><th>2026/04</th><th>2026/05</th></tr></thead><tbody><tr><td>ナフサ いつまで</td><td>0</td><td>0</td><td>5</td></tr><tr><td>ナフサ ショック いつ終わる</td><td>0</td><td>0</td><td>2</td></tr><tr><td>ナフサショックいつまで</td><td>0</td><td>0</td><td>2</td></tr><tr><td>みらい青空学園</td><td>0</td><td>2</td><td>1</td></tr><tr><td>ナフサ いつまで続く</td><td>0</td><td>0</td><td>1</td></tr><tr><td>omソーラー</td><td>0</td><td>0</td><td>0</td></tr><tr><td>zeh 太陽光</td><td>0</td><td>0</td><td>0</td></tr><tr><td>はざーどまっぷ</td><td>0</td><td>0</td><td>0</td></tr><tr><td>オーエムソーラー</td><td>0</td><td>0</td><td>0</td></tr><tr><td>オーエムソーラーとは</td><td>0</td><td>0</td><td>0</td></tr></tbody></table>
 
   <h3>検索順位 改善 TOP10（先月 → 当月）</h3>
   <p class="section-sub" style="padding-left:0;">表示回数5回超のクエリで、先月から順位が上がった上位10件</p>
-  <table class="ranking-table"><thead><tr><th>クエリ</th><th>2026/05 順位</th><th>2026/04 順位</th><th>変化</th></tr></thead>
-  <tbody><tr><td>株式会社春日工務店</td><td>1.0</td><td>20.6</td><td style='color:var(--good);font-weight:500;'>↑ 19.6</td></tr><tr><td>備蓄品 置き場所</td><td>48.3</td><td>67.5</td><td style='color:var(--good);font-weight:500;'>↑ 19.2</td></tr><tr><td>和光市 住宅ローン 相談</td><td>32.1</td><td>44.6</td><td style='color:var(--good);font-weight:500;'>↑ 12.5</td></tr><tr><td>坪単価 練馬</td><td>9.4</td><td>14.1</td><td style='color:var(--good);font-weight:500;'>↑ 4.7</td></tr><tr><td>光が丘駅 保育園 口コミ</td><td>20.3</td><td>24.7</td><td style='color:var(--good);font-weight:500;'>↑ 4.4</td></tr><tr><td>練馬駅 公園</td><td>6.1</td><td>9.7</td><td style='color:var(--good);font-weight:500;'>↑ 3.7</td></tr><tr><td>練馬 ハザードマップ</td><td>4.8</td><td>8.1</td><td style='color:var(--good);font-weight:500;'>↑ 3.4</td></tr><tr><td>練馬区ハザードマップ</td><td>3.2</td><td>6.5</td><td style='color:var(--good);font-weight:500;'>↑ 3.3</td></tr><tr><td>練馬区 ハザードマップ</td><td>3.3</td><td>6.5</td><td style='color:var(--good);font-weight:500;'>↑ 3.3</td></tr><tr><td>わがまちハザードマップ</td><td>4.3</td><td>7.1</td><td style='color:var(--good);font-weight:500;'>↑ 2.8</td></tr></tbody></table>
+  <table class="ranking-table"><thead><tr><th>クエリ</th><th>2026/04 順位</th><th>2026/05 順位</th><th>変化</th></tr></thead>
+  <tbody><tr><td>株式会社春日工務店</td><td>20.6</td><td>1.0</td><td style='color:var(--good);font-weight:500;'>↑ 19.6</td></tr><tr><td>備蓄品 置き場所</td><td>67.5</td><td>48.3</td><td style='color:var(--good);font-weight:500;'>↑ 19.2</td></tr><tr><td>和光市 住宅ローン 相談</td><td>44.6</td><td>32.1</td><td style='color:var(--good);font-weight:500;'>↑ 12.5</td></tr><tr><td>坪単価 練馬</td><td>14.1</td><td>9.4</td><td style='color:var(--good);font-weight:500;'>↑ 4.7</td></tr><tr><td>光が丘駅 保育園 口コミ</td><td>24.7</td><td>20.3</td><td style='color:var(--good);font-weight:500;'>↑ 4.4</td></tr><tr><td>練馬駅 公園</td><td>9.7</td><td>6.1</td><td style='color:var(--good);font-weight:500;'>↑ 3.7</td></tr><tr><td>練馬 ハザードマップ</td><td>8.1</td><td>4.8</td><td style='color:var(--good);font-weight:500;'>↑ 3.4</td></tr><tr><td>練馬区ハザードマップ</td><td>6.5</td><td>3.2</td><td style='color:var(--good);font-weight:500;'>↑ 3.3</td></tr><tr><td>練馬区 ハザードマップ</td><td>6.5</td><td>3.3</td><td style='color:var(--good);font-weight:500;'>↑ 3.3</td></tr><tr><td>わがまちハザードマップ</td><td>7.1</td><td>4.3</td><td style='color:var(--good);font-weight:500;'>↑ 2.8</td></tr></tbody></table>
 
   <h3>検索順位 悪化 ワースト10（先月 → 当月）</h3>
   <p class="section-sub" style="padding-left:0;">表示回数5回超のクエリで、先月から順位が下がった上位10件</p>
-  <table class="ranking-table"><thead><tr><th>クエリ</th><th>2026/05 順位</th><th>2026/04 順位</th><th>変化</th></tr></thead>
-  <tbody><tr><td>住宅 自由設計</td><td>50.1</td><td>14.8</td><td style='color:var(--bad);font-weight:500;'>↓ 35.4</td></tr><tr><td>ハウスメーカー 工務店 違い</td><td>74.1</td><td>44.4</td><td style='color:var(--bad);font-weight:500;'>↓ 29.7</td></tr><tr><td>ハウスメーカー メリット</td><td>37.6</td><td>11.1</td><td style='color:var(--bad);font-weight:500;'>↓ 26.5</td></tr><tr><td>家 自由設計</td><td>34.8</td><td>12.8</td><td style='color:var(--bad);font-weight:500;'>↓ 22.0</td></tr><tr><td>ハウス メーカー か 工務 店 か</td><td>40.8</td><td>18.7</td><td style='color:var(--bad);font-weight:500;'>↓ 22.0</td></tr><tr><td>古家 解体</td><td>54.6</td><td>37.9</td><td style='color:var(--bad);font-weight:500;'>↓ 16.7</td></tr><tr><td>太陽光発電 zeh</td><td>26.1</td><td>14.4</td><td style='color:var(--bad);font-weight:500;'>↓ 11.7</td></tr><tr><td>ハウスメーカー 工務店 どっち</td><td>32.1</td><td>21.2</td><td style='color:var(--bad);font-weight:500;'>↓ 11.0</td></tr><tr><td>ハウスメーカー デメリット</td><td>29.0</td><td>23.0</td><td style='color:var(--bad);font-weight:500;'>↓ 6.0</td></tr><tr><td>マイホーム 維持費 後悔</td><td>20.8</td><td>14.8</td><td style='color:var(--bad);font-weight:500;'>↓ 5.9</td></tr></tbody></table>
+  <table class="ranking-table"><thead><tr><th>クエリ</th><th>2026/04 順位</th><th>2026/05 順位</th><th>変化</th></tr></thead>
+  <tbody><tr><td>住宅 自由設計</td><td>14.8</td><td>50.1</td><td style='color:var(--bad);font-weight:500;'>↓ 35.4</td></tr><tr><td>ハウスメーカー 工務店 違い</td><td>44.4</td><td>74.1</td><td style='color:var(--bad);font-weight:500;'>↓ 29.7</td></tr><tr><td>ハウスメーカー メリット</td><td>11.1</td><td>37.6</td><td style='color:var(--bad);font-weight:500;'>↓ 26.5</td></tr><tr><td>家 自由設計</td><td>12.8</td><td>34.8</td><td style='color:var(--bad);font-weight:500;'>↓ 22.0</td></tr><tr><td>ハウス メーカー か 工務 店 か</td><td>18.7</td><td>40.8</td><td style='color:var(--bad);font-weight:500;'>↓ 22.0</td></tr><tr><td>古家 解体</td><td>37.9</td><td>54.6</td><td style='color:var(--bad);font-weight:500;'>↓ 16.7</td></tr><tr><td>太陽光発電 zeh</td><td>14.4</td><td>26.1</td><td style='color:var(--bad);font-weight:500;'>↓ 11.7</td></tr><tr><td>ハウスメーカー 工務店 どっち</td><td>21.2</td><td>32.1</td><td style='color:var(--bad);font-weight:500;'>↓ 11.0</td></tr><tr><td>ハウスメーカー デメリット</td><td>23.0</td><td>29.0</td><td style='color:var(--bad);font-weight:500;'>↓ 6.0</td></tr><tr><td>マイホーム 維持費 後悔</td><td>14.8</td><td>20.8</td><td style='color:var(--bad);font-weight:500;'>↓ 5.9</td></tr></tbody></table>
 
   <h3>順位は低いが検索数が多い TOP10（改善余地大）</h3>
   <p class="section-sub" style="padding-left:0;">検索順位11位以下で、月間表示回数5回超のクエリ。コラム強化候補。</p>
@@ -438,7 +430,6 @@
     <b>ランディングページ</b>=各ユーザーが<b>最初に着地したページ</b>。SEO・広告・SNSの集客効果が出やすい。トップが多い場合は下層ページのSEO強化が必要。<br>
     <b>コラム記事別ランディング</b>=ランディングのうち、ブログ・コラム系URL（/blog/、/column/、/news/）のみ抽出。<b>コンテンツマーケの効果測定</b>に。
   </div>
-  <div class="comment-block empty" data-comment-key="ページ別"><div class="comment-header">📝 担当者コメント</div><div class="comment-body">未記入</div></div>
   <h3>表示回数の多いページ TOP20 <a class="src-link" href="https://analytics.google.com/analytics/web/#/p436517430/reports/page-screen-class" target="_blank" rel="noopener" title="GA4で同じデータを確認">GA4 ↗</a></h3>
   <table class="ranking-table"><thead><tr><th>ページ</th><th>PV</th></tr></thead>
   <tbody><tr><td><div style='font-weight:500;'>練馬区の子育て支援制度がすごい！具体的なサポート内容や手続き方法は？ | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅・新築なら本社</div><div class='path' style='margin-top:2px;'>/columns/nerima-kosodate</div></td><td>298</td></tr><tr><td><div style='font-weight:500;'>中学受験は学区選びが肝！練馬区で人気の注文住宅エリアを紹介 | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅・新築なら本社</div><div class='path' style='margin-top:2px;'>/columns/school-district</div></td><td>248</td></tr><tr><td><div style='font-weight:500;'>練馬区・板橋区の注文住宅（工務店）なら春日工務店</div><div class='path' style='margin-top:2px;'>/</div></td><td>226</td></tr><tr><td><div style='font-weight:500;'>練馬区の引っ越し助成金と費用負担をかしこく抑える方法 | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅・新築なら本社</div><div class='path' style='margin-top:2px;'>/columns/nerima-hikkoshi</div></td><td>174</td></tr><tr><td><div style='font-weight:500;'>初めてのハザードマップと練馬区に住むなら知っておきたい防災の基本 | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅・新築なら本社</div><div class='path' style='margin-top:2px;'>/columns/nerimaku-hazard-map</div></td><td>165</td></tr><tr><td><div style='font-weight:500;'>練馬区ではこんなに補助金が受けられる！練馬区の住宅・医療の支援制度を解説 | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅・新築なら本社</div><div class='path' style='margin-top:2px;'>/columns/nerima-hojokin</div></td><td>159</td></tr><tr><td><div style='font-weight:500;'>練馬区で子どもと遊べる公園5選！注文住宅におすすめのエリアも紹介 | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅・新築なら本社</div><div class='path' style='margin-top:2px;'>/columns/nerima-park</div></td><td>92</td></tr><tr><td><div style='font-weight:500;'>練馬区一戸建て維持費のリアル。知らないと後悔する内訳を紹介！ | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の新築なら本社</div><div class='path' style='margin-top:2px;'>/columns/nerima-runningcost</div></td><td>76</td></tr><tr><td><div style='font-weight:500;'>ナフサ高騰はいつまで続く？建材値下げが期待できない理由 | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅・新築なら本社</div><div class='path' style='margin-top:2px;'>/columns/naphtha-soar</div></td><td>71</td></tr><tr><td><div style='font-weight:500;'>練馬区で古家解体するなら補助金の活用を！制度と申請のポイント | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅・新築なら本社</div><div class='path' style='margin-top:2px;'>/columns/nerima-kaitai</div></td><td>69</td></tr><tr><td><div style='font-weight:500;'>【2026年最新】東京23区の土地相場を比較｜練馬区が狙い目な理由 | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅・土地なら本社</div><div class='path' style='margin-top:2px;'>/columns/2026-tokyo23ku-tochisoba</div></td><td>61</td></tr><tr><td><div style='font-weight:500;'>株式会社春日工務店の会社概要 | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅なら株式会社春日工務店</div><div class='path' style='margin-top:2px;'>/company</div></td><td>59</td></tr><tr><td><div style='font-weight:500;'>練馬区で評価が高い保育園5選！注文住宅を建てたいエリアも紹介 | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅・新築なら本社</div><div class='path' style='margin-top:2px;'>/columns/nursery-school</div></td><td>58</td></tr><tr><td><div style='font-weight:500;'>練馬区の土地価格相場は？土地の売買事例やおすすめエリアも紹介 | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅・新築・土地なら本社</div><div class='path' style='margin-top:2px;'>/columns/nerima-land</div></td><td>55</td></tr><tr><td><div style='font-weight:500;'>練馬区って治安はいいの？子育てしやすい地域をランキング形式でご紹介 | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅なら本社</div><div class='path' style='margin-top:2px;'>/columns/nerimaku-chian</div></td><td>52</td></tr><tr><td><div style='font-weight:500;'>株式会社春日工務店の家づくり | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅なら株式会社春日工務店</div><div class='path' style='margin-top:2px;'>/about</div></td><td>49</td></tr><tr><td><div style='font-weight:500;'>お問い合わせフォーム</div><div class='path' style='margin-top:2px;'>/inquiries/new</div></td><td>48</td></tr><tr><td><div style='font-weight:500;'>施工事例 | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅なら本社</div><div class='path' style='margin-top:2px;'>/galleries</div></td><td>45</td></tr><tr><td><div style='font-weight:500;'>練馬区から都心へのアクセスは？注文住宅におすすめのエリアを紹介 | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応の注文住宅なら本社</div><div class='path' style='margin-top:2px;'>/columns/nerimaku-access</div></td><td>44</td></tr><tr><td><div style='font-weight:500;'>【7月4日開催】おとなもこどもも！おかねのがっこう家族でお金について考えてみよう！(練馬区) | 練馬区・板橋区を中心に中野区/杉並区/新座市/朝霧市/和光市/戸田市を対応のその他イベントなら株式会社春日工務店</div><div class='path' style='margin-top:2px;'>/events/7513</div></td><td>43</td></tr></tbody></table>
@@ -466,7 +457,6 @@
     各行の <b>GA4↗ / GSC↗</b> をクリックすると、該当条件でフィルタした管理画面が開きます。<br>
     <span class="legend-row" style="color: var(--text-muted);">※ Search Console との完全な突合はAPIの制約上できないため、流入クエリは推定値</span>
   </div>
-  <div class="comment-block empty" data-comment-key="CV分析"><div class="comment-header">📝 担当者コメント</div><div class="comment-body">未記入</div></div>
 
   <h3>月別CV数（直近6ヶ月） <a class="src-link" href="https://analytics.google.com/analytics/web/#/p436517430/reports/conversions" target="_blank" rel="noopener" title="GA4で同じデータを確認">GA4 ↗</a></h3>
   <table class='ranking-table'><thead><tr><th>イベント</th><th>12月</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th></tr></thead><tbody><tr><td>お問い合わせ</td><td>1</td><td>4</td><td>6</td><td>7</td><td>2</td><td>12</td></tr><tr><td>イベント申込</td><td>2</td><td>2</td><td>18</td><td>1</td><td>15</td><td>0</td></tr><tr><td>資料請求</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr></tbody></table>
@@ -525,7 +515,7 @@
 
 <footer>
   © 2026 GA4 月次レポート ／ 春日工務店 様<br>
-  <span style="font-size:0.75rem;opacity:0.7;">Generated: 2026-06-10T15:32:30</span>
+  <span style="font-size:0.75rem;opacity:0.7;">Generated: 2026-06-11T13:37:12</span>
 </footer>
 
 <script>
@@ -664,63 +654,6 @@ function attrCompareRatio(canvasId, dim, allRows, cvRows) {
 attrCompareRatio('chartNewReturning', 'newVsReturning', D.attr_payload.all.new_returning, D.attr_payload.cv.new_returning);
 attrCompareRatio('chartDevice', 'deviceCategory', D.attr_payload.all.device, D.attr_payload.cv.device);
 
-// === コメント機能: GitHub raw から Markdown を取得して各セクションに表示 ===
-(function() {
-  const cfg = D.comments_config || {};
-  const y = D.comments_year, m = D.comments_month;
-  if (!cfg.github_owner || !cfg.github_repo) return;
-  // 編集ボタンURL: GitHub Webエディタ
-  const editPath = `${cfg.comments_path}/${y}-${String(m).padStart(2,'0')}.md`;
-  const editUrl = `https://github.com/${cfg.github_owner}/${cfg.github_repo}/edit/${cfg.branch||'main'}/${editPath}`;
-  const newFileUrl = `https://github.com/${cfg.github_owner}/${cfg.github_repo}/new/${cfg.branch||'main'}?filename=${encodeURIComponent(editPath)}`;
-  // 各 .edit-link のクリック先を設定（最初は編集URL、ファイル無しなら新規作成URL）
-  const editBtn = document.getElementById('editCommentsBtn');
-  if (editBtn) editBtn.href = editUrl;
-
-  // raw 取得 URL（GitHub Pages とは別、push 後すぐ反映される）
-  const rawUrl = `https://raw.githubusercontent.com/${cfg.github_owner}/${cfg.github_repo}/${cfg.branch||'main'}/${editPath}`;
-
-  fetch(rawUrl + '?t=' + Date.now())  // キャッシュ回避
-    .then(function(r) {
-      if (!r.ok) {
-        // ファイル無し: 編集ボタンを「新規作成」URLに
-        if (editBtn) editBtn.href = newFileUrl;
-        return null;
-      }
-      return r.text();
-    })
-    .then(function(md) {
-      if (!md) return;
-      // Markdown を ## 見出しで分割
-      const sections = {};
-      let current = null;
-      const lines = md.split(/\r?\n/);
-      for (const line of lines) {
-        const m2 = line.match(/^##\s+(.+?)\s*$/);
-        if (m2) {
-          current = m2[1].trim();
-          sections[current] = '';
-        } else if (current !== null) {
-          sections[current] += line + '\n';
-        }
-      }
-      // 各コメントブロックに反映
-      document.querySelectorAll('.comment-block[data-comment-key]').forEach(function(el) {
-        const key = el.getAttribute('data-comment-key');
-        const text = (sections[key] || '').trim();
-        if (text) {
-          el.classList.remove('empty');
-          const body = el.querySelector('.comment-body');
-          if (body && window.marked) {
-            body.innerHTML = window.marked.parse(text);
-          } else if (body) {
-            body.textContent = text;
-          }
-        }
-      });
-    })
-    .catch(function(e) { console.warn('コメント読み込み失敗:', e); });
-})();
 </script>
 </body>
 </html>
