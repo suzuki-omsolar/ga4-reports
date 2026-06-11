@@ -190,7 +190,6 @@
     <h1>サイト改善レポート</h1>
     <span class="client">宮崎住宅 様</span>
     <span class="ym">2026.05</span>
-    <a id="editCommentsBtn" class="edit-link" href="#" target="_blank" rel="noopener" style="margin-left: 10px;">📝 コメントを編集</a>
     <button class="pdf-btn" onclick="window.print()" title="ブラウザの印刷機能でPDFとして保存できます">🖨 PDF印刷</button>
     <select class="month-select" onchange="if(this.value && this.value!=='#') window.location.href=this.value;">
       <option value="#" selected>2026年5月</option>
@@ -218,7 +217,6 @@
 <section id="summary">
   <h2>アクセス解析の総括</h2>
   <p class="section-sub">当月の主要指標と次月のアクションプラン</p>
-  <div class="comment-block empty" data-comment-key="総括"><div class="comment-header">📝 担当者コメント</div><div class="comment-body">編集するには右上「📝 編集」ボタンから</div></div>
   <div class="summary-grid">
     <div class="orange-box"><h4>全体を通して良い点・悪い点</h4><ul><li>全体アクセスが先月から落ち込んでおり、流入経路の確認が必要</li><li>昨年同月比で成長基調にあり、SEO施策が効いている</li><li>直帰率が高く、ファーストビューと回遊導線に改善余地</li><li>セッション滞在時間が短く、コンテンツが十分に読まれていない可能性</li><li>対策キーワードの多くが10位以内に入っており、SEOは順調</li><li>CVが伸びており、施策が成果に結びついている</li></ul></div>
     <div class="blue-box"><h4>次月のタスク</h4><ul><li>対策キーワードを軸としたコラム制作（1ページ1キーワード）</li><li>ランディングが集中しているページの内部リンク強化と回遊導線整備</li><li>CV計測イベントの設定見直しとCVR計測の精度向上</li><li>title/description/H1の対策キーワード整合性チェック</li></ul></div>
@@ -229,7 +227,6 @@
 <section id="seo-score">
   <h2>SEO 総合評価スコア</h2>
   <p class="section-sub">Search Console + GA4 のデータから5指標を採点。S(85+) / A(70+) / B(55+) / C(40+) / D の5段階</p>
-  <div class="comment-block empty" data-comment-key="SEOスコア"><div class="comment-header">📝 担当者コメント</div><div class="comment-body">未記入</div></div>
 
   <div class="seo-score-head">
     <div class="seo-grade" style="background: #16a34a;">
@@ -311,14 +308,12 @@
     <b>平均エンゲージメント時間</b>=ユーザー1人がブラウザを実際に開いていた平均時間（GA4 UIと同じ計算）。
     <b>直帰率</b>=1ページだけ見て離脱した割合（低いほど良い）。
   </div>
-  <div class="comment-block empty" data-comment-key="基本指標"><div class="comment-header">📝 担当者コメント</div><div class="comment-body">未記入</div></div>
   <table class='metric-table'><thead><tr><th>指標</th><th>2026/03</th><th>2026/04</th><th>2026/05</th><th>業界平均（不動産・住宅）</th></tr></thead><tbody><tr><th class='metric-label'><div>ユーザー数</div><div class='metric-sub'>サイトを訪れた人数</div></th><td>2,793</td><td>6,467</td><td>3,909</td><td>—</td></tr><tr><th class='metric-label'><div>ページビュー数</div><div class='metric-sub'>ページが閲覧された回数</div></th><td>4,827</td><td>10,453</td><td>7,491</td><td>—</td></tr><tr><th class='metric-label'><div>自然検索流入数</div><div class='metric-sub'>GoogleやYahoo!の検索から訪れたユーザー数</div></th><td>1,826</td><td>1,422</td><td>1,651</td><td>—</td></tr><tr><th class='metric-label'><div>平均エンゲージメント時間</div><div class='metric-sub'>1セッションあたりの平均滞在秒数</div></th><td>47秒</td><td>22秒</td><td>53秒</td><td>45秒<br><span class="bench-badge good">業界比 ↑ 18%</span></td></tr><tr><th class='metric-label'><div>直帰率</div><div class='metric-sub'>1ページのみ閲覧して離脱した割合（低いほど良い）</div></th><td>49.8%</td><td>72.7%</td><td>60.7%</td><td>60.0%<br><span class="bench-badge warn">業界比 ≒ 1%</span></td></tr></tbody></table><p class="src-note">※ 業界平均は不動産・住宅メーカーサイトの一般的な参考値。<span class="bench-badge good">↑</span>=業界平均より良い／<span class="bench-badge bad">↓</span>=改善余地</p>
 </section>
 
 <section id="monthly">
   <h2>月別推移（過去13ヶ月） <a class="src-link" href="https://analytics.google.com/analytics/web/#/p411943560/reports/intelligenthome" target="_blank" rel="noopener" title="GA4で同じデータを確認">GA4 ↗</a></h2>
   <p class="section-sub">出典: Google Analytics 4 ／ 直近月と昨年同月をオレンジで強調</p>
-  <div class="comment-block empty" data-comment-key="月別推移"><div class="comment-header">📝 担当者コメント</div><div class="comment-body">未記入</div></div>
 
   <h3>月別ユーザー数 <a class="src-link" href="https://analytics.google.com/analytics/web/#/p411943560/reports/user-acquisition" target="_blank" rel="noopener" title="GA4で同じデータを確認">GA4 ↗</a></h3>
   <div class="chart-box"><canvas id="chartUsersM"></canvas></div>
@@ -350,7 +345,6 @@
     例: CV側だけリピーター比率が高い → 初回訪問者にCV意欲を持たせる導線が弱い、など。<br>
     <span class="legend-row" style="color:var(--text-muted);">※ 年齢・性別は GA4 の個人特定回避しきい値により非表示になりやすいため、代わりに「新規 vs リピーター」を表示</span>
   </div>
-  <div class="comment-block empty" data-comment-key="ユーザー属性"><div class="comment-header">📝 担当者コメント</div><div class="comment-body">未記入</div></div>
 
   <div class="chart-row">
     <div>
@@ -365,7 +359,7 @@
 
   <h3>市区町村 TOP10（構成比 %） <a class="src-link" href="https://analytics.google.com/analytics/web/#/p411943560/reports/demographics-overview" target="_blank" rel="noopener" title="GA4で同じデータを確認">GA4 ↗</a></h3>
   <table class="ranking-table"><thead><tr><th>市区町村</th><th>全体構成比</th><th>CVユーザー構成比</th></tr></thead>
-  <tbody><tr><td>(not set)</td><td>13.5%</td><td>30.8%</td></tr><tr><td>Miyazaki</td><td>28.9%</td><td>7.7%</td></tr><tr><td>Osaka</td><td>7.2%</td><td>23.1%</td></tr><tr><td>Yokohama</td><td>1.4%</td><td>7.7%</td></tr><tr><td>Shibuya</td><td>1.3%</td><td>7.7%</td></tr><tr><td>Nagoya</td><td>1.2%</td><td>7.7%</td></tr><tr><td>Fukuoka</td><td>8.0%</td><td>0.0%</td></tr><tr><td>Gifu</td><td>0.0%</td><td>7.7%</td></tr><tr><td>Kochi</td><td>0.0%</td><td>7.7%</td></tr><tr><td>Minato City</td><td>5.2%</td><td>0.0%</td></tr></tbody></table>
+  <tbody><tr><td>(not set)</td><td>13.5%</td><td>30.8%</td></tr><tr><td>Miyazaki</td><td>28.9%</td><td>7.7%</td></tr><tr><td>Osaka</td><td>7.2%</td><td>23.1%</td></tr><tr><td>Yokohama</td><td>1.4%</td><td>7.7%</td></tr><tr><td>Shibuya</td><td>1.3%</td><td>7.7%</td></tr><tr><td>Nagoya</td><td>1.2%</td><td>7.7%</td></tr><tr><td>Fukuoka</td><td>8.0%</td><td>0.0%</td></tr><tr><td>Kochi</td><td>0.0%</td><td>7.7%</td></tr><tr><td>Gifu</td><td>0.0%</td><td>7.7%</td></tr><tr><td>Minato City</td><td>5.2%</td><td>0.0%</td></tr></tbody></table>
 </section>
 
 <section id="acquisition">
@@ -382,7 +376,6 @@
     <span class="legend-row"><code>Unassigned</code> 判別不能</span><br>
     詳細経路の <code>google / organic</code> は「Googleの自然検索」、<code>(direct) / (none)</code> は「直接アクセス」を意味します。
   </div>
-  <div class="comment-block empty" data-comment-key="流入経路"><div class="comment-header">📝 担当者コメント</div><div class="comment-body">未記入</div></div>
 
   <h3>主経路（チャネル別 3ヶ月推移） <a class="src-link" href="https://analytics.google.com/analytics/web/#/p411943560/reports/traffic-acquisition" target="_blank" rel="noopener" title="GA4で同じデータを確認">GA4 ↗</a></h3>
   <div class="chart-box"><canvas id="chartChannelTrend"></canvas></div>
@@ -409,19 +402,18 @@
     <b>順位は低いが検索数が多いTOP10</b>: 表示は多いのに順位が11位以下で機会損失しているクエリ。<b>コラム強化やtitle改善の候補</b>になります。<br>
     <span class="legend-row" style="color: var(--text-muted);">※ 表示回数5回以下のクエリは全表で除外しています</span>
   </div>
-  <div class="comment-block empty" data-comment-key="流入キーワード"><div class="comment-header">📝 担当者コメント</div><div class="comment-body">未記入</div></div>
 
-  <h3>カテゴリ「指名」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/05</th><th>2026/04</th><th>2026/03</th></tr></thead><tbody><tr><td>宮崎住宅建設工業</td><td>73</td><td>80</td><td>71</td></tr><tr><td>宮崎住宅建設工業株式会社</td><td>18</td><td>9</td><td>11</td></tr><tr><td>宮崎住宅</td><td>6</td><td>3</td><td>3</td></tr></tbody></table><h3>カテゴリ「移住」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/05</th><th>2026/04</th><th>2026/03</th></tr></thead><tbody><tr><td>宮崎移住 やめとけ</td><td>62</td><td>53</td><td>1</td></tr><tr><td>宮崎移住 後悔</td><td>25</td><td>7</td><td>6</td></tr><tr><td>宮崎 移住</td><td>19</td><td>13</td><td>29</td></tr><tr><td>宮崎移住</td><td>14</td><td>6</td><td>11</td></tr><tr><td>宮崎 移住支援金 500万</td><td>9</td><td>5</td><td>9</td></tr><tr><td>移住支援金 500万</td><td>6</td><td>2</td><td>18</td></tr><tr><td>移住支援金 確定申告</td><td>6</td><td>7</td><td>33</td></tr><tr><td>都 城市 移住 500万円</td><td>6</td><td>3</td><td>5</td></tr><tr><td>宮崎 移住支援金</td><td>5</td><td>1</td><td>0</td></tr><tr><td>宮崎県 移住</td><td>5</td><td>5</td><td>4</td></tr></tbody></table><h3>カテゴリ「注文住宅」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/05</th><th>2026/04</th><th>2026/03</th></tr></thead><tbody><tr><td>宮崎市 建売 モデルハウス</td><td>5</td><td>4</td><td>3</td></tr><tr><td>宮崎市 新築 補助金</td><td>4</td><td>10</td><td>7</td></tr><tr><td>宮崎 注文住宅</td><td>3</td><td>0</td><td>2</td></tr><tr><td>宮崎 ハウスメーカー</td><td>2</td><td>1</td><td>0</td></tr><tr><td>宮崎市 工務店</td><td>2</td><td>1</td><td>2</td></tr><tr><td>宮崎市 平屋 新築</td><td>2</td><td>0</td><td>0</td></tr><tr><td>ナフサ不足 新築</td><td>1</td><td>0</td><td>0</td></tr><tr><td>宮崎 注文住宅 相場</td><td>1</td><td>1</td><td>6</td></tr><tr><td>宮崎ハウスメーカー</td><td>1</td><td>0</td><td>0</td></tr><tr><td>宮崎工務店</td><td>1</td><td>0</td><td>0</td></tr></tbody></table><h3>カテゴリ「価格」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/05</th><th>2026/04</th><th>2026/03</th></tr></thead><tbody><tr><td>固定資産税 宮崎市 相場</td><td>4</td><td>7</td><td>8</td></tr><tr><td>坪単価</td><td>2</td><td>0</td><td>0</td></tr><tr><td>ナフサ ショック 住宅価格</td><td>1</td><td>0</td><td>0</td></tr><tr><td>ナフサ 住宅価格</td><td>1</td><td>0</td><td>0</td></tr><tr><td>坪単価 宮崎</td><td>1</td><td>0</td><td>0</td></tr><tr><td>宮崎 土地 価格</td><td>1</td><td>0</td><td>0</td></tr><tr><td>宮崎市 土地価格</td><td>1</td><td>1</td><td>1</td></tr><tr><td>ナフサショック 住宅価格</td><td>0</td><td>0</td><td>0</td></tr><tr><td>ナフサ不足 住宅価格</td><td>0</td><td>0</td><td>0</td></tr><tr><td>住宅価格 ナフサ</td><td>0</td><td>0</td><td>0</td></tr></tbody></table><h3>カテゴリ「デザイン」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/05</th><th>2026/04</th><th>2026/03</th></tr></thead><tbody><tr><td>宮崎市 平屋</td><td>2</td><td>0</td><td>1</td></tr><tr><td>宮崎 平屋</td><td>1</td><td>3</td><td>2</td></tr><tr><td>カリフォルニア スタイル 家 平屋</td><td>0</td><td>0</td><td>0</td></tr><tr><td>カリフォルニアスタイル 平屋</td><td>0</td><td>0</td><td>0</td></tr></tbody></table><h3>カテゴリ「地域」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/05</th><th>2026/04</th><th>2026/03</th></tr></thead><tbody><tr><td>宮崎市 子育て支援</td><td>15</td><td>12</td><td>8</td></tr><tr><td>みやじゅう 宮崎</td><td>13</td><td>9</td><td>16</td></tr><tr><td>宮崎市 モデルハウス 販売</td><td>5</td><td>5</td><td>6</td></tr><tr><td>宮崎市 子育て</td><td>4</td><td>1</td><td>1</td></tr><tr><td>宮崎 子育て</td><td>3</td><td>1</td><td>3</td></tr><tr><td>宮崎 高級住宅街</td><td>3</td><td>0</td><td>2</td></tr><tr><td>宮崎市 ハザードマップ</td><td>3</td><td>0</td><td>3</td></tr><tr><td>宮崎県 住みやすい街</td><td>3</td><td>1</td><td>0</td></tr><tr><td>固定資産税 宮崎市</td><td>2</td><td>2</td><td>3</td></tr><tr><td>宮崎 子育て支援</td><td>2</td><td>2</td><td>2</td></tr></tbody></table><h3>カテゴリ「その他」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/05</th><th>2026/04</th><th>2026/03</th></tr></thead><tbody><tr><td>ナフサショック</td><td>45</td><td>0</td><td>0</td></tr><tr><td>みやじゅう</td><td>10</td><td>15</td><td>9</td></tr><tr><td>ナフサ ショック 何 が なくなる</td><td>5</td><td>0</td><td>0</td></tr><tr><td>ナフサ 不足 誰 の せい</td><td>3</td><td>0</td><td>0</td></tr><tr><td>ナフサショック 建築業界</td><td>3</td><td>0</td><td>0</td></tr><tr><td>宮住</td><td>3</td><td>10</td><td>3</td></tr><tr><td>建築 ナフサ</td><td>3</td><td>0</td><td>0</td></tr><tr><td>ナフサ ショック</td><td>2</td><td>0</td><td>0</td></tr><tr><td>ナフサ ショック なぜ</td><td>2</td><td>0</td><td>0</td></tr><tr><td>ナフサ 不足 なぜ</td><td>2</td><td>0</td><td>0</td></tr></tbody></table>
+  <h3>カテゴリ「指名」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/03</th><th>2026/04</th><th>2026/05</th></tr></thead><tbody><tr><td>宮崎住宅建設工業</td><td>71</td><td>80</td><td>73</td></tr><tr><td>宮崎住宅建設工業株式会社</td><td>11</td><td>9</td><td>18</td></tr><tr><td>宮崎住宅</td><td>3</td><td>3</td><td>6</td></tr></tbody></table><h3>カテゴリ「移住」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/03</th><th>2026/04</th><th>2026/05</th></tr></thead><tbody><tr><td>宮崎移住 やめとけ</td><td>1</td><td>53</td><td>62</td></tr><tr><td>宮崎移住 後悔</td><td>6</td><td>7</td><td>25</td></tr><tr><td>宮崎 移住</td><td>29</td><td>13</td><td>19</td></tr><tr><td>宮崎移住</td><td>11</td><td>6</td><td>14</td></tr><tr><td>宮崎 移住支援金 500万</td><td>9</td><td>5</td><td>9</td></tr><tr><td>移住支援金 500万</td><td>18</td><td>2</td><td>6</td></tr><tr><td>移住支援金 確定申告</td><td>33</td><td>7</td><td>6</td></tr><tr><td>都 城市 移住 500万円</td><td>5</td><td>3</td><td>6</td></tr><tr><td>宮崎 移住支援金</td><td>0</td><td>1</td><td>5</td></tr><tr><td>宮崎県 移住</td><td>4</td><td>5</td><td>5</td></tr></tbody></table><h3>カテゴリ「注文住宅」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/03</th><th>2026/04</th><th>2026/05</th></tr></thead><tbody><tr><td>宮崎市 建売 モデルハウス</td><td>3</td><td>4</td><td>5</td></tr><tr><td>宮崎市 新築 補助金</td><td>7</td><td>10</td><td>4</td></tr><tr><td>宮崎 注文住宅</td><td>2</td><td>0</td><td>3</td></tr><tr><td>宮崎 ハウスメーカー</td><td>0</td><td>1</td><td>2</td></tr><tr><td>宮崎市 工務店</td><td>2</td><td>1</td><td>2</td></tr><tr><td>宮崎市 平屋 新築</td><td>0</td><td>0</td><td>2</td></tr><tr><td>ナフサ不足 新築</td><td>0</td><td>0</td><td>1</td></tr><tr><td>宮崎 注文住宅 相場</td><td>6</td><td>1</td><td>1</td></tr><tr><td>宮崎ハウスメーカー</td><td>0</td><td>0</td><td>1</td></tr><tr><td>宮崎工務店</td><td>0</td><td>0</td><td>1</td></tr></tbody></table><h3>カテゴリ「価格」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/03</th><th>2026/04</th><th>2026/05</th></tr></thead><tbody><tr><td>固定資産税 宮崎市 相場</td><td>8</td><td>7</td><td>4</td></tr><tr><td>坪単価</td><td>0</td><td>0</td><td>2</td></tr><tr><td>ナフサ ショック 住宅価格</td><td>0</td><td>0</td><td>1</td></tr><tr><td>ナフサ 住宅価格</td><td>0</td><td>0</td><td>1</td></tr><tr><td>坪単価 宮崎</td><td>0</td><td>0</td><td>1</td></tr><tr><td>宮崎 土地 価格</td><td>0</td><td>0</td><td>1</td></tr><tr><td>宮崎市 土地価格</td><td>1</td><td>1</td><td>1</td></tr><tr><td>ナフサショック 住宅価格</td><td>0</td><td>0</td><td>0</td></tr><tr><td>ナフサ不足 住宅価格</td><td>0</td><td>0</td><td>0</td></tr><tr><td>住宅価格 ナフサ</td><td>0</td><td>0</td><td>0</td></tr></tbody></table><h3>カテゴリ「デザイン」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/03</th><th>2026/04</th><th>2026/05</th></tr></thead><tbody><tr><td>宮崎市 平屋</td><td>1</td><td>0</td><td>2</td></tr><tr><td>宮崎 平屋</td><td>2</td><td>3</td><td>1</td></tr><tr><td>カリフォルニア スタイル 家 平屋</td><td>0</td><td>0</td><td>0</td></tr><tr><td>カリフォルニアスタイル 平屋</td><td>0</td><td>0</td><td>0</td></tr></tbody></table><h3>カテゴリ「地域」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/03</th><th>2026/04</th><th>2026/05</th></tr></thead><tbody><tr><td>宮崎市 子育て支援</td><td>8</td><td>12</td><td>15</td></tr><tr><td>みやじゅう 宮崎</td><td>16</td><td>9</td><td>13</td></tr><tr><td>宮崎市 モデルハウス 販売</td><td>6</td><td>5</td><td>5</td></tr><tr><td>宮崎市 子育て</td><td>1</td><td>1</td><td>4</td></tr><tr><td>宮崎 子育て</td><td>3</td><td>1</td><td>3</td></tr><tr><td>宮崎 高級住宅街</td><td>2</td><td>0</td><td>3</td></tr><tr><td>宮崎市 ハザードマップ</td><td>3</td><td>0</td><td>3</td></tr><tr><td>宮崎県 住みやすい街</td><td>0</td><td>1</td><td>3</td></tr><tr><td>固定資産税 宮崎市</td><td>3</td><td>2</td><td>2</td></tr><tr><td>宮崎 子育て支援</td><td>2</td><td>2</td><td>2</td></tr></tbody></table><h3>カテゴリ「その他」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/03</th><th>2026/04</th><th>2026/05</th></tr></thead><tbody><tr><td>ナフサショック</td><td>0</td><td>0</td><td>45</td></tr><tr><td>みやじゅう</td><td>9</td><td>15</td><td>10</td></tr><tr><td>ナフサ ショック 何 が なくなる</td><td>0</td><td>0</td><td>5</td></tr><tr><td>ナフサ 不足 誰 の せい</td><td>0</td><td>0</td><td>3</td></tr><tr><td>ナフサショック 建築業界</td><td>0</td><td>0</td><td>3</td></tr><tr><td>宮住</td><td>3</td><td>10</td><td>3</td></tr><tr><td>建築 ナフサ</td><td>0</td><td>0</td><td>3</td></tr><tr><td>ナフサ ショック</td><td>0</td><td>0</td><td>2</td></tr><tr><td>ナフサ ショック なぜ</td><td>0</td><td>0</td><td>2</td></tr><tr><td>ナフサ 不足 なぜ</td><td>0</td><td>0</td><td>2</td></tr></tbody></table>
 
   <h3>検索順位 改善 TOP10（先月 → 当月）</h3>
   <p class="section-sub" style="padding-left:0;">表示回数5回超のクエリで、先月から順位が上がった上位10件</p>
-  <table class="ranking-table"><thead><tr><th>クエリ</th><th>2026/05 順位</th><th>2026/04 順位</th><th>変化</th></tr></thead>
-  <tbody><tr><td>宮崎 完成見学会</td><td>12.4</td><td>30.6</td><td style='color:var(--good);font-weight:500;'>↑ 18.2</td></tr><tr><td>宮崎 移住 メリット</td><td>6.9</td><td>23.7</td><td style='color:var(--good);font-weight:500;'>↑ 16.7</td></tr><tr><td>住宅ローン相談 宮崎</td><td>25.3</td><td>34.7</td><td style='color:var(--good);font-weight:500;'>↑ 9.4</td></tr><tr><td>カリフォルニア工務店 宮崎</td><td>29.7</td><td>37.9</td><td style='color:var(--good);font-weight:500;'>↑ 8.1</td></tr><tr><td>住宅展示場 宮崎県</td><td>30.1</td><td>36.4</td><td style='color:var(--good);font-weight:500;'>↑ 6.3</td></tr><tr><td>宮崎 移住 仕事</td><td>7.2</td><td>12.6</td><td style='color:var(--good);font-weight:500;'>↑ 5.4</td></tr><tr><td>ハウスメーカー 宮崎 転職</td><td>20.0</td><td>25.2</td><td style='color:var(--good);font-weight:500;'>↑ 5.2</td></tr><tr><td>ローコスト住宅 宮崎県</td><td>41.4</td><td>46.5</td><td style='color:var(--good);font-weight:500;'>↑ 5.1</td></tr><tr><td>住宅ローン 宮崎銀行</td><td>15.8</td><td>20.5</td><td style='color:var(--good);font-weight:500;'>↑ 4.7</td></tr><tr><td>ローコスト住宅 宮崎</td><td>39.4</td><td>43.8</td><td style='color:var(--good);font-weight:500;'>↑ 4.4</td></tr></tbody></table>
+  <table class="ranking-table"><thead><tr><th>クエリ</th><th>2026/04 順位</th><th>2026/05 順位</th><th>変化</th></tr></thead>
+  <tbody><tr><td>宮崎 完成見学会</td><td>30.6</td><td>12.4</td><td style='color:var(--good);font-weight:500;'>↑ 18.2</td></tr><tr><td>宮崎 移住 メリット</td><td>23.7</td><td>6.9</td><td style='color:var(--good);font-weight:500;'>↑ 16.7</td></tr><tr><td>住宅ローン相談 宮崎</td><td>34.7</td><td>25.3</td><td style='color:var(--good);font-weight:500;'>↑ 9.4</td></tr><tr><td>カリフォルニア工務店 宮崎</td><td>37.9</td><td>29.7</td><td style='color:var(--good);font-weight:500;'>↑ 8.1</td></tr><tr><td>住宅展示場 宮崎県</td><td>36.4</td><td>30.1</td><td style='color:var(--good);font-weight:500;'>↑ 6.3</td></tr><tr><td>宮崎 移住 仕事</td><td>12.6</td><td>7.2</td><td style='color:var(--good);font-weight:500;'>↑ 5.4</td></tr><tr><td>ハウスメーカー 宮崎 転職</td><td>25.2</td><td>20.0</td><td style='color:var(--good);font-weight:500;'>↑ 5.2</td></tr><tr><td>ローコスト住宅 宮崎県</td><td>46.5</td><td>41.4</td><td style='color:var(--good);font-weight:500;'>↑ 5.1</td></tr><tr><td>住宅ローン 宮崎銀行</td><td>20.5</td><td>15.8</td><td style='color:var(--good);font-weight:500;'>↑ 4.7</td></tr><tr><td>ローコスト住宅 宮崎</td><td>43.8</td><td>39.4</td><td style='color:var(--good);font-weight:500;'>↑ 4.4</td></tr></tbody></table>
 
   <h3>検索順位 悪化 ワースト10（先月 → 当月）</h3>
   <p class="section-sub" style="padding-left:0;">表示回数5回超のクエリで、先月から順位が下がった上位10件</p>
-  <table class="ranking-table"><thead><tr><th>クエリ</th><th>2026/05 順位</th><th>2026/04 順位</th><th>変化</th></tr></thead>
-  <tbody><tr><td>坪単価</td><td>15.1</td><td>5.6</td><td style='color:var(--bad);font-weight:500;'>↓ 9.5</td></tr><tr><td>えびの市 住宅展示場</td><td>17.2</td><td>8.5</td><td style='color:var(--bad);font-weight:500;'>↓ 8.7</td></tr><tr><td>住宅トレンド 2026</td><td>13.3</td><td>5.2</td><td style='color:var(--bad);font-weight:500;'>↓ 8.1</td></tr><tr><td>住宅トレンド</td><td>18.1</td><td>10.8</td><td style='color:var(--bad);font-weight:500;'>↓ 7.3</td></tr><tr><td>住宅 宮崎県</td><td>24.5</td><td>17.7</td><td style='color:var(--bad);font-weight:500;'>↓ 6.8</td></tr><tr><td>ハウスメーカー 宮崎県</td><td>17.6</td><td>11.8</td><td style='color:var(--bad);font-weight:500;'>↓ 5.8</td></tr><tr><td>宮崎ハウスメーカー</td><td>15.5</td><td>10.7</td><td style='color:var(--bad);font-weight:500;'>↓ 4.8</td></tr><tr><td>カリフォルニアスタイル 平屋</td><td>31.9</td><td>27.3</td><td style='color:var(--bad);font-weight:500;'>↓ 4.7</td></tr><tr><td>ハウスメーカー 宮崎</td><td>19.6</td><td>15.1</td><td style='color:var(--bad);font-weight:500;'>↓ 4.5</td></tr><tr><td>児湯郡 注文住宅</td><td>11.7</td><td>7.5</td><td style='color:var(--bad);font-weight:500;'>↓ 4.2</td></tr></tbody></table>
+  <table class="ranking-table"><thead><tr><th>クエリ</th><th>2026/04 順位</th><th>2026/05 順位</th><th>変化</th></tr></thead>
+  <tbody><tr><td>坪単価</td><td>5.6</td><td>15.1</td><td style='color:var(--bad);font-weight:500;'>↓ 9.5</td></tr><tr><td>えびの市 住宅展示場</td><td>8.5</td><td>17.2</td><td style='color:var(--bad);font-weight:500;'>↓ 8.7</td></tr><tr><td>住宅トレンド 2026</td><td>5.2</td><td>13.3</td><td style='color:var(--bad);font-weight:500;'>↓ 8.1</td></tr><tr><td>住宅トレンド</td><td>10.8</td><td>18.1</td><td style='color:var(--bad);font-weight:500;'>↓ 7.3</td></tr><tr><td>住宅 宮崎県</td><td>17.7</td><td>24.5</td><td style='color:var(--bad);font-weight:500;'>↓ 6.8</td></tr><tr><td>ハウスメーカー 宮崎県</td><td>11.8</td><td>17.6</td><td style='color:var(--bad);font-weight:500;'>↓ 5.8</td></tr><tr><td>宮崎ハウスメーカー</td><td>10.7</td><td>15.5</td><td style='color:var(--bad);font-weight:500;'>↓ 4.8</td></tr><tr><td>カリフォルニアスタイル 平屋</td><td>27.3</td><td>31.9</td><td style='color:var(--bad);font-weight:500;'>↓ 4.7</td></tr><tr><td>ハウスメーカー 宮崎</td><td>15.1</td><td>19.6</td><td style='color:var(--bad);font-weight:500;'>↓ 4.5</td></tr><tr><td>児湯郡 注文住宅</td><td>7.5</td><td>11.7</td><td style='color:var(--bad);font-weight:500;'>↓ 4.2</td></tr></tbody></table>
 
   <h3>順位は低いが検索数が多い TOP10（改善余地大）</h3>
   <p class="section-sub" style="padding-left:0;">検索順位11位以下で、月間表示回数5回超のクエリ。コラム強化候補。</p>
@@ -438,7 +430,6 @@
     <b>ランディングページ</b>=各ユーザーが<b>最初に着地したページ</b>。SEO・広告・SNSの集客効果が出やすい。トップが多い場合は下層ページのSEO強化が必要。<br>
     <b>コラム記事別ランディング</b>=ランディングのうち、ブログ・コラム系URL（/blog/、/column/、/news/）のみ抽出。<b>コンテンツマーケの効果測定</b>に。
   </div>
-  <div class="comment-block empty" data-comment-key="ページ別"><div class="comment-header">📝 担当者コメント</div><div class="comment-body">未記入</div></div>
   <h3>表示回数の多いページ TOP20 <a class="src-link" href="https://analytics.google.com/analytics/web/#/p411943560/reports/page-screen-class" target="_blank" rel="noopener" title="GA4で同じデータを確認">GA4 ↗</a></h3>
   <table class="ranking-table"><thead><tr><th>ページ</th><th>PV</th></tr></thead>
   <tbody><tr><td><div style='font-weight:500;'>【完成見学会｜平屋】それぞれの暮らしとGX志向の未来性能 5/16(土)-17(日) in 佐土原</div><div class='path' style='margin-top:2px;'>/news/4174</div></td><td>1,566</td></tr><tr><td><div style='font-weight:500;'>宮崎県の注文住宅・工務店なら【宮崎住宅建設工業株式会社】</div><div class='path' style='margin-top:2px;'>/</div></td><td>986</td></tr><tr><td><div style='font-weight:500;'>【設計士･FP相談会】家のこれからを考える相談会 5/23(土)-24(日)</div><div class='path' style='margin-top:2px;'>/news/4230</div></td><td>311</td></tr><tr><td><div style='font-weight:500;'>【設計士・FP相談会】今の家を活かすリフォーム？建て替える？無料相談会 5/9(土)-10(日)</div><div class='path' style='margin-top:2px;'>/news/4123</div></td><td>226</td></tr><tr><td><div style='font-weight:500;'>移住はやめた方がいい？宮崎移住で失敗を避けるための対策 | 宮崎県の注文住宅なら本社</div><div class='path' style='margin-top:2px;'>/columns/ijyuu-miss</div></td><td>203</td></tr><tr><td><div style='font-weight:500;'>施工事例 | 宮崎県宮崎市のおしゃれな注文住宅なら宮崎住宅建設工業</div><div class='path' style='margin-top:2px;'>/galleries</div></td><td>201</td></tr><tr><td><div style='font-weight:500;'>都城市なら最大500万円！【移住補助金】完全ガイド | 宮崎県の注文住宅なら本社</div><div class='path' style='margin-top:2px;'>/columns/miyakonojyo-hojyokin</div></td><td>187</td></tr><tr><td><div style='font-weight:500;'>なぜ建材が消える？ナフサショックが住宅価格を変える、いま家づくりに必要な視点 | 宮崎県の注文住宅・新築なら本社</div><div class='path' style='margin-top:2px;'>/columns/naphtha-shock-house</div></td><td>182</td></tr><tr><td><div style='font-weight:500;'>見学会・お知らせ | 宮崎県の注文住宅なら宮崎住宅建設工業株式会社</div><div class='path' style='margin-top:2px;'>/news</div></td><td>182</td></tr><tr><td><div style='font-weight:500;'>宮崎住宅建設工業株式会社の家づくり | 宮崎県の注文住宅なら宮崎住宅建設工業株式会社</div><div class='path' style='margin-top:2px;'>/about</div></td><td>131</td></tr><tr><td><div style='font-weight:500;'>宮崎県の移住先人気ランキング！おすすめはどこ？ | 宮崎県の注文住宅・新築なら本社</div><div class='path' style='margin-top:2px;'>/columns/emigration</div></td><td>129</td></tr><tr><td><div style='font-weight:500;'>宮崎住宅建設工業株式会社の会社概要 | 宮崎県の注文住宅なら宮崎住宅建設工業株式会社</div><div class='path' style='margin-top:2px;'>/company</div></td><td>118</td></tr><tr><td><div style='font-weight:500;'>miyajyuモデルハウス(建売) | 宮崎県の新築・注文住宅なら宮崎住宅建設工業株式会社</div><div class='path' style='margin-top:2px;'>/products/miyajyuモデルハウス</div></td><td>115</td></tr><tr><td><div style='font-weight:500;'>コラム | 宮崎県の注文住宅なら本社</div><div class='path' style='margin-top:2px;'>/columns</div></td><td>115</td></tr><tr><td><div style='font-weight:500;'>お問い合わせフォーム</div><div class='path' style='margin-top:2px;'>/inquiries/new</div></td><td>102</td></tr><tr><td><div style='font-weight:500;'>土地情報 | 宮崎県の注文住宅・新築・分譲住宅・建売・土地なら宮崎住宅建設工業株式会社</div><div class='path' style='margin-top:2px;'>/advantages/土地情報</div></td><td>96</td></tr><tr><td><div style='font-weight:500;'>設計士・FPに聞く住まいのお悩み相談会 | 宮崎県の注文住宅・新築なら宮崎住宅建設工業株式会社</div><div class='path' style='margin-top:2px;'>/advantages/383</div></td><td>90</td></tr><tr><td><div style='font-weight:500;'>宮崎住宅建設工業株式会社のこだわり | 宮崎県の注文住宅なら宮崎住宅建設工業株式会社</div><div class='path' style='margin-top:2px;'>/advantages</div></td><td>85</td></tr><tr><td><div style='font-weight:500;'>【モデルハウス】見学予約受付中！　</div><div class='path' style='margin-top:2px;'>/news/2084</div></td><td>72</td></tr><tr><td><div style='font-weight:500;'>宮崎市に住むなら知っておきたい「子育て支援制度」とは？助成の内容や手続き方法を紹介 | 宮崎県の注文住宅・新築なら本社</div><div class='path' style='margin-top:2px;'>/miyazakishi/columns/5946</div></td><td>71</td></tr></tbody></table>
@@ -466,7 +457,6 @@
     各行の <b>GA4↗ / GSC↗</b> をクリックすると、該当条件でフィルタした管理画面が開きます。<br>
     <span class="legend-row" style="color: var(--text-muted);">※ Search Console との完全な突合はAPIの制約上できないため、流入クエリは推定値</span>
   </div>
-  <div class="comment-block empty" data-comment-key="CV分析"><div class="comment-header">📝 担当者コメント</div><div class="comment-body">未記入</div></div>
 
   <h3>月別CV数（直近6ヶ月） <a class="src-link" href="https://analytics.google.com/analytics/web/#/p411943560/reports/conversions" target="_blank" rel="noopener" title="GA4で同じデータを確認">GA4 ↗</a></h3>
   <table class='ranking-table'><thead><tr><th>イベント</th><th>12月</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th></tr></thead><tbody><tr><td>お問い合わせ</td><td>14</td><td>5</td><td>7</td><td>5</td><td>9</td><td>10</td></tr><tr><td>イベント申込</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td></tr><tr><td>資料請求</td><td>2</td><td>0</td><td>1</td><td>2</td><td>0</td><td>3</td></tr></tbody></table>
@@ -536,7 +526,7 @@
 
 <footer>
   © 2026 GA4 月次レポート ／ 宮崎住宅 様<br>
-  <span style="font-size:0.75rem;opacity:0.7;">Generated: 2026-06-10T09:57:53</span>
+  <span style="font-size:0.75rem;opacity:0.7;">Generated: 2026-06-11T13:45:03</span>
 </footer>
 
 <script>
@@ -675,63 +665,6 @@ function attrCompareRatio(canvasId, dim, allRows, cvRows) {
 attrCompareRatio('chartNewReturning', 'newVsReturning', D.attr_payload.all.new_returning, D.attr_payload.cv.new_returning);
 attrCompareRatio('chartDevice', 'deviceCategory', D.attr_payload.all.device, D.attr_payload.cv.device);
 
-// === コメント機能: GitHub raw から Markdown を取得して各セクションに表示 ===
-(function() {
-  const cfg = D.comments_config || {};
-  const y = D.comments_year, m = D.comments_month;
-  if (!cfg.github_owner || !cfg.github_repo) return;
-  // 編集ボタンURL: GitHub Webエディタ
-  const editPath = `${cfg.comments_path}/${y}-${String(m).padStart(2,'0')}.md`;
-  const editUrl = `https://github.com/${cfg.github_owner}/${cfg.github_repo}/edit/${cfg.branch||'main'}/${editPath}`;
-  const newFileUrl = `https://github.com/${cfg.github_owner}/${cfg.github_repo}/new/${cfg.branch||'main'}?filename=${encodeURIComponent(editPath)}`;
-  // 各 .edit-link のクリック先を設定（最初は編集URL、ファイル無しなら新規作成URL）
-  const editBtn = document.getElementById('editCommentsBtn');
-  if (editBtn) editBtn.href = editUrl;
-
-  // raw 取得 URL（GitHub Pages とは別、push 後すぐ反映される）
-  const rawUrl = `https://raw.githubusercontent.com/${cfg.github_owner}/${cfg.github_repo}/${cfg.branch||'main'}/${editPath}`;
-
-  fetch(rawUrl + '?t=' + Date.now())  // キャッシュ回避
-    .then(function(r) {
-      if (!r.ok) {
-        // ファイル無し: 編集ボタンを「新規作成」URLに
-        if (editBtn) editBtn.href = newFileUrl;
-        return null;
-      }
-      return r.text();
-    })
-    .then(function(md) {
-      if (!md) return;
-      // Markdown を ## 見出しで分割
-      const sections = {};
-      let current = null;
-      const lines = md.split(/\r?\n/);
-      for (const line of lines) {
-        const m2 = line.match(/^##\s+(.+?)\s*$/);
-        if (m2) {
-          current = m2[1].trim();
-          sections[current] = '';
-        } else if (current !== null) {
-          sections[current] += line + '\n';
-        }
-      }
-      // 各コメントブロックに反映
-      document.querySelectorAll('.comment-block[data-comment-key]').forEach(function(el) {
-        const key = el.getAttribute('data-comment-key');
-        const text = (sections[key] || '').trim();
-        if (text) {
-          el.classList.remove('empty');
-          const body = el.querySelector('.comment-body');
-          if (body && window.marked) {
-            body.innerHTML = window.marked.parse(text);
-          } else if (body) {
-            body.textContent = text;
-          }
-        }
-      });
-    })
-    .catch(function(e) { console.warn('コメント読み込み失敗:', e); });
-})();
 </script>
 </body>
 </html>
