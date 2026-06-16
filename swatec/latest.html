@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>スワテック建設 様 2026年5月 サイト改善レポート</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.0/marked.min.js"></script>
+<style>
+  :root {
+    --primary: #4f6fa5;
+    --primary-deep: #2d4978;
+    --primary-light: #eaf0f8;
+    --accent: #e08e4e;
+    --accent-light: #fdf3e9;
+    --dark: #1c2536;
+    --text-main: #3a4456;
+    --text-muted: #7c8595;
+    --bg: #fafbfd;
+    --border: #e3e8f0;
+    --good: #16a34a;
+    --bad: #dc2626;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Noto Sans JP', sans-serif; background: var(--bg); color: var(--text-main); line-height: 1.7; font-weight: 400; }
+
+  /* === シンプルな表紙 === */
+  .cover {
+    background: white;
+    padding: 50px 30px 30px;
+    border-bottom: 1px solid var(--border);
+  }
+  .cover-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: baseline; gap: 24px; flex-wrap: wrap; }
+  .cover h1 {
+    font-size: 1.6rem; font-weight: 500; letter-spacing: 0.08em;
+    color: var(--dark); border-left: 4px solid var(--primary); padding-left: 14px;
+  }
+  .cover .client { font-size: 1rem; color: var(--text-muted); }
+  .cover .ym { font-size: 1rem; color: var(--primary-deep); font-weight: 500; }
+  .cover .month-select {
+    margin-left: auto;
+    padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px;
+    background: white; font-size: 0.9rem; cursor: pointer;
+  }
+
+  nav.toc { background: white; border-bottom: 1px solid var(--border); padding: 10px 20px; position: sticky; top: 0; z-index: 10; overflow-x: auto; }
+  nav.toc ul { display: flex; gap: 18px; max-width: 1200px; margin: 0 auto; list-style: none; white-space: nowrap; }
+  nav.toc a { color: var(--text-muted); text-decoration: none; font-weight: 500; font-size: 0.88rem; }
+  nav.toc a:hover { color: var(--primary); }
+
+  .container { max-width: 1200px; margin: 0 auto; padding: 24px 20px 60px; }
+  section { background: white; border-radius: 6px; padding: 26px 28px; margin-bottom: 20px; border: 1px solid var(--border); }
+  section > h2 { font-size: 1.25rem; font-weight: 500; color: var(--dark); margin-bottom: 4px; border-left: 3px solid var(--primary); padding-left: 12px; }
+  .src-link { display: inline-block; font-size: 0.68rem; font-weight: 400; color: var(--primary-deep); text-decoration: none; margin-left: 10px; padding: 2px 8px; background: var(--primary-light); border-radius: 3px; vertical-align: middle; letter-spacing: 0.02em; }
+  .src-link:hover { background: var(--primary); color: white; }
+  .src-link.gsc { color: #2d4978; }
+  .src-note { font-size: 0.7rem; color: var(--text-muted); margin-top: 8px; padding-left: 16px; font-style: italic; }
+  .read-guide { background: #f4f7fb; border-left: 3px solid #b8c8e0; padding: 10px 14px; border-radius: 4px; font-size: 0.82rem; line-height: 1.7; margin: 10px 0 18px; color: #4a5568; }
+  .read-guide b { color: var(--primary-deep); font-weight: 500; }
+  .read-guide .legend-row { display: inline-block; margin-right: 14px; }
+  .read-guide .legend-row code { background: white; padding: 1px 6px; border-radius: 3px; font-size: 0.78rem; color: #1c2536; border: 1px solid #d8e0ec; }
+  /* 詳細経路 3×3 グリッド */
+  .detail-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 12px; }
+  @media (max-width: 900px) { .detail-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .detail-grid { grid-template-columns: 1fr; } }
+  .detail-card { background: #fafbfd; border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px 8px; }
+  .detail-card .dc-label { font-size: 0.78rem; font-weight: 500; color: var(--dark); margin-bottom: 4px; word-break: break-all; line-height: 1.4; }
+  .detail-card .dc-total { font-size: 0.7rem; color: var(--text-muted); margin-bottom: 4px; }
+  .detail-card .dc-chart { height: 160px; }
+  /* コメントエリア */
+  .comment-block { background: #fff9ef; border-left: 4px solid #f0b76e; border-radius: 4px; padding: 12px 16px; margin: 12px 0 18px; font-size: 0.92rem; line-height: 1.75; color: #4a3a1c; }
+  .comment-block.empty { background: #f7f8fa; border-left-color: #cfd5e0; color: var(--text-muted); font-style: italic; }
+  .comment-block p { margin: 0 0 6px; }
+  .comment-block ul, .comment-block ol { margin: 4px 0 6px 1.4em; }
+  .comment-block strong { color: #2c2210; }
+  .comment-block code { background: white; padding: 1px 6px; border-radius: 3px; font-size: 0.85em; }
+  .comment-header { display: flex; align-items: center; gap: 8px; font-size: 0.78rem; color: var(--text-muted); margin-bottom: 6px; font-weight: 500; }
+  .edit-link { font-size: 0.7rem; font-weight: 400; color: var(--primary-deep); text-decoration: none; padding: 2px 8px; background: var(--primary-light); border-radius: 3px; }
+  .edit-link:hover { background: var(--primary); color: white; }
+  /* GBP セクション */
+  .gbp-head { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; padding: 14px 16px; background: linear-gradient(90deg, #fff7ed 0%, #fef3c7 100%); border-radius: 8px; margin-bottom: 14px; }
+  .gbp-rating { font-size: 2.4rem; font-weight: 700; color: #b45309; }
+  .gbp-stars { color: #f59e0b; font-size: 1.2rem; letter-spacing: 0.05em; }
+  .gbp-count { font-size: 0.9rem; color: var(--text-muted); }
+  .gbp-link { margin-left: auto; }
+  .gbp-reviews { display: grid; gap: 12px; }
+  .gbp-review { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; }
+  .gbp-review-head { display: flex; gap: 10px; align-items: center; margin-bottom: 6px; font-size: 0.85rem; }
+  .gbp-review-head .author { font-weight: 500; color: var(--dark); }
+  .gbp-review-head .stars { color: #f59e0b; }
+  .gbp-review-head .time { color: var(--text-muted); margin-left: auto; font-size: 0.75rem; }
+  .gbp-review-text { font-size: 0.9rem; line-height: 1.7; color: #3a4456; white-space: pre-wrap; }
+  .gbp-owner-reply { background: #f0f4fa; border-left: 3px solid var(--primary); padding: 8px 12px; margin-top: 8px; font-size: 0.85rem; }
+  .gbp-note { font-size: 0.75rem; color: var(--text-muted); margin-top: 8px; font-style: italic; }
+  /* SEOスコア */
+  .seo-score-head { display: flex; align-items: center; gap: 24px; padding: 20px 24px; background: linear-gradient(135deg, #eef2ff 0%, #f5f3ff 100%); border-radius: 10px; margin-bottom: 16px; }
+  .seo-grade { width: 90px; height: 90px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; flex-shrink: 0; }
+  .seo-grade .g-letter { font-size: 2.4rem; font-weight: 700; line-height: 1; }
+  .seo-grade .g-label { font-size: 0.7rem; margin-top: 2px; }
+  .seo-total { flex: 1; }
+  .seo-total .total-num { font-size: 2rem; font-weight: 700; color: var(--dark); line-height: 1; }
+  .seo-total .total-of { font-size: 1rem; color: var(--text-muted); margin-left: 4px; }
+  .seo-total .total-label { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
+  .seo-total .total-action { font-size: 0.85rem; color: var(--dark); margin-top: 8px; padding-top: 8px; border-top: 1px dashed #c7d2fe; line-height: 1.5; }
+  .seo-metrics { display: grid; grid-template-columns: 1fr; gap: 6px; }
+  .seo-metric { display: grid; grid-template-columns: 130px 1fr 90px 60px; gap: 12px; align-items: center; padding: 10px 14px; background: white; border: 1px solid var(--border); border-radius: 6px; }
+  .seo-metric .m-label { font-weight: 500; color: var(--dark); font-size: 0.92rem; }
+  .seo-metric .m-desc { font-size: 0.78rem; color: var(--text-muted); }
+  .seo-metric .m-value { font-size: 1rem; font-weight: 600; text-align: right; color: var(--dark); }
+  .seo-metric .m-stars { color: #f59e0b; font-size: 0.95rem; letter-spacing: 0.05em; text-align: right; }
+  @media (max-width: 700px) {
+    .seo-metric { grid-template-columns: 1fr; gap: 4px; }
+    .seo-metric .m-value, .seo-metric .m-stars { text-align: left; }
+  }
+  /* 業界比較バッジ */
+  .bench-badge { display: inline-block; font-size: 0.72rem; padding: 1px 6px; border-radius: 3px; margin-left: 6px; font-weight: 500; }
+  .bench-badge.good { background: #dcfce7; color: #166534; }
+  .bench-badge.warn { background: #fef3c7; color: #854d0e; }
+  .bench-badge.bad { background: #fee2e2; color: #991b1b; }
+  /* 印刷 PDF ボタン */
+  .pdf-btn { background: var(--primary-deep); color: white; padding: 6px 14px; border-radius: 6px; font-size: 0.82rem; text-decoration: none; cursor: pointer; border: none; }
+  .pdf-btn:hover { background: var(--primary); }
+  /* 印刷専用CSS */
+  @media print {
+    body { background: white; }
+    nav.toc, .month-select, #editCommentsBtn, .pdf-btn, .src-link, .edit-link { display: none !important; }
+    section { page-break-inside: avoid; box-shadow: none; border: 1px solid #ccc; }
+    section > h2 { page-break-after: avoid; }
+    h3 { page-break-after: avoid; }
+    .chart-box { page-break-inside: avoid; max-height: 280px; }
+    table { page-break-inside: avoid; }
+    .cover { padding: 30px 20px; }
+    .seo-score-head { page-break-after: avoid; }
+  }
+  section > h2 + .section-sub { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 18px; padding-left: 16px; }
+  section h3 { font-size: 1rem; font-weight: 500; color: var(--dark); margin: 22px 0 10px; }
+  section h3 .badge-source { font-size: 0.7rem; background: var(--primary-light); color: var(--primary-deep); padding: 2px 8px; border-radius: 4px; margin-left: 8px; font-weight: 400; }
+
+  .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 720px) { .summary-grid { grid-template-columns: 1fr; } }
+  .orange-box, .blue-box { border-radius: 8px; padding: 18px 20px; }
+  .orange-box { background: var(--accent); color: white; }
+  .blue-box { background: var(--primary); color: white; }
+  .orange-box h4, .blue-box h4 { font-size: 0.95rem; margin-bottom: 8px; font-weight: 500; }
+  .orange-box ul, .blue-box ul { padding-left: 1.2em; line-height: 1.8; font-size: 0.9rem; }
+
+  .metric-table { width: 100%; border-collapse: collapse; }
+  .metric-table th, .metric-table td { border-bottom: 1px solid var(--border); padding: 11px 14px; text-align: right; font-size: 0.92rem; }
+  .metric-table thead th { background: var(--primary-light); color: var(--primary-deep); text-align: center; font-weight: 500; }
+  .metric-table tbody th { text-align: left; font-weight: 500; }
+  .metric-sub { font-size: 0.72rem; color: var(--text-muted); font-weight: 400; margin-top: 2px; }
+
+  .ranking-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  .ranking-table th, .ranking-table td { border-bottom: 1px solid var(--border); padding: 9px 11px; text-align: right; }
+  .ranking-table thead th { background: var(--primary-light); color: var(--primary-deep); text-align: center; font-weight: 500; }
+  .ranking-table td:first-child, .ranking-table th:first-child { text-align: left; }
+  .ranking-table td.path, .path { font-family: ui-monospace, monospace; font-size: 0.68rem; color: #5a6473; word-break: break-all; }
+  .ranking-table .empty { text-align: center; color: var(--text-muted); padding: 22px; }
+  .ranking-table a { color: var(--primary); text-decoration: none; }
+  .ranking-table a:hover { text-decoration: underline; }
+
+  /* スクロール可能テーブル（CV詳細） */
+  .scroll-x { overflow-x: auto; }
+
+  .chart-box { position: relative; height: 320px; margin: 12px 0; }
+  .chart-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 800px) { .chart-row { grid-template-columns: 1fr; } }
+
+  .comment { background: var(--accent); color: white; padding: 12px 16px; border-radius: 6px; margin-top: 12px; font-size: 0.88rem; line-height: 1.7; }
+
+  .proposal-card { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 20px 22px; margin-bottom: 14px; display: grid; grid-template-columns: 48px 1fr; gap: 16px; }
+  .proposal-num { background: var(--primary); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; font-weight: 500; }
+  .proposal-body h3 { color: var(--dark); margin-bottom: 10px; font-size: 1.05rem; font-weight: 500; }
+  .proposal-evidence, .proposal-action { font-weight: 500; margin: 10px 0 4px; color: var(--primary-deep); font-size: 0.85rem; }
+  .proposal-action { color: var(--accent); }
+  .proposal-card p { font-size: 0.9rem; }
+
+  footer { text-align: center; padding: 30px 20px; color: var(--text-muted); font-size: 0.82rem; }
+  .demo-banner { background: #fef3c7; color: #92400e; text-align: center; padding: 8px; font-size: 0.85rem; border-bottom: 1px solid #fde68a; }
+</style>
+</head>
+<body>
+
+
+
+<div class="cover">
+  <div class="cover-inner">
+    <h1>サイト改善レポート</h1>
+    <span class="client">スワテック建設 様</span>
+    <span class="ym">2026.05</span>
+    <button class="pdf-btn" onclick="window.print()" title="ブラウザの印刷機能でPDFとして保存できます">🖨 PDF印刷</button>
+    <select class="month-select" onchange="if(this.value && this.value!=='#') window.location.href=this.value;">
+      <option value="#" selected>2026年5月</option>
+    </select>
+  </div>
+</div>
+
+<nav class="toc">
+  <ul>
+    <li><a href="#summary">総括</a></li>
+    <li><a href="#seo-score">SEOスコア</a></li>
+    <li><a href="#basic">基本指標</a></li>
+    <li><a href="#monthly">月別推移</a></li>
+    <li><a href="#users">ユーザー属性</a></li>
+    <li><a href="#acquisition">流入経路</a></li>
+    <li><a href="#keywords">流入キーワード</a></li>
+    <li><a href="#pages">ページランキング</a></li>
+    <li><a href="#cv">CV分析</a></li>
+    <li><a href="#proposals">改善提案</a></li>
+  </ul>
+</nav>
+
+<div class="container">
+
+<section id="summary">
+  <h2>アクセス解析の総括</h2>
+  <p class="section-sub">当月の主要指標と次月のアクションプラン</p>
+  <div class="summary-grid">
+    <div class="orange-box"><h4>全体を通して良い点・悪い点</h4><ul><li>全体アクセスは安定したレンジで推移</li><li>セッション滞在時間が短く、コンテンツが十分に読まれていない可能性</li><li>対策キーワードの多くが10位以内に入っており、SEOは順調</li><li>コンバージョンが計測されていない。GA4のキーイベント設定を要確認</li></ul></div>
+    <div class="blue-box"><h4>次月のタスク</h4><ul><li>対策キーワードを軸としたコラム制作（1ページ1キーワード）</li><li>ランディングが集中しているページの内部リンク強化と回遊導線整備</li><li>CV計測イベントの設定見直しとCVR計測の精度向上</li><li>title/description/H1の対策キーワード整合性チェック</li></ul></div>
+  </div>
+</section>
+
+
+<section id="seo-score">
+  <h2>SEO 総合評価スコア</h2>
+  <p class="section-sub">Search Console + GA4 のデータから5指標を採点。S(85+) / A(70+) / B(55+) / C(40+) / D の5段階</p>
+
+  <div class="seo-score-head">
+    <div class="seo-grade" style="background: #16a34a;">
+      <div class="g-letter">S</div>
+      <div class="g-label">極めて優秀</div>
+    </div>
+    <div class="seo-total">
+      <div><span class="total-num">94.1</span><span class="total-of">/ 100点</span></div>
+      <div class="total-label">5指標の合計スコア（直近月）</div>
+      <div class="total-action"><b>次月のヒント:</b> コンテンツの網羅性・E-E-A-T（経験/専門性/権威/信頼）を高める情報の追記を推奨。（最も弱い: 平均掲載順位）</div>
+    </div>
+  </div>
+
+  <div class="seo-metrics">
+    
+        <div class="seo-metric">
+          <div>
+            <div class="m-label">上位表示力</div>
+            <div class="m-desc">検索順位10位以内のクエリ割合 80.0% (業界目安 30〜50%)</div>
+          </div>
+          <div></div>
+          <div class="m-value">80.0%</div>
+          <div class="m-stars">★★★★★</div>
+        </div>
+        
+        <div class="seo-metric">
+          <div>
+            <div class="m-label">オーガニック依存度</div>
+            <div class="m-desc">自然検索からの流入割合 63.4% (業界目安 40〜60%)</div>
+          </div>
+          <div></div>
+          <div class="m-value">63.4%</div>
+          <div class="m-stars">★★★★★</div>
+        </div>
+        
+        <div class="seo-metric">
+          <div>
+            <div class="m-label">クリック誘引力</div>
+            <div class="m-desc">平均CTR 41.19% (Search Console全体)</div>
+          </div>
+          <div></div>
+          <div class="m-value">41.19%</div>
+          <div class="m-stars">★★★★★</div>
+        </div>
+        
+        <div class="seo-metric">
+          <div>
+            <div class="m-label">平均掲載順位</div>
+            <div class="m-desc">全クエリ平均 12.5位 (低いほど良い)</div>
+          </div>
+          <div></div>
+          <div class="m-value">12.5位</div>
+          <div class="m-stars">★★★☆☆</div>
+        </div>
+        
+        <div class="seo-metric">
+          <div>
+            <div class="m-label">順位上昇トレンド</div>
+            <div class="m-desc">先月→当月で順位改善したクエリ 50.0%</div>
+          </div>
+          <div></div>
+          <div class="m-value">50.0%</div>
+          <div class="m-stars">★★★★★</div>
+        </div>
+        
+  </div>
+</section>
+
+
+<section id="basic">
+  <h2>基本指標（直近3ヶ月の比較） <a class="src-link" href="https://analytics.google.com/analytics/web/?authuser=0#/a76603321p325349852/reports/explorer?params=_u..nav%3Dmaui%26_u.date00%3D20260501%26_u.date01%3D20260531%26_u.date10%3D20260401%26_u.date11%3D20260430&r=lifecycle-overview-v2" target="_blank" rel="noopener" title="GA4 で 2026-05-01〜2026-05-31 を表示（前月と比較）">GA4 ↗</a></h2>
+  <p class="section-sub">出典: Google Analytics 4 / 平均エンゲージメント時間は userEngagementDuration ÷ activeUsers で算出</p>
+  <div class="read-guide">
+    <b>📖 読み方:</b>
+    <b>ユーザー数</b>=サイトを訪れた人数。
+    <b>セッション数</b>=訪問回数（30分の無操作で再カウント）。
+    <b>ページビュー数</b>=ページが表示された延べ回数。
+    <b>自然検索流入数</b>=Google / Yahoo! の検索から訪れたユーザー数。
+    <b>平均エンゲージメント時間</b>=ユーザー1人がブラウザを実際に開いていた平均時間（GA4 UIと同じ計算）。
+    <b>直帰率</b>=1ページだけ見て離脱した割合（低いほど良い）。
+  </div>
+  <table class='metric-table'><thead><tr><th>指標</th><th>2026/03</th><th>2026/04</th><th>2026/05</th><th>業界平均（不動産・住宅）</th></tr></thead><tbody><tr><th class='metric-label'><div>ユーザー数</div><div class='metric-sub'>サイトを訪れた人数</div></th><td>869</td><td>804</td><td>748</td><td>—</td></tr><tr><th class='metric-label'><div>ページビュー数</div><div class='metric-sub'>ページが閲覧された回数</div></th><td>3,353</td><td>2,986</td><td>2,665</td><td>—</td></tr><tr><th class='metric-label'><div>自然検索流入数</div><div class='metric-sub'>GoogleやYahoo!の検索から訪れたユーザー数</div></th><td>479</td><td>506</td><td>476</td><td>—</td></tr><tr><th class='metric-label'><div>平均エンゲージメント時間</div><div class='metric-sub'>1セッションあたりの平均滞在秒数</div></th><td>66秒</td><td>61秒</td><td>58秒</td><td>45秒<br><span class="bench-badge good">業界比 ↑ 29%</span></td></tr><tr><th class='metric-label'><div>直帰率</div><div class='metric-sub'>1ページのみ閲覧して離脱した割合（低いほど良い）</div></th><td>33.1%</td><td>34.6%</td><td>33.4%</td><td>60.0%<br><span class="bench-badge good">業界比 ↑ 44%</span></td></tr></tbody></table><p class="src-note">※ 業界平均は不動産・住宅メーカーサイトの一般的な参考値。<span class="bench-badge good">↑</span>=業界平均より良い／<span class="bench-badge bad">↓</span>=改善余地</p>
+</section>
+
+<section id="monthly">
+  <h2>月別推移（過去13ヶ月） <a class="src-link" href="https://analytics.google.com/analytics/web/?authuser=0#/a76603321p325349852/reports/explorer?params=_u..nav%3Dmaui%26_u.date00%3D20260501%26_u.date01%3D20260531%26_u.date10%3D20260401%26_u.date11%3D20260430&r=lifecycle-overview-v2" target="_blank" rel="noopener" title="GA4 で 2026-05-01〜2026-05-31 を表示（前月と比較）">GA4 ↗</a></h2>
+  <p class="section-sub">出典: Google Analytics 4 ／ 直近月と昨年同月をオレンジで強調</p>
+
+  <h3>月別ユーザー数 <a class="src-link" href="https://analytics.google.com/analytics/web/?authuser=0#/a76603321p325349852/reports/explorer?params=_u..nav%3Dmaui%26_u.date00%3D20260501%26_u.date01%3D20260531%26_u.date10%3D20260401%26_u.date11%3D20260430&r=lifecycle-user-acquisition-v2" target="_blank" rel="noopener" title="GA4 で 2026-05-01〜2026-05-31 を表示（前月と比較）">GA4 ↗</a></h3>
+  <div class="chart-box"><canvas id="chartUsersM"></canvas></div>
+
+  <h3>月別ページビュー数 <a class="src-link" href="https://analytics.google.com/analytics/web/?authuser=0#/a76603321p325349852/reports/explorer?params=_u..nav%3Dmaui%26_u.date00%3D20260501%26_u.date01%3D20260531%26_u.date10%3D20260401%26_u.date11%3D20260430&r=lifecycle-engagement-pages-and-screens" target="_blank" rel="noopener" title="GA4 で 2026-05-01〜2026-05-31 を表示（前月と比較）">GA4 ↗</a></h3>
+  <div class="chart-box"><canvas id="chartPvsM"></canvas></div>
+
+  <div class="chart-row">
+    <div>
+      <h3>月別平均エンゲージメント時間（秒）</h3>
+      <div class="chart-box"><canvas id="chartDur"></canvas></div>
+    </div>
+    <div>
+      <h3>月別直帰率（%）</h3>
+      <div class="chart-box"><canvas id="chartBounce"></canvas></div>
+    </div>
+  </div>
+
+  <h3>月別自然検索流入ユーザー数 <a class="src-link" href="https://analytics.google.com/analytics/web/?authuser=0#/a76603321p325349852/reports/explorer?params=_u..nav%3Dmaui%26_u.date00%3D20260501%26_u.date01%3D20260531%26_u.date10%3D20260401%26_u.date11%3D20260430&r=lifecycle-traffic-acquisition-v2" target="_blank" rel="noopener" title="GA4 で 2026-05-01〜2026-05-31 を表示（前月と比較）">GA4 ↗</a></h3>
+  <div class="chart-box"><canvas id="chartOrganic"></canvas></div>
+</section>
+
+<section id="users">
+  <h2>ユーザー属性 <a class="src-link" href="https://analytics.google.com/analytics/web/?authuser=0#/a76603321p325349852/reports/explorer?params=_u..nav%3Dmaui%26_u.date00%3D20260501%26_u.date01%3D20260531%26_u.date10%3D20260401%26_u.date11%3D20260430&r=user-demographics-overview" target="_blank" rel="noopener" title="GA4 で 2026-05-01〜2026-05-31 を表示（前月と比較）">GA4 ↗</a></h2>
+  <p class="section-sub">出典: GA4「ユーザー属性 概要」／ 当月の構成比（%）</p>
+  <div class="read-guide">
+    <b>📖 読み方:</b> サイトを訪れたユーザーがどんな属性かを構成比（%）で表示。<br>
+    <span class="legend-row" style="color:var(--text-muted);">※ 年齢・性別は GA4 の個人特定回避しきい値により非表示になりやすいため、代わりに「新規 vs リピーター」を表示</span>
+  </div>
+
+  <div class="chart-row">
+    <div>
+      <h3>新規 vs リピーター</h3>
+      <div class="chart-box"><canvas id="chartNewReturning"></canvas></div>
+    </div>
+    <div>
+      <h3>デバイス</h3>
+      <div class="chart-box"><canvas id="chartDevice"></canvas></div>
+    </div>
+  </div>
+
+  <h3>市区町村 TOP10（構成比） <a class="src-link" href="https://analytics.google.com/analytics/web/?authuser=0#/a76603321p325349852/reports/explorer?params=_u..nav%3Dmaui%26_u.date00%3D20260501%26_u.date01%3D20260531%26_u.date10%3D20260401%26_u.date11%3D20260430&r=user-demographics-overview" target="_blank" rel="noopener" title="GA4 で 2026-05-01〜2026-05-31 を表示（前月と比較）">GA4 ↗</a></h3>
+  <div class="chart-row" style="grid-template-columns: 1fr 1fr;">
+    <div class="chart-box" style="height:340px;"><canvas id="chartCity"></canvas></div>
+    <div>
+      <table class="ranking-table"><thead><tr><th>市区町村</th><th>ユーザー数</th><th>構成比</th></tr></thead>
+      <tbody><tr><td>Minato City</td><td>75</td><td>13.0%</td></tr><tr><td>Nagano</td><td>57</td><td>9.8%</td></tr><tr><td>(not set)</td><td>56</td><td>9.7%</td></tr><tr><td>Suwa</td><td>47</td><td>8.1%</td></tr><tr><td>Muju-gun</td><td>38</td><td>6.6%</td></tr><tr><td>Matsumoto</td><td>37</td><td>6.4%</td></tr><tr><td>Osaka</td><td>29</td><td>5.0%</td></tr><tr><td>Chino</td><td>21</td><td>3.6%</td></tr><tr><td>Chiyoda City</td><td>21</td><td>3.6%</td></tr><tr><td>Nagoya</td><td>21</td><td>3.6%</td></tr></tbody></table>
+    </div>
+  </div>
+</section>
+
+<section id="acquisition">
+  <h2>流入経路 <a class="src-link" href="https://analytics.google.com/analytics/web/?authuser=0#/a76603321p325349852/reports/explorer?params=_u..nav%3Dmaui%26_u.date00%3D20260501%26_u.date01%3D20260531%26_u.date10%3D20260401%26_u.date11%3D20260430&r=lifecycle-traffic-acquisition-v2" target="_blank" rel="noopener" title="GA4 で 2026-05-01〜2026-05-31 を表示（前月と比較）">GA4 ↗</a></h2>
+  <p class="section-sub">出典: GA4「トラフィック獲得」レポート ／ 当月vs先月のチャネル比較と、メディア別の3ヶ月推移</p>
+  <div class="read-guide">
+    <b>📖 読み方:</b> セッションが発生した経路の<b>メディア</b>（具体的な流入手段）別に分類。<br>
+    <span class="legend-row"><code>organic</code> 検索からの自然流入</span>
+    <span class="legend-row"><code>(none)</code> 直接流入（URL直打ち・ブックマーク等）</span>
+    <span class="legend-row"><code>referral</code> 他サイトのリンクから</span><br>
+    <span class="legend-row"><code>cpc / paid</code> 検索広告・有料広告</span>
+    <span class="legend-row"><code>social</code> SNS</span>
+    <span class="legend-row"><code>email</code> メール</span>
+    <span class="legend-row"><code>video</code> 動画</span>
+  </div>
+
+  <div class="comment">Referral, Organic Social, Unassignedが減少しています。</div>
+
+  <h3>詳細経路（メディア別 上位9・直近3ヶ月推移） <a class="src-link" href="https://analytics.google.com/analytics/web/?authuser=0#/a76603321p325349852/reports/explorer?params=_u..nav%3Dmaui%26_u.date00%3D20260501%26_u.date01%3D20260531%26_u.date10%3D20260401%26_u.date11%3D20260430&r=lifecycle-traffic-acquisition-v2" target="_blank" rel="noopener" title="GA4 で 2026-05-01〜2026-05-31 を表示（前月と比較）">GA4 ↗</a></h3>
+  <p class="section-sub" style="padding-left:0;">経路ごとの3ヶ月推移を3×3グリッドで表示</p>
+  <div class="detail-grid" id="detailGrid">
+    <div class="detail-card"><div class="dc-label">organic</div><div class="dc-total">合計 1,440 人</div><div class="dc-chart"><canvas id="dcChart0"></canvas></div></div><div class="detail-card"><div class="dc-label">(none)</div><div class="dc-total">合計 742 人</div><div class="dc-chart"><canvas id="dcChart1"></canvas></div></div><div class="detail-card"><div class="dc-label">referral</div><div class="dc-total">合計 230 人</div><div class="dc-chart"><canvas id="dcChart2"></canvas></div></div><div class="detail-card"><div class="dc-label">social</div><div class="dc-total">合計 10 人</div><div class="dc-chart"><canvas id="dcChart3"></canvas></div></div><div class="detail-card"><div class="dc-label">(not set)</div><div class="dc-total">合計 10 人</div><div class="dc-chart"><canvas id="dcChart4"></canvas></div></div>
+  </div>
+</section>
+
+<section id="keywords">
+  <h2>流入キーワード <a class="src-link gsc" href="https://search.google.com/u/0/search-console/performance/search-analytics?resource_id=https%3A%2F%2Fwww.swatec.co.jp%2F&start_date=2026-05-01&end_date=2026-05-31" target="_blank" rel="noopener" title="Search Console で 2026-05-01 〜 2026-05-31 のデータを確認">GSC ↗</a></h2>
+  <p class="section-sub">出典: Google Search Console 「検索パフォーマンス」</p>
+  <div class="read-guide">
+    <b>📖 読み方:</b><br>
+    <b>クリック</b>=検索結果からサイトへ実際にクリックされた回数。
+    <b>表示</b>=検索結果に自社が出た回数。
+    <b>CTR</b>=表示のうちクリックされた割合(クリック÷表示)。
+    <b>順位</b>=検索結果の平均掲載順位(数字が小さいほど上位)。<br>
+    <b>カテゴリ別TOP10</b>: 当月のクリック数上位10件。<b>当月 / 先月 / 前々月の3ヶ月推移</b>を横に並べて、伸びているクエリ・落ちているクエリが一目で分かる。<br>
+    <b>順位改善TOP5 / 悪化ワースト5</b>: 先月と当月で順位が動いたクエリ。<span style="color:var(--good);">↑</span>が改善、<span style="color:var(--bad);">↓</span>が悪化。<br>
+    <b>順位は低いが検索数が多いTOP10</b>: 表示は多いのに順位が11位以下で機会損失しているクエリ。<b>コラム強化やtitle改善の候補</b>になります。<br>
+    <span class="legend-row" style="color: var(--text-muted);">※ 表示回数5回以下のクエリは全表で除外しています</span>
+  </div>
+
+  <h3>カテゴリ「指名」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/03</th><th>2026/04</th><th>2026/05</th></tr></thead><tbody><tr><td>スワテック建設</td><td>146</td><td>153</td><td>128</td></tr><tr><td>スワテック建設株式会社</td><td>41</td><td>49</td><td>55</td></tr><tr><td>スワテック</td><td>57</td><td>46</td><td>36</td></tr></tbody></table><h3>カテゴリ「地域×注文住宅」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/03</th><th>2026/04</th><th>2026/05</th></tr></thead><tbody><tr><td colspan='4' class='empty'>該当キーワードなし（表示5回超かつ3ヶ月でクリックあり）</td></tr></tbody></table><h3>カテゴリ「注文住宅」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/03</th><th>2026/04</th><th>2026/05</th></tr></thead><tbody><tr><td colspan='4' class='empty'>該当キーワードなし（表示5回超かつ3ヶ月でクリックあり）</td></tr></tbody></table><h3>カテゴリ「工務店・住宅」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/03</th><th>2026/04</th><th>2026/05</th></tr></thead><tbody><tr><td colspan='4' class='empty'>該当キーワードなし（表示5回超かつ3ヶ月でクリックあり）</td></tr></tbody></table><h3>カテゴリ「価格」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/03</th><th>2026/04</th><th>2026/05</th></tr></thead><tbody><tr><td colspan='4' class='empty'>該当キーワードなし（表示5回超かつ3ヶ月でクリックあり）</td></tr></tbody></table><h3>カテゴリ「デザイン」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/03</th><th>2026/04</th><th>2026/05</th></tr></thead><tbody><tr><td colspan='4' class='empty'>該当キーワードなし（表示5回超かつ3ヶ月でクリックあり）</td></tr></tbody></table><h3>カテゴリ「防災」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/03</th><th>2026/04</th><th>2026/05</th></tr></thead><tbody><tr><td colspan='4' class='empty'>該当キーワードなし（表示5回超かつ3ヶ月でクリックあり）</td></tr></tbody></table><h3>カテゴリ「地域」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/03</th><th>2026/04</th><th>2026/05</th></tr></thead><tbody><tr><td>諏訪テック</td><td>24</td><td>18</td><td>16</td></tr><tr><td>諏訪テック建設</td><td>0</td><td>7</td><td>8</td></tr></tbody></table><h3>カテゴリ「その他」 TOP10（クリック数推移）</h3><table class='ranking-table'><thead><tr><th>クエリ</th><th>2026/03</th><th>2026/04</th><th>2026/05</th></tr></thead><tbody><tr><td>蓼科 歴史</td><td>0</td><td>0</td><td>6</td></tr><tr><td>蓼科高原とは</td><td>0</td><td>1</td><td>1</td></tr></tbody></table>
+
+  <h3>検索順位 改善 TOP10（先月 → 当月）</h3>
+  <p class="section-sub" style="padding-left:0;">表示回数5回超のクエリで、先月から順位が上がった上位10件</p>
+  <table class="ranking-table"><thead><tr><th>クエリ</th><th>2026/04 順位</th><th>2026/05 順位</th><th>変化</th></tr></thead>
+  <tbody><tr><td>スワテック建設</td><td>1.0</td><td>1.0</td><td style='color:var(--good);font-weight:500;'>↑ 0.0</td></tr><tr><td>スワテック</td><td>2.5</td><td>2.5</td><td style='color:var(--good);font-weight:500;'>↑ 0.0</td></tr><tr><td>諏訪 建築</td><td>5.4</td><td>5.2</td><td style='color:var(--good);font-weight:500;'>↑ 0.2</td></tr><tr><td>蓼科とは</td><td>9.5</td><td>8.9</td><td style='color:var(--good);font-weight:500;'>↑ 0.6</td></tr><tr><td>ひかり電話 諏訪</td><td>62.2</td><td>61.8</td><td style='color:var(--good);font-weight:500;'>↑ 0.4</td></tr><tr><td>蓼 科 高原</td><td>46.3</td><td>43.5</td><td style='color:var(--good);font-weight:500;'>↑ 2.8</td></tr></tbody></table>
+
+  <h3>検索順位 悪化 ワースト10（先月 → 当月）</h3>
+  <p class="section-sub" style="padding-left:0;">表示回数5回超のクエリで、先月から順位が下がった上位10件</p>
+  <table class="ranking-table"><thead><tr><th>クエリ</th><th>2026/04 順位</th><th>2026/05 順位</th><th>変化</th></tr></thead>
+  <tbody><tr><td>蓼科高原</td><td>35.9</td><td>41.0</td><td style='color:var(--bad);font-weight:500;'>↓ 5.0</td></tr><tr><td>蓼科高原とは</td><td>6.9</td><td>8.0</td><td style='color:var(--bad);font-weight:500;'>↓ 1.1</td></tr></tbody></table>
+
+  <h3>順位は低いが検索数が多い TOP10（改善余地大）</h3>
+  <p class="section-sub" style="padding-left:0;">検索順位11位以下で、月間表示回数5回超のクエリ。コラム強化候補。</p>
+  <table class="ranking-table"><thead><tr><th>クエリ</th><th>クリック</th><th>表示</th><th>CTR</th><th>順位</th></tr></thead>
+  <tbody><tr><td>蓼科高原</td><td>0</td><td>20</td><td>0.0%</td><td>41.0</td></tr><tr><td>ひかり電話 諏訪</td><td>0</td><td>10</td><td>0.0%</td><td>61.8</td></tr><tr><td>蓼 科 高原</td><td>0</td><td>6</td><td>0.0%</td><td>43.5</td></tr></tbody></table>
+</section>
+
+<section id="pages">
+  <h2>ページ別アクセス分析 <a class="src-link" href="https://analytics.google.com/analytics/web/?authuser=0#/a76603321p325349852/reports/explorer?params=_u..nav%3Dmaui%26_u.date00%3D20260501%26_u.date01%3D20260531%26_u.date10%3D20260401%26_u.date11%3D20260430&r=lifecycle-engagement-pages-and-screens" target="_blank" rel="noopener" title="GA4 で 2026-05-01〜2026-05-31 を表示（前月と比較）">GA4 ↗</a></h2>
+  <p class="section-sub">出典: GA4「ページとスクリーン」レポート</p>
+  <div class="read-guide">
+    <b>📖 読み方:</b><br>
+    <b>表示回数の多いページ</b>=サイト内で<b>よく見られているページ</b>。施策の手応えや人気コンテンツが分かる。<br>
+    <b>ランディングページ</b>=各ユーザーが<b>最初に着地したページ</b>。SEO・広告・SNSの集客効果が出やすい。トップが多い場合は下層ページのSEO強化が必要。<br>
+    <b>コラム記事別ランディング</b>=ランディングのうち、ブログ・コラム系URL（/blog/、/column/、/news/）のみ抽出。<b>コンテンツマーケの効果測定</b>に。
+  </div>
+  <h3>表示回数の多いページ TOP10 <a class="src-link" href="https://analytics.google.com/analytics/web/?authuser=0#/a76603321p325349852/reports/explorer?params=_u..nav%3Dmaui%26_u.date00%3D20260501%26_u.date01%3D20260531%26_u.date10%3D20260401%26_u.date11%3D20260430&r=lifecycle-engagement-pages-and-screens" target="_blank" rel="noopener" title="GA4 で 2026-05-01〜2026-05-31 を表示（前月と比較）">GA4 ↗</a></h3>
+  <table class="ranking-table"><thead><tr><th>ページ</th><th>PV</th></tr></thead>
+  <tbody><tr><td><div style='font-weight:500;'>スワテック建設株式会社</div><div class='path' style='margin-top:2px;'>/</div></td><td>714</td></tr><tr><td><div style='font-weight:500;'>会社概要｜スワテック建設株式会社</div><div class='path' style='margin-top:2px;'>/corporate/outline.php</div></td><td>221</td></tr><tr><td><div style='font-weight:500;'>会社紹介｜スワテック建設株式会社</div><div class='path' style='margin-top:2px;'>/corporate/</div></td><td>213</td></tr><tr><td><div style='font-weight:500;'>お問い合わせ｜スワテック建設株式会社</div><div class='path' style='margin-top:2px;'>/cgi-bin/contact/form.php</div></td><td>149</td></tr><tr><td><div style='font-weight:500;'>会社概要｜スワテック建設株式会社</div><div class='path' style='margin-top:2px;'>/corporate/history.php</div></td><td>120</td></tr><tr><td><div style='font-weight:500;'>事業所｜スワテック建設株式会社</div><div class='path' style='margin-top:2px;'>/corporate/office.php</div></td><td>113</td></tr><tr><td><div style='font-weight:500;'>住宅・山荘事業 施工実績｜スワテック建設株式会社</div><div class='path' style='margin-top:2px;'>/h_works</div></td><td>78</td></tr><tr><td><div style='font-weight:500;'>公共・大規模事業｜スワテック建設株式会社</div><div class='path' style='margin-top:2px;'>/l_works</div></td><td>75</td></tr><tr><td><div style='font-weight:500;'>お問い合わせ｜スワテック建設株式会社</div><div class='path' style='margin-top:2px;'>/cgi-bin/contact/thanks.php</div></td><td>68</td></tr><tr><td><div style='font-weight:500;'>企業理念｜スワテック建設株式会社</div><div class='path' style='margin-top:2px;'>/corporate/management.php</div></td><td>68</td></tr></tbody></table>
+
+  <h3>ランディングページ TOP10 <a class="src-link" href="https://analytics.google.com/analytics/web/?authuser=0#/a76603321p325349852/reports/explorer?params=_u..nav%3Dmaui%26_u.date00%3D20260501%26_u.date01%3D20260531%26_u.date10%3D20260401%26_u.date11%3D20260430&r=lifecycle-engagement-landing-page-report" target="_blank" rel="noopener" title="GA4 で 2026-05-01〜2026-05-31 を表示（前月と比較）">GA4 ↗</a></h3>
+  <table class="ranking-table"><thead><tr><th>ページ</th><th>セッション</th></tr></thead>
+  <tbody><tr><td><div style='font-weight:500;'>スワテック建設株式会社</div><div class='path' style='margin-top:2px;'>/</div></td><td>577</td></tr><tr><td><div style='font-weight:500;'>会社紹介｜スワテック建設株式会社</div><div class='path' style='margin-top:2px;'>/corporate/</div></td><td>81</td></tr><tr><td><div style='font-weight:500;'>お問い合わせ｜スワテック建設株式会社</div><div class='path' style='margin-top:2px;'>/cgi-bin/contact/form.php</div></td><td>56</td></tr><tr><td><div style='font-weight:500;'>(not set)</div><div class='path' style='margin-top:2px;'>(not set)</div></td><td>51</td></tr><tr><td><div style='font-weight:500;'>お知らせ｜スワテック建設株式会社</div><div class='path' style='margin-top:2px;'>/news/315.html</div></td><td>25</td></tr><tr><td><div style='font-weight:500;'>お問い合わせ｜スワテック建設株式会社</div><div class='path' style='margin-top:2px;'>/cgi-bin/contact/check.cgi</div></td><td>16</td></tr><tr><td><div style='font-weight:500;'>住宅・山荘事業 施工実績｜スワテック建設株式会社</div><div class='path' style='margin-top:2px;'>/h_works</div></td><td>9</td></tr><tr><td><div style='font-weight:500;'>企業理念｜スワテック建設株式会社</div><div class='path' style='margin-top:2px;'>/corporate/management.php</div></td><td>6</td></tr><tr><td><div style='font-weight:500;'>お知らせ｜スワテック建設株式会社</div><div class='path' style='margin-top:2px;'>/news</div></td><td>6</td></tr><tr><td><div style='font-weight:500;'>会社概要｜スワテック建設株式会社</div><div class='path' style='margin-top:2px;'>/corporate/history.php</div></td><td>5</td></tr></tbody></table>
+
+</section>
+
+<section id="cv">
+  <h2>CV分析 <a class="src-link" href="https://analytics.google.com/analytics/web/?authuser=0#/a76603321p325349852/reports/explorer?params=_u..nav%3Dmaui%26_u.date00%3D20260501%26_u.date01%3D20260531%26_u.date10%3D20260401%26_u.date11%3D20260430&r=lifecycle-engagement-conversions" target="_blank" rel="noopener" title="GA4 で 2026-05-01〜2026-05-31 を表示（前月と比較）">GA4 ↗</a></h2>
+  <p class="section-sub">出典: GA4「コンバージョン」レポート ／ キーイベントとして設定されているイベントを自動で対象化</p>
+  <div class="read-guide">
+    <b>📖 読み方:</b><br>
+    <b>CV(コンバージョン)</b>=GA4で「キーイベント」として登録した重要アクション(問い合わせ送信・資料請求・来場予約等)。<br>
+    <b>月別CV数</b>: 各CV種別の月別件数推移。施策のインパクトが見えます。<br>
+    <b>CV詳細リスト</b>: 当月に発生したCVを<b>1件ずつ時系列で展開</b>。
+    <b>初回アクセス</b>=そのユーザーが初めて来た日(リード長期化を示す)。
+    <b>チャネル/参照元/LP/流入クエリ</b>=どこから来てどのページからCVしたか。
+    各行の <b>GA4↗ / GSC↗</b> をクリックすると、該当条件でフィルタした管理画面が開きます。<br>
+    <span class="legend-row" style="color: var(--text-muted);">※ Search Console との完全な突合はAPIの制約上できないため、流入クエリは推定値</span>
+  </div>
+
+  <h3>月別CV数（直近6ヶ月） <a class="src-link" href="https://analytics.google.com/analytics/web/?authuser=0#/a76603321p325349852/reports/explorer?params=_u..nav%3Dmaui%26_u.date00%3D20260501%26_u.date01%3D20260531%26_u.date10%3D20260401%26_u.date11%3D20260430&r=lifecycle-engagement-conversions" target="_blank" rel="noopener" title="GA4 で 2026-05-01〜2026-05-31 を表示（前月と比較）">GA4 ↗</a></h3>
+  <table class='ranking-table'><thead><tr><th>イベント</th><th>12月</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th></tr></thead><tbody><tr><td colspan=7 class=empty>CVイベントなし</td></tr></tbody></table>
+
+  <h3>CV詳細リスト（2026年5月の発生分）</h3>
+  <p class="section-sub" style="padding-left:0;">クリックでGA4/Search Consoleの該当画面が開きます</p>
+  <div class="scroll-x">
+    <table class="ranking-table"><thead><tr>
+      <th>イベント</th><th>年</th><th>月日</th><th>初回アクセス</th>
+      <th>チャネル</th><th>参照元</th><th>LP</th><th>流入クエリ</th><th>地域</th>
+      <th>GA4</th><th>GSC</th>
+    </tr></thead><tbody><tr><td colspan='11' class='empty'>該当CVなし</td></tr></tbody></table>
+  </div>
+</section>
+
+<section id="proposals">
+  <h2>サイト改善提案</h2>
+  <p class="section-sub">当月の数値から導いた優先施策</p>
+  
+        <div class="proposal-card">
+          <div class="proposal-num">1</div>
+          <div class="proposal-body">
+            <h3>コンテンツの回遊性改善</h3>
+            <p class="proposal-evidence">現状・データ根拠</p>
+            <p>平均セッション滞在時間が 58 秒と短く、深く読まれていない可能性があります。</p>
+            <p class="proposal-action">改善案</p>
+            <p>各ページ末尾に『次に読むべき関連記事／施工事例／展示場情報』への内部リンクを設置し、回遊率を高めましょう。</p>
+          </div>
+        </div>
+        
+        <div class="proposal-card">
+          <div class="proposal-num">2</div>
+          <div class="proposal-body">
+            <h3>CVイベントの設定確認</h3>
+            <p class="proposal-evidence">現状・データ根拠</p>
+            <p>当月のコンバージョン計測数が 0 件でした。GA4 側でコンバージョン設定が未完了の可能性があります。</p>
+            <p class="proposal-action">改善案</p>
+            <p>資料請求・来場予約・問い合わせ送信などのコンバージョンイベントを GA4 で『キーイベント』として登録してください。</p>
+          </div>
+        </div>
+        
+</section>
+
+</div>
+
+<footer>
+  © 2026 GA4 月次レポート ／ スワテック建設 様<br>
+  <span style="font-size:0.75rem;opacity:0.7;">Generated: 2026-06-16T14:42:38</span>
+</footer>
+
+<script>
+const D = {"labels_13": ["2025/05", "2025/06", "2025/07", "2025/08", "2025/09", "2025/10", "2025/11", "2025/12", "2026/01", "2026/02", "2026/03", "2026/04", "2026/05"], "users_13": [751, 603, 666, 735, 664, 688, 601, 632, 790, 796, 869, 804, 748], "pvs_13": [5363, 2111, 2423, 6907, 2154, 2861, 1949, 2116, 2249, 2904, 3353, 2986, 2665], "bounce_13": [35.9, 32.5, 32.2, 33.3, 31.3, 34.2, 33.7, 37.1, 47.6, 35.3, 33.1, 34.6, 33.4], "duration_13": [126.0, 61.0, 67.0, 154.0, 56.0, 86.0, 57.0, 48.0, 40.0, 70.0, 66.0, 61.0, 58.0], "organic_13": [470, 433, 481, 396, 413, 458, 375, 360, 392, 435, 479, 506, 476], "highlight": ["#fb923c", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#93c5fd", "#fb923c"], "main_channel_labels": ["Organic Search", "Direct", "Referral", "Organic Social", "Unassigned"], "main_channel_datasets": [{"label": "3月", "data": [465, 275, 115, 8, 6]}, {"label": "4月", "data": [495, 240, 58, 7, 4]}, {"label": "5月", "data": [466, 231, 45, 5, 1]}], "detail_cards": [{"label": "organic", "labels_x": ["3月", "4月", "5月"], "data": [470, 499, 471], "total": 1440}, {"label": "(none)", "labels_x": ["3月", "4月", "5月"], "data": [274, 238, 230], "total": 742}, {"label": "referral", "labels_x": ["3月", "4月", "5月"], "data": [121, 62, 47], "total": 230}, {"label": "social", "labels_x": ["3月", "4月", "5月"], "data": [5, 3, 2], "total": 10}, {"label": "(not set)", "labels_x": ["3月", "4月", "5月"], "data": [2, 7, 1], "total": 10}], "attr_payload": {"all": {"device": [{"deviceCategory": "desktop", "activeUsers": "531"}, {"deviceCategory": "mobile", "activeUsers": "209"}, {"deviceCategory": "tablet", "activeUsers": "8"}], "new_returning": [{"newVsReturning": "new", "activeUsers": "710"}, {"newVsReturning": "returning", "activeUsers": "117"}], "gender": [{"userGender": "unknown", "activeUsers": "497"}, {"userGender": "male", "activeUsers": "198"}, {"userGender": "female", "activeUsers": "57"}], "age": [{"userAgeBracket": "unknown", "activeUsers": "506"}, {"userAgeBracket": "25-34", "activeUsers": "86"}, {"userAgeBracket": "18-24", "activeUsers": "59"}, {"userAgeBracket": "35-44", "activeUsers": "49"}, {"userAgeBracket": "45-54", "activeUsers": "30"}, {"userAgeBracket": "55-64", "activeUsers": "17"}]}, "cv": {"device": [], "new_returning": [], "gender": [], "age": []}}, "city_chart": {"labels": ["Minato City", "Nagano", "(not set)", "Suwa", "Muju-gun", "Matsumoto", "Osaka", "Chino", "Chiyoda City", "Nagoya"], "values": [75, 57, 56, 47, 38, 37, 29, 21, 21, 21]}, "comments_config": {"github_owner": "suzuki-omsolar", "github_repo": "ga4-reports", "branch": "main", "comments_path": "company/swatec/comments"}, "comments_year": 2026, "comments_month": 5};
+if (window.Chart && window.ChartDataLabels) Chart.register(window.ChartDataLabels);
+
+const DL_OPTS = {
+  anchor: 'end', align: 'top', offset: 2,
+  font: { size: 10, weight: '500' }, color: '#3a4456',
+  formatter: function(v) { if (v === 0 || v === null || v === undefined) return ''; return Number(v).toLocaleString(); }
+};
+
+function bar(id, labels, data, label, bg) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  new Chart(el.getContext('2d'), {
+    type: 'bar',
+    data: { labels: labels, datasets: [{ label: label, data: data, backgroundColor: bg }] },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, datalabels: DL_OPTS },
+      scales: { y: { beginAtZero: true, grace: '10%' } }
+    }
+  });
+}
+
+function barCompare(id, labels, curr, prev, lbl_curr, lbl_prev) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  new Chart(el.getContext('2d'), {
+    type: 'bar',
+    data: { labels: labels, datasets: [
+      { label: lbl_curr, data: curr, backgroundColor: '#e08e4e' },
+      { label: lbl_prev, data: prev, backgroundColor: '#93c5fd' }
+    ]},
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { datalabels: DL_OPTS },
+      scales: { y: { beginAtZero: true, grace: '10%' } }
+    }
+  });
+}
+
+bar('chartUsersM', D.labels_13, D.users_13, 'ユーザー数', D.highlight);
+bar('chartPvsM', D.labels_13, D.pvs_13, 'ページビュー', D.highlight);
+bar('chartDur', D.labels_13, D.duration_13, '滞在秒数', D.highlight);
+bar('chartBounce', D.labels_13, D.bounce_13, '直帰率(%)', D.highlight);
+bar('chartOrganic', D.labels_13, D.organic_13, '自然検索ユーザー', D.highlight);
+
+// === 詳細経路: 上位9メディアの3ヶ月推移ミニグラフ ===
+(function() {
+  (D.detail_cards || []).forEach(function(card, i) {
+    const el = document.getElementById('dcChart' + i);
+    if (!el) return;
+    // 直近月(末尾)とそれ以前で色分け
+    const n = card.data.length;
+    const bg = card.data.map(function(_, j) { return j === n - 1 ? '#e08e4e' : '#93c5fd'; });
+    new Chart(el.getContext('2d'), {
+      type: 'bar',
+      data: { labels: card.labels_x, datasets: [{ label: card.label, data: card.data, backgroundColor: bg }] },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        layout: { padding: { top: 26, right: 6, bottom: 4, left: 6 } },
+        plugins: {
+          legend: { display: false },
+          datalabels: {
+            anchor: 'end', align: 'top', offset: 4,
+            font: { size: 12, weight: '600' }, color: '#1c2536',
+            formatter: function(v) { return v === 0 ? '' : Number(v).toLocaleString(); },
+            clip: false
+          }
+        },
+        scales: {
+          x: { ticks: { font: { size: 10 } }, grid: { display: false } },
+          y: { beginAtZero: true, grace: '40%', display: false }
+        }
+      }
+    });
+  });
+})();
+
+// === ユーザー属性: 構成比(%)を当月のみ表示 ===
+function attrRatio(canvasId, dim, allRows) {
+  const el = document.getElementById(canvasId);
+  if (!el) return;
+  const allMap = {};
+  allRows.forEach(r => allMap[r[dim] || '不明'] = parseInt(r.activeUsers || 0));
+  const labels = Object.keys(allMap);
+  const allTotal = Object.values(allMap).reduce((a,b)=>a+b, 0) || 1;
+  const allPct = labels.map(l => Math.round((allMap[l] || 0) / allTotal * 1000) / 10);
+  new Chart(el.getContext('2d'), {
+    type: 'bar',
+    data: { labels: labels, datasets: [
+      { label: '構成比', data: allPct, backgroundColor: '#5b8fd9' }
+    ]},
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        datalabels: Object.assign({}, DL_OPTS, {
+          formatter: v => (v === 0 ? '' : v.toFixed(1) + '%')
+        })
+      },
+      scales: { y: {
+        beginAtZero: true, grace: '15%',
+        ticks: { callback: v => v + '%' }
+      } }
+    }
+  });
+}
+attrRatio('chartNewReturning', 'newVsReturning', D.attr_payload.all.new_returning);
+attrRatio('chartDevice', 'deviceCategory', D.attr_payload.all.device);
+
+// === 市区町村 TOP10 ドーナツチャート ===
+(function() {
+  const el = document.getElementById('chartCity');
+  if (!el || !D.city_chart || !D.city_chart.labels.length) return;
+  const palette = ['#5b8fd9', '#e08e4e', '#16a34a', '#9333ea', '#f59e0b', '#ec4899', '#0ea5e9', '#84cc16', '#f97316', '#a855f7'];
+  new Chart(el.getContext('2d'), {
+    type: 'doughnut',
+    data: {
+      labels: D.city_chart.labels,
+      datasets: [{
+        data: D.city_chart.values,
+        backgroundColor: palette.slice(0, D.city_chart.labels.length),
+        borderWidth: 2,
+        borderColor: '#fff'
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'right', labels: { font: { size: 11 }, padding: 8 } },
+        datalabels: {
+          color: '#fff', font: { size: 10, weight: '500' },
+          formatter: (v, ctx) => {
+            const total = ctx.dataset.data.reduce((a,b)=>a+b, 0);
+            const pct = v / total * 100;
+            return pct >= 3 ? pct.toFixed(1) + '%' : '';
+          }
+        }
+      }
+    }
+  });
+})();
+
+</script>
+</body>
+</html>
