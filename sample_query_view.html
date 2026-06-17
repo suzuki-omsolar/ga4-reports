@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>クエリ表示プロトタイプ A vs D 比較</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #4f6fa5; --primary-deep: #2d4978; --primary-light: #eaf0f8;
+    --accent: #e08e4e; --dark: #1c2536; --text-main: #3a4456; --text-muted: #7c8595;
+    --bg: #fafbfd; --border: #e3e8f0; --good: #16a34a; --bad: #dc2626;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Noto Sans JP', sans-serif; background: var(--bg); color: var(--text-main); padding: 30px 20px; }
+  .container { max-width: 1200px; margin: 0 auto; }
+  h1 { font-size: 1.4rem; font-weight: 500; color: var(--dark); border-left: 4px solid var(--primary); padding-left: 14px; margin-bottom: 8px; }
+  .lead { color: var(--text-muted); font-size: 0.92rem; margin-bottom: 30px; padding-left: 18px; }
+  section { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 24px 26px; margin-bottom: 24px; }
+  h2 { font-size: 1.15rem; font-weight: 500; color: var(--dark); margin-bottom: 6px; border-left: 3px solid var(--accent); padding-left: 10px; }
+  h2 .case { color: var(--accent); font-weight: 700; }
+  .desc { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 14px; padding-left: 13px; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+  th, td { padding: 10px 12px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: middle; }
+  thead th { background: var(--primary-light); color: var(--primary-deep); font-weight: 500; font-size: 0.85rem; }
+
+  /* === 案A: スパークライン + 数字 === */
+  .a-table td { padding: 12px; }
+  .spark-cell { display: flex; align-items: center; gap: 12px; }
+  .spark {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: 3px;
+    width: 38px;
+    height: 22px;
+  }
+  .spark .bar {
+    flex: 1;
+    background: #93c5fd;
+    border-radius: 1px;
+    min-height: 2px;
+  }
+  .spark .bar.latest { background: var(--accent); }
+  .spark.reverse .bar { background: #fca5a5; }
+  .spark.reverse .bar.latest { background: var(--good); }
+  .nums { font-family: ui-monospace, monospace; font-size: 0.85rem; color: var(--text-main); }
+  .nums .num-latest { color: var(--dark); font-weight: 700; }
+  .nums .sep { color: var(--text-muted); margin: 0 3px; }
+
+  /* === 案D: 数字横並び + 色分け背景 === */
+  .d-table td { padding: 10px 12px; text-align: right; font-family: ui-monospace, monospace; }
+  .d-table td:first-child { text-align: left; font-family: inherit; vertical-align: middle; }
+  .d-table .row-click td { background: #f0f7ff; }
+  .d-table .row-pos td { background: #fef9f0; border-bottom: 2px solid var(--border); }
+  .d-table .indicator { font-size: 0.7rem; color: var(--text-muted); margin-right: 4px; font-family: inherit; }
+  /* 色分け：強さ別 */
+  .heat-up-1 { background: #dcfce7 !important; }
+  .heat-up-2 { background: #86efac !important; color: #14532d; font-weight: 600; }
+  .heat-up-3 { background: #22c55e !important; color: white; font-weight: 700; }
+  .heat-dn-1 { background: #fee2e2 !important; }
+  .heat-dn-2 { background: #fca5a5 !important; color: #7f1d1d; font-weight: 600; }
+  .heat-dn-3 { background: #ef4444 !important; color: white; font-weight: 700; }
+
+  .note { background: #fff9ef; border-left: 3px solid var(--accent); padding: 10px 14px; margin-top: 16px; font-size: 0.85rem; line-height: 1.7; color: #5a4a1c; border-radius: 4px; }
+  .note b { color: #3a2f10; }
+
+  .pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; font-size: 0.85rem; }
+  .pros { background: #f0fdf4; border-left: 3px solid var(--good); padding: 10px 14px; border-radius: 4px; }
+  .cons { background: #fef2f2; border-left: 3px solid var(--bad); padding: 10px 14px; border-radius: 4px; }
+  .pros b, .cons b { display: block; margin-bottom: 6px; }
+  ul { padding-left: 1.2em; }
+  li { margin-bottom: 3px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>クエリの クリック × 順位 推移表示 プロトタイプ</h1>
+<p class="lead">奈良不動産・春日工務店・スワテックなどの実データを想定したサンプル。同じデータを案Aと案Dで並べて表示。</p>
+
+<!-- ============================================================ -->
+<!-- 案A: スパークライン + 数字 -->
+<!-- ============================================================ -->
+<section>
+  <h2><span class="case">案A</span>: スパークライン + 数字（左:古い → 右:当月）</h2>
+  <p class="desc">小さい棒グラフ3本（前々月→先月→当月）で推移を視覚化、横に絶対値を併記</p>
+
+  <table class="a-table">
+    <thead>
+      <tr>
+        <th style="width: 260px;">クエリ</th>
+        <th style="width: 200px;">クリック推移</th>
+        <th>順位推移（数値小さいほど良い）</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>注文住宅 諏訪市</td>
+        <td>
+          <div class="spark-cell">
+            <span class="spark"><span class="bar" style="height: 28%"></span><span class="bar" style="height: 67%"></span><span class="bar latest" style="height: 100%"></span></span>
+            <span class="nums">5<span class="sep">/</span>12<span class="sep">/</span><span class="num-latest">18</span></span>
+          </div>
+        </td>
+        <td>
+          <div class="spark-cell">
+            <span class="spark reverse"><span class="bar" style="height: 100%"></span><span class="bar" style="height: 66%"></span><span class="bar latest" style="height: 42%"></span></span>
+            <span class="nums">12.5位<span class="sep">/</span>8.3位<span class="sep">/</span><span class="num-latest">5.2位</span></span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>スワテック</td>
+        <td>
+          <div class="spark-cell">
+            <span class="spark"><span class="bar" style="height: 86%"></span><span class="bar" style="height: 89%"></span><span class="bar latest" style="height: 100%"></span></span>
+            <span class="nums">24<span class="sep">/</span>25<span class="sep">/</span><span class="num-latest">28</span></span>
+          </div>
+        </td>
+        <td>
+          <div class="spark-cell">
+            <span class="spark reverse"><span class="bar" style="height: 100%"></span><span class="bar" style="height: 92%"></span><span class="bar latest" style="height: 83%"></span></span>
+            <span class="nums">1.2位<span class="sep">/</span>1.1位<span class="sep">/</span><span class="num-latest">1.0位</span></span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>平屋 諏訪</td>
+        <td>
+          <div class="spark-cell">
+            <span class="spark"><span class="bar" style="height: 100%"></span><span class="bar" style="height: 67%"></span><span class="bar latest" style="height: 33%"></span></span>
+            <span class="nums">18<span class="sep">/</span>12<span class="sep">/</span><span class="num-latest">6</span></span>
+          </div>
+        </td>
+        <td>
+          <div class="spark-cell">
+            <span class="spark reverse"><span class="bar" style="height: 35%"></span><span class="bar" style="height: 62%"></span><span class="bar latest" style="height: 100%"></span></span>
+            <span class="nums">3.0位<span class="sep">/</span>5.5位<span class="sep">/</span><span class="num-latest">8.8位</span></span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>スワテック 評判</td>
+        <td>
+          <div class="spark-cell">
+            <span class="spark"><span class="bar" style="height: 0%; min-height:2px;"></span><span class="bar" style="height: 50%"></span><span class="bar latest" style="height: 100%"></span></span>
+            <span class="nums">0<span class="sep">/</span>4<span class="sep">/</span><span class="num-latest">8</span></span>
+          </div>
+        </td>
+        <td>
+          <div class="spark-cell">
+            <span class="spark reverse"><span class="bar" style="height: 0%; min-height:2px; opacity:0.3"></span><span class="bar" style="height: 70%"></span><span class="bar latest" style="height: 30%"></span></span>
+            <span class="nums">—<span class="sep">/</span>4.2位<span class="sep">/</span><span class="num-latest">2.1位</span></span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>諏訪 工務店 おすすめ</td>
+        <td>
+          <div class="spark-cell">
+            <span class="spark"><span class="bar" style="height: 100%"></span><span class="bar" style="height: 80%"></span><span class="bar latest" style="height: 60%"></span></span>
+            <span class="nums">10<span class="sep">/</span>8<span class="sep">/</span><span class="num-latest">6</span></span>
+          </div>
+        </td>
+        <td>
+          <div class="spark-cell">
+            <span class="spark reverse"><span class="bar" style="height: 100%"></span><span class="bar" style="height: 100%"></span><span class="bar latest" style="height: 100%"></span></span>
+            <span class="nums">15.0位<span class="sep">/</span>15.2位<span class="sep">/</span><span class="num-latest">15.1位</span></span>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="pros-cons">
+    <div class="pros">
+      <b>👍 メリット</b>
+      <ul>
+        <li>1行で「推移」「絶対値」両方が分かる</li>
+        <li>Chart.js不要、軽量・印刷も綺麗</li>
+        <li>クリック=青（増えるほどオレンジ）、順位=赤(下降)→緑(改善)のセマンティックな色付け</li>
+        <li>スマホでもレイアウト崩れにくい</li>
+      </ul>
+    </div>
+    <div class="cons">
+      <b>👎 デメリット</b>
+      <ul>
+        <li>スパークラインは「相対値」しか見せず、絶対値スケールは数字で読む必要</li>
+        <li>列が3つ必要（クエリ + クリック推移 + 順位推移）</li>
+        <li>数字も棒も両方あるのでセルがやや横長</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- 案D: 数字横並び + 色分け背景（2行構成） -->
+<!-- ============================================================ -->
+<section>
+  <h2><span class="case">案D</span>: 数字横並び + 色分け背景</h2>
+  <p class="desc">1クエリ=2行（クリック行・順位行）で、各月のセル背景が前月比の変化で色変わり</p>
+
+  <table class="d-table">
+    <thead>
+      <tr>
+        <th style="width: 260px;">クエリ</th>
+        <th style="width: 90px;">指標</th>
+        <th>3ヶ月前</th>
+        <th>先月</th>
+        <th>当月</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="row-click">
+        <td rowspan="2">注文住宅 諏訪市</td>
+        <td><span class="indicator">クリック</span></td>
+        <td>5</td>
+        <td class="heat-up-2">12</td>
+        <td class="heat-up-2">18</td>
+      </tr>
+      <tr class="row-pos">
+        <td><span class="indicator">順位</span></td>
+        <td>12.5位</td>
+        <td class="heat-up-1">8.3位</td>
+        <td class="heat-up-2">5.2位</td>
+      </tr>
+      <tr class="row-click">
+        <td rowspan="2">スワテック</td>
+        <td><span class="indicator">クリック</span></td>
+        <td>24</td>
+        <td>25</td>
+        <td class="heat-up-1">28</td>
+      </tr>
+      <tr class="row-pos">
+        <td><span class="indicator">順位</span></td>
+        <td>1.2位</td>
+        <td>1.1位</td>
+        <td>1.0位</td>
+      </tr>
+      <tr class="row-click">
+        <td rowspan="2">平屋 諏訪</td>
+        <td><span class="indicator">クリック</span></td>
+        <td>18</td>
+        <td class="heat-dn-1">12</td>
+        <td class="heat-dn-2">6</td>
+      </tr>
+      <tr class="row-pos">
+        <td><span class="indicator">順位</span></td>
+        <td>3.0位</td>
+        <td class="heat-dn-1">5.5位</td>
+        <td class="heat-dn-2">8.8位</td>
+      </tr>
+      <tr class="row-click">
+        <td rowspan="2">スワテック 評判</td>
+        <td><span class="indicator">クリック</span></td>
+        <td>0</td>
+        <td class="heat-up-2">4</td>
+        <td class="heat-up-2">8</td>
+      </tr>
+      <tr class="row-pos">
+        <td><span class="indicator">順位</span></td>
+        <td>—</td>
+        <td>4.2位</td>
+        <td class="heat-up-1">2.1位</td>
+      </tr>
+      <tr class="row-click">
+        <td rowspan="2">諏訪 工務店 おすすめ</td>
+        <td><span class="indicator">クリック</span></td>
+        <td>10</td>
+        <td class="heat-dn-1">8</td>
+        <td class="heat-dn-1">6</td>
+      </tr>
+      <tr class="row-pos">
+        <td><span class="indicator">順位</span></td>
+        <td>15.0位</td>
+        <td>15.2位</td>
+        <td>15.1位</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <b>色凡例:</b>
+    <span style="background:#dcfce7; padding:2px 6px; border-radius:3px;">薄緑</span> 微改善
+    <span style="background:#86efac; padding:2px 6px; border-radius:3px;">中緑</span> 改善
+    <span style="background:#22c55e; padding:2px 6px; border-radius:3px; color:white;">濃緑</span> 大幅改善
+    <span style="background:#fee2e2; padding:2px 6px; border-radius:3px; margin-left:10px;">薄赤</span> 微悪化
+    <span style="background:#fca5a5; padding:2px 6px; border-radius:3px;">中赤</span> 悪化
+    <span style="background:#ef4444; padding:2px 6px; border-radius:3px; color:white;">濃赤</span> 大幅悪化
+  </div>
+
+  <div class="pros-cons">
+    <div class="pros">
+      <b>👍 メリット</b>
+      <ul>
+        <li>数字をしっかり見られる（スパークラインみたいに「相対値」じゃない）</li>
+        <li>色が強いので、悪化したセル・改善したセルが一目で分かる</li>
+        <li>クライアントが「先月のクリック数いくつ？」を即答できる</li>
+        <li>印刷しても色が情報として残る</li>
+      </ul>
+    </div>
+    <div class="cons">
+      <b>👎 デメリット</b>
+      <ul>
+        <li>1クエリ=2行なので、TOP10だと20行になり縦に長い</li>
+        <li>色が多いと「派手」「うるさい」と感じる場合も</li>
+        <li>色弱の方への配慮が必要（凡例必須）</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section style="background: #fff9ef; border-color: var(--accent);">
+  <h2 style="border-left-color: var(--accent);"><span class="case">どちらを採用するか</span></h2>
+  <div style="font-size: 0.9rem; line-height: 1.8;">
+    <p><b>案A:</b> 「ぱっと傾向だけ知りたい」「コンパクトに見たい」「印刷もキレイに」優先なら<b>案A</b>。<br>
+    現在のレポート全体の落ち着いた雰囲気と相性が良い。</p>
+    <p style="margin-top: 8px;"><b>案D:</b> 「数字をしっかり見て会話したい」「悪化セルをすぐ目立たせたい」「クライアント説明で色を使いたい」優先なら<b>案D</b>。<br>
+    色のインパクトは強いが、説明が直感的。</p>
+    <p style="margin-top: 10px;"><b>ハイブリッド案:</b> 「カテゴリ別TOP10 = 案A（コンパクトに眺める）」「順位改善/悪化 = 案D（色で訴求）」のように使い分けも可能です。</p>
+  </div>
+</section>
+
+</div>
+</body>
+</html>
