@@ -1,0 +1,14 @@
+{
+  "client_slug": "kasuga",
+  "year": 2026,
+  "month": 5,
+  "generated_at": "2026-06-26T02:57:58.779Z",
+  "total_cv": 9,
+  "excluded_count": 4,
+  "excluded_keys": [
+    "20260508|お問い合わせ|Direct|(direct)|/inquiries/new|Itabashi City",
+    "20260513|お問い合わせ|Direct|(direct)|/inquiries/new|Itabashi City",
+    "20260518|お問い合わせ|Direct|(direct)|/inquiries/new|Itabashi City",
+    "20260525|お問い合わせ|Direct|(direct)|/inquiries/new|Itabashi City"
+  ]
+}
