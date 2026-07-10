@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>キーワード3Dネットワーク（試作・春日）</title>
+<style>
+  html,body{margin:0;padding:0;height:100%;background:#f5f8fc;font-family:'Noto Sans JP',sans-serif;overflow:hidden;}
+  #kwnet{width:100vw;height:100vh;}
+  .hint{position:fixed;top:10px;left:10px;background:rgba(255,255,255,0.92);padding:9px 14px;border-radius:8px;font-size:13px;color:#334155;z-index:10;box-shadow:0 1px 5px rgba(0,0,0,0.12);line-height:1.6;max-width:90vw;}
+  .hint b{color:#e08e4e;}
+</style>
+</head>
+<body>
+<div class="hint">ドラッグで回転（地球儀のように）・スクロールで拡大縮小・ダブルクリックで寄る。<br>円の大きさ＝<b>クリック数</b>、色＝テーマ、関連ワードが線で繋がります。<span style="color:#94a3b8;">※春日のサンプルデータ</span></div>
+<div id="kwnet"></div>
+<script src="https://cdn.jsdelivr.net/npm/three-spritetext"></script>
+<script src="https://cdn.jsdelivr.net/npm/3d-force-graph"></script>
+<script>
+(function(){
+  var raw = [
+    {name:"春日工務店", clicks:52, g:"brand", c:"#378ADD"},
+    {name:"株式会社春日工務店", clicks:14, g:"brand", c:"#378ADD"},
+    {name:"春日工務店 練馬区", clicks:24, g:"brand", c:"#378ADD"},
+    {name:"練馬区ハザードマップ", clicks:45, g:"bousai", c:"#1D9E75"},
+    {name:"練馬区ハザードマップ 地盤", clicks:12, g:"bousai", c:"#1D9E75"},
+    {name:"練馬区 災害に強い", clicks:9, g:"bousai", c:"#1D9E75"},
+    {name:"練馬区 引っ越し 助成金", clicks:38, g:"hikkoshi", c:"#D85A30"},
+    {name:"練馬区引っ越し助成金", clicks:22, g:"hikkoshi", c:"#D85A30"},
+    {name:"練馬区 引っ越し 補助金", clicks:16, g:"hikkoshi", c:"#D85A30"},
+    {name:"練馬区 小学校 ランキング", clicks:30, g:"school", c:"#7F77DD"},
+    {name:"中学受験率が高い 小学校 練馬区", clicks:16, g:"school", c:"#7F77DD"},
+    {name:"練馬区 小学校 学区", clicks:10, g:"school", c:"#7F77DD"},
+    {name:"練馬区 子育て支援", clicks:18, g:"kosodate", c:"#0F6E56"},
+    {name:"練馬区 保育園 人気", clicks:11, g:"kosodate", c:"#0F6E56"},
+    {name:"注文住宅 練馬区", clicks:20, g:"koumuten", c:"#BA7517"},
+    {name:"練馬区 工務店", clicks:15, g:"koumuten", c:"#BA7517"},
+    {name:"工務店", clicks:9, g:"koumuten", c:"#BA7517"},
+    {name:"練馬区 固定資産税", clicks:8, g:"other", c:"#5F5E5A"}
+  ];
+  var nodes = raw.map(function(d,i){ return {id:i, name:d.name, val:d.clicks, color:d.c, g:d.g}; });
+  var hub = {};
+  raw.forEach(function(d,i){ if(hub[d.g]===undefined || raw[hub[d.g]].clicks < d.clicks) hub[d.g]=i; });
+  var links = [];
+  raw.forEach(function(d,i){ if(i!==hub[d.g]) links.push({source:i, target:hub[d.g]}); });
+  var groups = Object.keys(hub);
+  for(var k=0;k<groups.length;k++){ if(groups[k]!=="brand") links.push({source:hub[groups[k]], target:hub["brand"]}); }
+
+  function start(){
+    if(typeof ForceGraph3D==='undefined' || typeof SpriteText==='undefined'){ setTimeout(start,120); return; }
+    var el=document.getElementById('kwnet');
+    var G=ForceGraph3D()(el)
+      .graphData({nodes:nodes, links:links})
+      .backgroundColor('#f5f8fc')
+      .showNavInfo(false)
+      .nodeRelSize(3)
+      .nodeVal('val')
+      .nodeColor('color')
+      .linkColor(function(){ return 'rgba(120,150,190,0.5)'; })
+      .linkWidth(0.8)
+      .nodeThreeObjectExtend(true)
+      .nodeThreeObject(function(node){
+        var s=new SpriteText(node.name);
+        s.color='#1c2536';
+        s.backgroundColor='rgba(255,255,255,0.85)';
+        s.padding=1.6;
+        s.borderRadius=2;
+        s.textHeight=3.4 + Math.sqrt(node.val)*0.7;
+        s.position.set(0, 7 + Math.cbrt(node.val)*2.6, 0);
+        return s;
+      });
+    G.d3Force('charge').strength(-160);
+    setTimeout(function(){ G.zoomToFit(700, 50); }, 800);
+    window.addEventListener('resize', function(){ G.width(window.innerWidth).height(window.innerHeight); });
+  }
+  start();
+})();
+</script>
+</body>
+</html>
