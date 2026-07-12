@@ -261,8 +261,8 @@
   <h2>アクセス解析の総括</h2>
   <p class="section-sub">当月の主要指標と次月のアクションプラン</p>
   <div class="summary-grid">
-    <div class="orange-box"><h4>全体を通して良い点・悪い点</h4><ul><li>全体アクセスが先月から大きく伸びている</li><li>昨年同月比で成長基調にあり、SEO施策が効いている</li><li>セッション滞在時間が短く、コンテンツが十分に読まれていない可能性</li><li>対策キーワードの多くが10位以内に入っており、SEOは順調</li><li>コンバージョンが計測されていない。GA4のキーイベント設定を要確認</li></ul></div>
-    <div class="blue-box"><h4>次月のタスク</h4><ul><li>対策キーワードを軸としたコラム制作（1ページ1キーワード）</li><li>ランディングが集中しているページの内部リンク強化と回遊導線整備</li><li>CV計測イベントの設定見直しとCVR計測の精度向上</li><li>title/description/H1の対策キーワード整合性チェック</li></ul></div>
+    <div class="orange-box"><h4>全体を通して良い点・悪い点</h4><ul><li>アクセス数はDirectとOrganic Searchの牽引で増加しているもののCVが2ヶ月連続で0件なのは、流入後のユーザーを資料請求や来場予約へ導く導線設計が機能していないことが原因であるため、主要ランディングページに目立つCVボタンを常時設置する改善が必要です。</li><li>平均エンゲージメント時間が51秒と前月から悪化している問題は、施工事例やプラン紹介などのコンテンツがユーザーの興味を惹きつけていないことが原因であるため、写真中心のギャラリーから価格帯や間取りを明記した詳細な解説付き事例ページへ改修すべきです。</li><li>直帰率は約33%と優秀に見えるもののCVに結びついていないのは、再訪ユーザー（Direct）が単に会社情報を確認するだけで離脱していることが原因であるため、既存検討層向けに「限定見学会」などの具体的なイベント予約ページへのポップアップ誘導を実装する必要があります。</li><li>広告流入がなく純粋な検索と直接流入のみでユーザーが伸びている好機を逃している問題は、確度の高い検討層を取りこぼしていることが原因であるため、まずは「無料間取り相談」や「カタログ請求」のフォーム入力項目を極限まで減らし、心理的ハードルを下げる改善を急ぐべきです。</li></ul></div>
+    <div class="blue-box"><h4>次月のタスク</h4><ul><li>施工事例ページに「この事例の間取り・坪単価を見る」という導線と、その先に資料請求フォームを直結させる改修を行います。</li><li>直帰は低いが滞在が短いDirectユーザー向けに、トップページ最上部へ「今月の完成見学会予約」のバナーを設置します。</li><li>CVハードルを下げるため、現在の問い合わせフォームの入力項目を「名前・メールアドレス・希望日時」の3つに絞り込んだ簡易フォームを新設します。</li><li>ユーザーのサイト内行動を可視化し、どこで離脱しているかを特定するために、ヒートマップツールを導入して主要LPのスクロール到達率を測定します。</li></ul></div>
   </div>
 </section>
 
@@ -409,55 +409,52 @@
 
 <div class="tab-pane" id="tab-seo">
 
-<section id="kwmap-section"><h2>🗺 キーワードマップ（3D）</h2><p class="section-sub">Search Consoleで実際に流入している検索キーワードを、クリック数の多い順に大きく表示。ドラッグで回転できます。サイトが「今どんなワードで見つけられているか」が一目で分かります。<span style="color:var(--text-muted);">（<span style="color:var(--accent);font-weight:700;">オレンジ</span>=特に多い / 青=中位 / グレー=少数）</span></p><div id="kwmap" role="img" aria-label="流入キーワードの3Dマップ"></div><style>#kwmap{position:relative;width:100%;height:360px;overflow:hidden;cursor:grab;margin:6px 0 8px;background:radial-gradient(ellipse at center,rgba(79,111,165,0.06),transparent 70%);border-radius:12px;}#kwmap:active{cursor:grabbing;}#kwmap .kwtag{position:absolute;left:0;top:0;white-space:nowrap;font-weight:700;user-select:none;will-change:transform,opacity;letter-spacing:0.02em;}#kwmap .kwtag:hover{text-decoration:underline;}</style><script>
+<section id="kwmap-section"><h2>🗺 キーワードマップ（3D）</h2><p class="section-sub">Search Consoleで実際に流入している検索キーワードを3D空間に配置。円の大きさ・中の数字＝表示回数。<b>ドラッグで回転／スクロールで拡大縮小</b>、右上の「全画面」で大きく見られます。サイトが今どんなワードで見つけられているかが一目で分かります。</p><div style="text-align:right;margin-bottom:4px;"><button id="kwmap-fs" type="button" style="font-size:0.78rem;padding:4px 12px;border:1px solid var(--border);border-radius:6px;background:#fff;cursor:pointer;">⛶ 全画面</button></div><div id="kwmap" role="img" aria-label="流入キーワードの3Dマップ"></div><style>#kwmap{position:relative;width:100%;height:76vh;min-height:440px;overflow:hidden;cursor:grab;border:1px solid var(--border);border-radius:12px;background:radial-gradient(ellipse at center,#f5f8fc,#eaeff7);}#kwmap:active{cursor:grabbing;} #kwmap:fullscreen{height:100vh;border-radius:0;}#kwmap .kwn{position:absolute;left:0;top:0;display:flex;flex-direction:column;align-items:center;will-change:transform,opacity;user-select:none;pointer-events:none;}#kwmap .kwn-bubble{border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;box-shadow:0 3px 10px rgba(0,0,0,0.14);}#kwmap .kwn-label{margin-top:4px;font-size:12px;color:#334155;font-weight:600;white-space:nowrap;text-shadow:0 1px 3px #fff,0 0 2px #fff;}</style><script>
 (function(){
-  var DATA = [{"t": "スワテック建設", "c": 133, "i": 254, "p": 1.0}, {"t": "スワテック建設株式会社", "c": 68, "i": 121, "p": 1.0}, {"t": "スワテック", "c": 48, "i": 100, "p": 1.0}, {"t": "諏訪テック", "c": 21, "i": 57, "p": 1.0}, {"t": "諏訪テック建設", "c": 10, "i": 17, "p": 1.0}, {"t": "スワテック 諏訪", "c": 8, "i": 30, "p": 1.0}, {"t": "蓼科 歴史", "c": 1, "i": 23, "p": 3.5}, {"t": "蓼科高原", "c": 0, "i": 26, "p": 36.6}, {"t": "お問い合わせ mail @ コンクリート工事 諏訪", "c": 0, "i": 12, "p": 10.9}, {"t": "蓼科高原とは", "c": 0, "i": 11, "p": 9.0}, {"t": "諏訪 建築", "c": 0, "i": 10, "p": 5.0}, {"t": "蓼科高原 標高", "c": 0, "i": 8, "p": 6.2}, {"t": "蓼科高原は何県", "c": 0, "i": 8, "p": 7.0}, {"t": "蓼 科 高原", "c": 0, "i": 7, "p": 39.9}, {"t": "蓼科とは", "c": 0, "i": 5, "p": 8.2}, {"t": "蓼科高原 何県", "c": 0, "i": 5, "p": 9.6}, {"t": "スワテック建設 年収", "c": 0, "i": 4, "p": 9.0}, {"t": "蓼科", "c": 0, "i": 4, "p": 28.0}, {"t": "蓼科高原がある県", "c": 0, "i": 4, "p": 8.8}, {"t": "諏訪 工務店", "c": 0, "i": 4, "p": 41.0}, {"t": "建設業", "c": 0, "i": 3, "p": 5.0}, {"t": "swatec", "c": 0, "i": 2, "p": 4.5}, {"t": "建設会社", "c": 0, "i": 2, "p": 12.5}, {"t": "茅野市 新築", "c": 0, "i": 2, "p": 61.0}, {"t": "蓼科 標高", "c": 0, "i": 2, "p": 27.0}, {"t": "swatech", "c": 0, "i": 1, "p": 5.0}, {"t": "もう少し詳しく", "c": 0, "i": 1, "p": 19.0}, {"t": "ゼッチ補助金2021", "c": 0, "i": 1, "p": 74.0}, {"t": "ゼネコン", "c": 0, "i": 1, "p": 8.0}, {"t": "上諏訪 中学校", "c": 0, "i": 1, "p": 26.0}, {"t": "土木建築", "c": 0, "i": 1, "p": 2.0}, {"t": "屋根修理", "c": 0, "i": 1, "p": 53.0}, {"t": "建設", "c": 0, "i": 1, "p": 6.0}, {"t": "建設業 会社", "c": 0, "i": 1, "p": 1.0}, {"t": "更科高原", "c": 0, "i": 1, "p": 9.0}, {"t": "歴史", "c": 0, "i": 1, "p": 3.0}, {"t": "蓼科保養学園", "c": 0, "i": 1, "p": 21.0}, {"t": "蓼科読み方", "c": 0, "i": 1, "p": 45.0}];
+  var G = {"nodes": [{"name": "スワテック建設", "val": 254, "impr": 254, "clicks": 133, "pos": 1.0, "color": "#4f6fa5"}, {"name": "スワテック建設株式会社", "val": 121, "impr": 121, "clicks": 68, "pos": 1.0, "color": "#e08e4e"}, {"name": "スワテック", "val": 100, "impr": 100, "clicks": 48, "pos": 1.0, "color": "#16a34a"}, {"name": "諏訪テック", "val": 57, "impr": 57, "clicks": 21, "pos": 1.0, "color": "#8b5cf6"}, {"name": "スワテック 諏訪", "val": 30, "impr": 30, "clicks": 8, "pos": 1.0, "color": "#ec4899"}, {"name": "蓼科高原", "val": 26, "impr": 26, "clicks": 0, "pos": 36.6, "color": "#0891b2"}, {"name": "蓼科 歴史", "val": 23, "impr": 23, "clicks": 1, "pos": 3.5, "color": "#f59e0b"}, {"name": "諏訪テック建設", "val": 17, "impr": 17, "clicks": 10, "pos": 1.0, "color": "#10b981"}, {"name": "お問い合わせ mail @ コンクリート工事 諏訪", "val": 12, "impr": 12, "clicks": 0, "pos": 10.9, "color": "#6366f1"}, {"name": "蓼科高原とは", "val": 11, "impr": 11, "clicks": 0, "pos": 9.0, "color": "#ef4444"}, {"name": "諏訪 建築", "val": 10, "impr": 10, "clicks": 0, "pos": 5.0, "color": "#14b8a6"}, {"name": "蓼科高原 標高", "val": 8, "impr": 8, "clicks": 0, "pos": 6.2, "color": "#a855f7"}, {"name": "蓼科高原は何県", "val": 8, "impr": 8, "clicks": 0, "pos": 7.0, "color": "#84cc16"}, {"name": "蓼 科 高原", "val": 7, "impr": 7, "clicks": 0, "pos": 39.9, "color": "#f43f5e"}, {"name": "蓼科とは", "val": 5, "impr": 5, "clicks": 0, "pos": 8.2, "color": "#4f6fa5"}, {"name": "蓼科高原 何県", "val": 5, "impr": 5, "clicks": 0, "pos": 9.6, "color": "#e08e4e"}, {"name": "スワテック建設 年収", "val": 4, "impr": 4, "clicks": 0, "pos": 9.0, "color": "#16a34a"}, {"name": "蓼科", "val": 4, "impr": 4, "clicks": 0, "pos": 28.0, "color": "#8b5cf6"}, {"name": "蓼科高原がある県", "val": 4, "impr": 4, "clicks": 0, "pos": 8.8, "color": "#ec4899"}, {"name": "諏訪 工務店", "val": 4, "impr": 4, "clicks": 0, "pos": 41.0, "color": "#0891b2"}, {"name": "建設業", "val": 3, "impr": 3, "clicks": 0, "pos": 5.0, "color": "#f59e0b"}, {"name": "swatec", "val": 2, "impr": 2, "clicks": 0, "pos": 4.5, "color": "#10b981"}, {"name": "建設会社", "val": 2, "impr": 2, "clicks": 0, "pos": 12.5, "color": "#6366f1"}, {"name": "茅野市 新築", "val": 2, "impr": 2, "clicks": 0, "pos": 61.0, "color": "#ef4444"}, {"name": "蓼科 標高", "val": 2, "impr": 2, "clicks": 0, "pos": 27.0, "color": "#14b8a6"}, {"name": "swatech", "val": 1, "impr": 1, "clicks": 0, "pos": 5.0, "color": "#a855f7"}, {"name": "もう少し詳しく", "val": 1, "impr": 1, "clicks": 0, "pos": 19.0, "color": "#84cc16"}, {"name": "ゼッチ補助金2021", "val": 1, "impr": 1, "clicks": 0, "pos": 74.0, "color": "#f43f5e"}, {"name": "ゼネコン", "val": 1, "impr": 1, "clicks": 0, "pos": 8.0, "color": "#4f6fa5"}, {"name": "上諏訪 中学校", "val": 1, "impr": 1, "clicks": 0, "pos": 26.0, "color": "#e08e4e"}, {"name": "土木建築", "val": 1, "impr": 1, "clicks": 0, "pos": 2.0, "color": "#16a34a"}, {"name": "屋根修理", "val": 1, "impr": 1, "clicks": 0, "pos": 53.0, "color": "#8b5cf6"}, {"name": "建設", "val": 1, "impr": 1, "clicks": 0, "pos": 6.0, "color": "#ec4899"}, {"name": "建設業 会社", "val": 1, "impr": 1, "clicks": 0, "pos": 1.0, "color": "#0891b2"}, {"name": "更科高原", "val": 1, "impr": 1, "clicks": 0, "pos": 9.0, "color": "#f59e0b"}, {"name": "歴史", "val": 1, "impr": 1, "clicks": 0, "pos": 3.0, "color": "#10b981"}, {"name": "蓼科保養学園", "val": 1, "impr": 1, "clicks": 0, "pos": 21.0, "color": "#6366f1"}, {"name": "蓼科読み方", "val": 1, "impr": 1, "clicks": 0, "pos": 45.0, "color": "#ef4444"}, {"name": "諏訪工務店", "val": 1, "impr": 1, "clicks": 0, "pos": 19.0, "color": "#14b8a6"}, {"name": "諏訪市 不動産屋", "val": 1, "impr": 1, "clicks": 0, "pos": 55.0, "color": "#a855f7"}, {"name": "諏訪市 屋根", "val": 1, "impr": 1, "clicks": 0, "pos": 21.0, "color": "#84cc16"}, {"name": "諏訪建設", "val": 1, "impr": 1, "clicks": 0, "pos": 16.0, "color": "#f43f5e"}, {"name": "諏訪建設株式会社", "val": 1, "impr": 1, "clicks": 0, "pos": 5.0, "color": "#4f6fa5"}, {"name": "長野県 建設会社", "val": 1, "impr": 1, "clicks": 0, "pos": 9.0, "color": "#e08e4e"}, {"name": "長野県蓼科高原", "val": 1, "impr": 1, "clicks": 0, "pos": 9.0, "color": "#16a34a"}]};
   var root = document.getElementById('kwmap');
-  if (!root || !DATA.length) return;
-  var maxC = 1, minC = Infinity;
-  DATA.forEach(function(d){ if(d.c>maxC)maxC=d.c; if(d.c<minC)minC=d.c; });
-  if(minC===Infinity)minC=0;
-  var tags = DATA.map(function(d, i){
-    var k = (i + 0.5) / DATA.length;
-    var phi = Math.acos(1 - 2*k);
-    var theta = Math.PI * (1 + Math.sqrt(5)) * i;
-    var sp = Math.sin(phi);
-    var norm = (d.c - minC) / Math.max(maxC - minC, 1);
-    var el = document.createElement('span');
-    el.className = 'kwtag';
-    el.textContent = d.t;
-    el.style.fontSize = (12 + norm*20).toFixed(1) + 'px';
-    el.style.color = norm > 0.6 ? 'var(--accent)' : (norm > 0.25 ? 'var(--primary-deep)' : 'var(--text-muted)');
-    el.title = d.t + ' — クリック ' + d.c + ' / 表示 ' + d.i + ' / 順位 ' + d.p;
+  if(!root || !G.nodes || !G.nodes.length) return;
+  var maxV = 1; G.nodes.forEach(function(d){ if(d.val>maxV)maxV=d.val; });
+  var nodes = G.nodes.map(function(d, i){
+    var k=(i+0.5)/G.nodes.length;
+    var phi=Math.acos(1-2*k), theta=Math.PI*(1+Math.sqrt(5))*i;
+    var sp=Math.sin(phi);
+    var size = 34 + Math.sqrt(d.val/maxV)*80;
+    var num = d.impr>=1000 ? (Math.round(d.impr/100)/10)+'k' : d.impr;
+    var el=document.createElement('div'); el.className='kwn';
+    el.innerHTML = '<div class="kwn-bubble" style="width:'+size.toFixed(0)+'px;height:'+size.toFixed(0)+'px;background:'+d.color+';font-size:'+Math.max(10,size*0.26).toFixed(0)+'px;">'+num+'</div>'
+                 + '<div class="kwn-label">'+d.name+'</div>';
+    el.title = d.name+' — 表示'+d.impr+' / クリック'+d.clicks+' / 順位'+d.pos;
     root.appendChild(el);
-    return { x: sp*Math.cos(theta), y: sp*Math.sin(theta), z: Math.cos(phi), el: el };
+    return {x:sp*Math.cos(theta), y:sp*Math.sin(theta), z:Math.cos(phi), el:el};
   });
-  var angX = 0.3, angY = 0, dragging = false, lx = 0, ly = 0;
-  function down(cx, cy){ dragging = true; lx = cx; ly = cy; }
-  function move(cx, cy){ if(!dragging) return; angY += (cx-lx)*0.006; angX += -(cy-ly)*0.006; lx = cx; ly = cy; }
-  function up(){ dragging = false; }
-  root.addEventListener('mousedown', function(e){ down(e.clientX, e.clientY); });
-  window.addEventListener('mousemove', function(e){ move(e.clientX, e.clientY); });
-  window.addEventListener('mouseup', up);
-  root.addEventListener('touchstart', function(e){ if(e.touches[0]) down(e.touches[0].clientX, e.touches[0].clientY); }, {passive:true});
-  root.addEventListener('touchmove', function(e){ if(e.touches[0]) move(e.touches[0].clientX, e.touches[0].clientY); }, {passive:true});
-  window.addEventListener('touchend', up);
+  var angX=0.25, angY=0, dragging=false, lx=0, ly=0, zoom=1;
+  function down(x,y){dragging=true;lx=x;ly=y;}
+  function move(x,y){if(!dragging)return;angY+=(x-lx)*0.006;angX+=-(y-ly)*0.006;lx=x;ly=y;}
+  function up(){dragging=false;}
+  root.addEventListener('mousedown',function(e){down(e.clientX,e.clientY);});
+  window.addEventListener('mousemove',function(e){move(e.clientX,e.clientY);});
+  window.addEventListener('mouseup',up);
+  root.addEventListener('touchstart',function(e){if(e.touches[0])down(e.touches[0].clientX,e.touches[0].clientY);},{passive:true});
+  root.addEventListener('touchmove',function(e){if(e.touches[0])move(e.touches[0].clientX,e.touches[0].clientY);},{passive:true});
+  window.addEventListener('touchend',up);
+  root.addEventListener('wheel',function(e){e.preventDefault();zoom*=(e.deltaY<0?1.08:0.93);zoom=Math.max(0.4,Math.min(2.6,zoom));},{passive:false});
+  var fsBtn=document.getElementById('kwmap-fs');
+  if(fsBtn)fsBtn.addEventListener('click',function(){ if(document.fullscreenElement)document.exitFullscreen();else if(root.requestFullscreen)root.requestFullscreen(); });
   function frame(){
-    var w = root.clientWidth, h = root.clientHeight;
-    if (w > 4 && h > 4){
-      var cx = w/2, cy = h/2, R = Math.min(w, h) * 0.40;
-      if(!dragging){ angY += 0.0016; angX += 0.0006; }
-      var cyy=Math.cos(angY), syy=Math.sin(angY), cxx=Math.cos(angX), sxx=Math.sin(angX);
-      for(var i=0;i<tags.length;i++){
-        var t=tags[i];
-        var x1 = t.x*cyy - t.z*syy;
-        var z1 = t.x*syy + t.z*cyy;
-        var y1 = t.y*cxx - z1*sxx;
-        var z2 = t.y*sxx + z1*cxx;
-        var sc = (z2 + 1.7) / 2.7;
-        t.el.style.transform = 'translate(-50%,-50%) translate('+(cx+x1*R).toFixed(1)+'px,'+(cy+y1*R).toFixed(1)+'px) scale('+sc.toFixed(3)+')';
-        t.el.style.opacity = (0.3 + 0.7*sc).toFixed(3);
-        t.el.style.zIndex = (100 + Math.round(z2*100));
+    var w=root.clientWidth, h=root.clientHeight;
+    if(w>4&&h>4){
+      var cx=w/2, cy=h/2, R=Math.min(w,h)*0.42*zoom;
+      if(!dragging){angY+=0.0013;angX+=0.0004;}
+      var cyy=Math.cos(angY),syy=Math.sin(angY),cxx=Math.cos(angX),sxx=Math.sin(angX);
+      for(var i=0;i<nodes.length;i++){
+        var t=nodes[i];
+        var x1=t.x*cyy - t.z*syy, z1=t.x*syy + t.z*cyy;
+        var y1=t.y*cxx - z1*sxx, z2=t.y*sxx + z1*cxx;
+        var sc=(z2+1.9)/2.9, px=cx+x1*R, py=cy+y1*R;
+        t.el.style.transform='translate(-50%,-50%) translate('+px.toFixed(1)+'px,'+py.toFixed(1)+'px) scale('+sc.toFixed(3)+')';
+        t.el.style.opacity=(0.5+0.5*sc).toFixed(3);
+        t.el.style.zIndex=Math.round(200+z2*150);
       }
     }
     requestAnimationFrame(frame);
@@ -854,7 +851,7 @@
 
 <footer>
   © 2026 GA4 月次レポート ／ スワテック建設 様<br>
-  <span style="font-size:0.75rem;opacity:0.7;">Generated: 2026-07-09T08:56:50</span>
+  <span style="font-size:0.75rem;opacity:0.7;">Generated: 2026-07-12T06:34:49</span>
 </footer>
 
 <script>
