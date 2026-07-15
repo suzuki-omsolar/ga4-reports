@@ -2,12 +2,13 @@
   "client_slug": "kasuga",
   "year": 2026,
   "month": 6,
+  "generated_at": "2026-07-09T02:59:30.550Z",
+  "total_cv": 7,
+  "excluded_count": 4,
   "excluded_keys": [
     "20260605|お問い合わせ|Organic Search|google|/|Edogawa City",
     "20260606|お問い合わせ|Organic Search|google|/|Matsuyama",
     "20260612|お問い合わせ|Organic Search|google|/|Saitama",
     "20260622|お問い合わせ|Referral|admin.doc-share.jp|/inquiries/new|Kuki"
-  ],
-  "updated_at": "2026-07-09T07:51:49.326Z",
-  "updated_by": "client"
+  ]
 }
