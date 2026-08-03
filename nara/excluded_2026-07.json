@@ -2,14 +2,7 @@
   "client_slug": "nara",
   "year": 2026,
   "month": 7,
-  "excluded_keys": [
-    "20260703|お問い合わせ|Direct|(direct)|/inquiries/new|Koto City",
-    "20260704|お問い合わせ|Direct|(direct)|/inquiries/new|(not set)",
-    "20260712|お問い合わせ|Direct|(direct)|/inquiries/new|(not set)",
-    "20260714|お問い合わせ|Direct|(direct)|/inquiries/new|(not set)",
-    "20260718|お問い合わせ|Direct|(direct)|/inquiries/new|(not set)",
-    "20260722|お問い合わせ|Direct|(direct)|/inquiries/new|(not set)"
-  ],
-  "updated_at": "2026-08-03T04:58:16.391Z",
+  "excluded_keys": [],
+  "updated_at": "2026-08-03T07:21:12.982Z",
   "updated_by": "client"
 }
