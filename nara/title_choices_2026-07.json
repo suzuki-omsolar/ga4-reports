@@ -1,0 +1,13 @@
+{
+  "client_slug": "nara",
+  "year": 2026,
+  "month": 7,
+  "choices": [
+    "0_2",
+    "8_0",
+    "8_2",
+    "9_1"
+  ],
+  "updated_at": "2026-08-06T09:16:23.099Z",
+  "updated_by": "client"
+}
