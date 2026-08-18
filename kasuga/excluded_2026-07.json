@@ -1,0 +1,12 @@
+{
+  "client_slug": "kasuga",
+  "year": 2026,
+  "month": 7,
+  "generated_at": "2026-08-18T04:18:30.340Z",
+  "total_cv": 3,
+  "excluded_count": 2,
+  "excluded_keys": [
+    "20260715|お問い合わせ|Organic Search|google|/|(not set)",
+    "20260722|お問い合わせ|Direct|(direct)|/|Shimonoseki"
+  ]
+}
