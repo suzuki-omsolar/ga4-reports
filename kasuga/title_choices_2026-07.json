@@ -1,0 +1,12 @@
+{
+  "client_slug": "kasuga",
+  "year": 2026,
+  "month": 7,
+  "choices": [
+    "0_2",
+    "2_0",
+    "2_2"
+  ],
+  "updated_at": "2026-08-18T04:17:50.971Z",
+  "updated_by": "client"
+}
