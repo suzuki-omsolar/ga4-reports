@@ -1,0 +1,17 @@
+{
+  "client_slug": "miyazaki",
+  "year": 2026,
+  "month": 7,
+  "generated_at": "2026-08-25T01:30:42.833Z",
+  "total_cv": 11,
+  "excluded_count": 7,
+  "excluded_keys": [
+    "20260715|お問い合わせ|Direct|(direct)|/inquiries/new|(not set)",
+    "20260716|お問い合わせ|Direct|(direct)|/inquiries/new|Suginami City",
+    "20260722|お問い合わせ|Direct|(direct)|/inquiries/new|Mesquite",
+    "20260723|お問い合わせ|Direct|(direct)|/inquiries/new|(not set)",
+    "20260725|お問い合わせ|Direct|(direct)|/inquiries/new|Miyazaki",
+    "20260729|お問い合わせ|Direct|(direct)|/inquiries/new|Cleveland",
+    "20260730|お問い合わせ|Direct|(direct)|/inquiries/new|Kuki"
+  ]
+}
