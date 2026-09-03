@@ -1,0 +1,10 @@
+{
+  "client_slug": "miyazaki",
+  "year": 2026,
+  "month": 8,
+  "excluded_keys": [
+    "20260827|お問い合わせ|Direct|(direct)|/inquiries/new|(not set)"
+  ],
+  "updated_at": "2026-09-03T01:01:57.902Z",
+  "updated_by": "client"
+}
