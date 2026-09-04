@@ -1,0 +1,10 @@
+{
+  "client_slug": "swatec",
+  "year": 2026,
+  "month": 8,
+  "excluded_keys": [
+    "20260813|お問合せ|Direct|(direct)|/|Misato"
+  ],
+  "updated_at": "2026-09-04T06:03:32.380Z",
+  "updated_by": "client"
+}
