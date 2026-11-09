@@ -1,0 +1,23 @@
+{
+  "client_slug": "nara",
+  "year": 2026,
+  "month": 10,
+  "generated_at": "2026-11-09T05:50:11.476Z",
+  "total_cv": 13,
+  "excluded_count": 13,
+  "excluded_keys": [
+    "20261001|お問い合わせ|Direct|(direct)|/|Ueda",
+    "20261002|お問い合わせ|Organic Search|google|/|Nagaokakyo",
+    "20261006|お問い合わせ|Direct|(direct)|/inquiries/new|North Charleston",
+    "20261007|お問い合わせ|Direct|(direct)|/inquiries/new|Fukagawa",
+    "20261010|お問い合わせ|Direct|(direct)|/inquiries/new|Shibuya",
+    "20261012|お問い合わせ|Direct|(direct)|/|Mori",
+    "20261015|お問い合わせ|Direct|(direct)|/inquiries/new|(not set)",
+    "20261016|お問い合わせ|Direct|(direct)|/company|Koto City",
+    "20261016|お問い合わせ|Referral|nara-fudousan.co.jp|/|Saitama",
+    "20261020|お問い合わせ|Direct|(direct)|/|Koto City",
+    "20261021|お問い合わせ|Direct|(direct)|/inquiries/new|(not set)",
+    "20261026|お問い合わせ|Direct|(direct)|/|Nagoya",
+    "20261027|お問い合わせ|Direct|(direct)|/inquiries/new|Shibuya"
+  ]
+}
