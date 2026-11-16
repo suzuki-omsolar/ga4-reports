@@ -1,0 +1,24 @@
+{
+  "client_slug": "kasuga",
+  "year": 2026,
+  "month": 10,
+  "excluded_keys": [
+    "20261002|お問い合わせ|Referral|tenshoku.mynavi.jp|/|Shibuya",
+    "20261004|お問い合わせ|Organic Search|google|/inquiries/new|Myoko",
+    "20261005|お問い合わせ|Organic Search|google|/|Saga",
+    "20261008|お問い合わせ|Direct|(direct)|/|Ageo",
+    "20261008|お問い合わせ|Organic Search|google|/company|Yokohama",
+    "20261010|お問い合わせ|Direct|(direct)|/?shem=aimgspe,|Chiyoda City",
+    "20261010|お問い合わせ|Organic Search|google|/inquiries/new|Myoko",
+    "20261017|お問い合わせ|Organic Search|google|/inquiries/new|Myoko",
+    "20261021|お問い合わせ|Organic Search|bing|/company/|Toshima City",
+    "20261022|お問い合わせ|Organic Search|google|/|Ota City",
+    "20261024|お問い合わせ|Direct|(direct)|/inquiries/new|Yokohama",
+    "20261027|お問い合わせ|Direct|(direct)|/catalogs/196|Shibuya",
+    "20261027|お問い合わせ|Direct|(direct)|/inquiries/new|Saitama",
+    "20261029|お問い合わせ|Direct|(direct)|/inquiries/new|Osaka",
+    "20261031|お問い合わせ|Direct|(direct)|/catalogs/196|Setagaya City"
+  ],
+  "updated_at": "2026-11-16T07:17:56.579Z",
+  "updated_by": "client"
+}
